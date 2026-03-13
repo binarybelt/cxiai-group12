@@ -87,13 +87,41 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (populated by roadmapper) | | |
+| FNDTN-01 | Phase 1 | Pending |
+| FNDTN-02 | Phase 1 | Pending |
+| FNDTN-03 | Phase 1 | Pending |
+| FNDTN-04 | Phase 1 | Pending |
+| COMP-01 | Phase 1 | Pending |
+| COMP-02 | Phase 1 | Pending |
+| BUILD-01 | Phase 2 | Pending |
+| BUILD-02 | Phase 2 | Pending |
+| BUILD-03 | Phase 2 | Pending |
+| BUILD-04 | Phase 2 | Pending |
+| COMPLY-01 | Phase 3 | Pending |
+| COMPLY-02 | Phase 3 | Pending |
+| COMPLY-03 | Phase 3 | Pending |
+| COMPLY-04 | Phase 3 | Pending |
+| COMPLY-05 | Phase 3 | Pending |
+| COMPLY-06 | Phase 3 | Pending |
+| BUILD-05 | Phase 4 | Pending |
+| BUILD-06 | Phase 4 | Pending |
+| SCAN-01 | Phase 4 | Pending |
+| SCAN-02 | Phase 4 | Pending |
+| ROLE-01 | Phase 4 | Pending |
+| ROLE-02 | Phase 4 | Pending |
+| ROLE-03 | Phase 4 | Pending |
+| INTEG-01 | Phase 4 | Pending |
+| INTEG-02 | Phase 4 | Pending |
+| DEPLOY-01 | Phase 5 | Pending |
+| DEPLOY-02 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 24 total
-- Mapped to phases: 0
-- Unmapped: 24
+- v1 requirements: 27 total
+- Mapped to phases: 27
+- Unmapped: 0
+
+Note: REQUIREMENTS.md originally stated 24 requirements. Actual count from requirement IDs is 27. All 27 are mapped.
 
 ---
 *Requirements defined: 2026-03-13*
-*Last updated: 2026-03-13 after initial definition*
+*Last updated: 2026-03-13 — traceability populated after roadmap creation*
