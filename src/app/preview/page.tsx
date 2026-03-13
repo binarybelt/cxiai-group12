@@ -28,15 +28,18 @@ export default function PreviewPage() {
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(0,147,208,0.10),transparent_30%),linear-gradient(180deg,#f7fbfe_0%,#eef4fb_100%)] px-6 py-10 text-gray-900">
       <div className="mx-auto flex max-w-7xl flex-col gap-token-xl">
-        <NavBar
-          logo="Design Delivery Accelerator"
-          market="US"
-          links={[
-            { label: "Capabilities", href: "#capabilities" },
-            { label: "Evidence", href: "#evidence" },
-            { label: "Safety", href: "#safety" },
-          ]}
-        />
+        <section>
+          <PreviewLabel name="NavBar" />
+          <NavBar
+            logo="Design Delivery Accelerator"
+            market="US"
+            links={[
+              { label: "Capabilities", href: "#capabilities" },
+              { label: "Evidence", href: "#evidence" },
+              { label: "Safety", href: "#safety" },
+            ]}
+          />
+        </section>
 
         <section className="rounded-[2rem] border border-white/70 bg-white/80 p-token-xl shadow-token-md backdrop-blur">
           <p className="text-caption uppercase tracking-[0.32em] text-pfizer-blue-700">
@@ -174,19 +177,22 @@ export default function PreviewPage() {
           />
         </section>
 
-        <Footer
-          links={[
-            { label: "Privacy notice", href: "#" },
-            { label: "Terms of use", href: "#" },
-            { label: "Medical information", href: "#" },
-          ]}
-          disclaimers={[
-            "Apexa is a fictional therapy used solely for the Design Delivery Accelerator demo.",
-            "All content shown here is illustrative and not for clinical use.",
-          ]}
-          copyright="2026 Pfizer Inc. Demo environment."
-          adverseEventUrl="#report-adverse-events"
-        />
+        <section>
+          <PreviewLabel name="Footer" />
+          <Footer
+            links={[
+              { label: "Privacy notice", href: "#" },
+              { label: "Terms of use", href: "#" },
+              { label: "Medical information", href: "#" },
+            ]}
+            disclaimers={[
+              "Apexa is a fictional therapy used solely for the Design Delivery Accelerator demo.",
+              "All content shown here is illustrative and not for clinical use.",
+            ]}
+            copyright="2026 Pfizer Inc. Demo environment."
+            adverseEventUrl="#report-adverse-events"
+          />
+        </section>
       </div>
     </main>
   );

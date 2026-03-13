@@ -4,3 +4,10 @@ coverage
 .env.local
 dist
 *.tsbuildinfo
+.planning/BRAINSTORM-TRUST-PIVOT.md
+.planning/CODEX-REVIEW-CONTEXT.md
+.planning/DECISIONS.md
+.planning/DEMO-STRATEGY.md
+.planning/REVIEW-SUMMARY.md
+.planning/VISION.md
+Hackathon Slides University of Liverpool.pptx
