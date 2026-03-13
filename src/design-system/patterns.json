@@ -1,0 +1,54 @@
+[
+  {
+    "id": "hcp-landing-page",
+    "name": "HCP Landing Page",
+    "description": "Primary journey for specialist prescribers and medical affairs review.",
+    "sections": [
+      { "type": "navigation", "requiredComponents": ["NavBar"] },
+      { "type": "hero", "requiredComponents": ["Hero", "CTA"] },
+      { "type": "content", "requiredComponents": ["SectionHeader", "ContentBlock", "ClaimReference"] },
+      { "type": "data", "requiredComponents": ["SectionHeader", "DataTable", "ClaimReference"] },
+      { "type": "disclaimer", "requiredComponents": ["Disclaimer"] },
+      { "type": "isi", "requiredComponents": ["ISIBlock"] },
+      { "type": "footer", "requiredComponents": ["Footer"] }
+    ]
+  },
+  {
+    "id": "patient-landing-page",
+    "name": "Patient Landing Page",
+    "description": "Patient-friendly education page with a lighter regulatory footprint.",
+    "sections": [
+      { "type": "navigation", "requiredComponents": ["NavBar"] },
+      { "type": "hero", "requiredComponents": ["Hero"] },
+      { "type": "content", "requiredComponents": ["SectionHeader", "ContentBlock", "ImageBlock"] },
+      { "type": "cta", "requiredComponents": ["CTA"] },
+      { "type": "disclaimer", "requiredComponents": ["Disclaimer"] },
+      { "type": "footer", "requiredComponents": ["Footer"] }
+    ]
+  },
+  {
+    "id": "product-detail-page",
+    "name": "Product Detail Page",
+    "description": "Deep evidence view for product claims, efficacy data, and risk balance.",
+    "sections": [
+      { "type": "navigation", "requiredComponents": ["NavBar"] },
+      { "type": "hero", "requiredComponents": ["Hero"] },
+      { "type": "content", "requiredComponents": ["SectionHeader", "ContentBlock", "ClaimReference", "ImageBlock"] },
+      { "type": "data", "requiredComponents": ["SectionHeader", "ClaimReference", "DataTable"] },
+      { "type": "isi", "requiredComponents": ["ISIBlock"] },
+      { "type": "footer", "requiredComponents": ["Footer"] }
+    ]
+  },
+  {
+    "id": "campaign-page",
+    "name": "Campaign Page",
+    "description": "Shorter conversion-focused experience using approved promotional patterns.",
+    "sections": [
+      { "type": "navigation", "requiredComponents": ["NavBar"] },
+      { "type": "hero", "requiredComponents": ["Hero", "CTA"] },
+      { "type": "content", "requiredComponents": ["SectionHeader", "ContentBlock", "Card"] },
+      { "type": "cta", "requiredComponents": ["CTA"] },
+      { "type": "footer", "requiredComponents": ["Footer"] }
+    ]
+  }
+]

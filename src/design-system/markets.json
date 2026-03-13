@@ -1,0 +1,26 @@
+[
+  {
+    "id": "US",
+    "name": "United States",
+    "region": "North America",
+    "requiredComponents": ["Disclaimer", "ISIBlock", "Footer"],
+    "requiredDisclosures": ["FDA adverse event reporting", "Prescribing information link"],
+    "additionalRules": ["Fair balance required"]
+  },
+  {
+    "id": "UK",
+    "name": "United Kingdom",
+    "region": "Europe",
+    "requiredComponents": ["Disclaimer", "Footer"],
+    "requiredDisclosures": ["MHRA Yellow Card link", "Prescribing information link"],
+    "additionalRules": ["ABPI code compliance"]
+  },
+  {
+    "id": "EU",
+    "name": "European Union",
+    "region": "Europe",
+    "requiredComponents": ["Disclaimer", "Footer"],
+    "requiredDisclosures": ["EMA adverse event reporting link"],
+    "additionalRules": ["EFPIA code compliance"]
+  }
+]

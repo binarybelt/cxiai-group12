@@ -1,0 +1,138 @@
+[
+  {
+    "id": "brand-approved-colors",
+    "category": "brand",
+    "severity": "error",
+    "description": "All colors must be drawn from the approved token palette.",
+    "check": "Ensure every color reference maps to a token from tokens.json.",
+    "autoFixable": true
+  },
+  {
+    "id": "brand-approved-typography",
+    "category": "brand",
+    "severity": "error",
+    "description": "Typography must use approved font scales.",
+    "check": "Validate type styles against heading and body token IDs.",
+    "autoFixable": true
+  },
+  {
+    "id": "brand-logo-navigation",
+    "category": "brand",
+    "severity": "warning",
+    "description": "The Pfizer or program logo must appear in navigation.",
+    "check": "NavBar must render a logo region above the first fold.",
+    "autoFixable": false
+  },
+  {
+    "id": "brand-component-only",
+    "category": "brand",
+    "severity": "error",
+    "description": "Pages can only be composed from approved component IDs.",
+    "check": "Every PageSpec componentId must exist in components.json.",
+    "autoFixable": false
+  },
+  {
+    "id": "a11y-alt-text",
+    "category": "accessibility",
+    "severity": "error",
+    "description": "All images must have alt text.",
+    "check": "ImageBlock props.alt must be present and non-empty.",
+    "autoFixable": false
+  },
+  {
+    "id": "a11y-color-contrast",
+    "category": "accessibility",
+    "severity": "error",
+    "description": "Color contrast ratio must be 4.5:1 minimum.",
+    "check": "Foreground and background token pairings must meet WCAG AA.",
+    "autoFixable": false
+  },
+  {
+    "id": "a11y-keyboard",
+    "category": "accessibility",
+    "severity": "error",
+    "description": "Interactive elements must be keyboard accessible.",
+    "check": "CTA and navigation links must expose visible focus states.",
+    "autoFixable": true
+  },
+  {
+    "id": "a11y-body-size",
+    "category": "accessibility",
+    "severity": "warning",
+    "description": "Body copy must render at 16px minimum.",
+    "check": "Reject body tokens below body-md for default copy.",
+    "autoFixable": true
+  },
+  {
+    "id": "a11y-table-caption",
+    "category": "accessibility",
+    "severity": "warning",
+    "description": "All data tables should expose captions for context.",
+    "check": "DataTable caption prop must be populated.",
+    "autoFixable": false
+  },
+  {
+    "id": "pharma-isi-required-hcp",
+    "category": "pharma",
+    "severity": "error",
+    "description": "ISI block required on all HCP pages.",
+    "check": "US HCP and product-detail patterns must include an isi section with ISIBlock.",
+    "autoFixable": false
+  },
+  {
+    "id": "pharma-adverse-event-link",
+    "category": "pharma",
+    "severity": "error",
+    "description": "Footer must include an adverse event reporting link.",
+    "check": "Footer adverseEventUrl prop must be non-empty.",
+    "autoFixable": false
+  },
+  {
+    "id": "pharma-claims-referenced",
+    "category": "pharma",
+    "severity": "error",
+    "description": "All efficacy claims must have references.",
+    "check": "Any claim-like content must pair with a ClaimReference component.",
+    "autoFixable": false
+  },
+  {
+    "id": "pharma-disclaimer-promotional",
+    "category": "pharma",
+    "severity": "error",
+    "description": "Disclaimer required on promotional content.",
+    "check": "Campaign and product detail patterns must include a disclaimer component or disclosure region.",
+    "autoFixable": false
+  },
+  {
+    "id": "pharma-fair-balance",
+    "category": "pharma",
+    "severity": "warning",
+    "description": "Risk information must be given equal prominence to benefit information.",
+    "check": "Risk content cannot be visually de-emphasized relative to efficacy claims.",
+    "autoFixable": false
+  },
+  {
+    "id": "pharma-market-us",
+    "category": "pharma",
+    "severity": "warning",
+    "description": "US pages must include FDA adverse event disclosure and PI access.",
+    "check": "US market config requiredDisclosures must be surfaced in footer or disclaimer.",
+    "autoFixable": false
+  },
+  {
+    "id": "pharma-market-uk",
+    "category": "pharma",
+    "severity": "warning",
+    "description": "UK pages must align to ABPI code and Yellow Card reporting.",
+    "check": "UK market config disclosures and additional rules must be applied.",
+    "autoFixable": false
+  },
+  {
+    "id": "pharma-market-eu",
+    "category": "pharma",
+    "severity": "warning",
+    "description": "EU pages must align to EFPIA expectations and EMA reporting.",
+    "check": "EU market config disclosures and additional rules must be applied.",
+    "autoFixable": false
+  }
+]

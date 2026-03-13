@@ -1,0 +1,200 @@
+[
+  {
+    "id": "Hero",
+    "name": "Hero",
+    "category": "layout",
+    "description": "Primary narrative block with headline, supporting copy, and CTA.",
+    "props": [
+      { "name": "title", "type": "string", "required": true },
+      { "name": "subtitle", "type": "string", "required": true },
+      { "name": "backgroundImage", "type": "string", "required": false },
+      { "name": "ctaText", "type": "string", "required": false },
+      { "name": "ctaHref", "type": "string", "required": false }
+    ],
+    "variants": ["fullWidth", "split", "centered"],
+    "constraints": ["Must use heading-xl for title"],
+    "requiredTokens": ["primary-blue-500", "heading-xl", "spacing-3xl"]
+  },
+  {
+    "id": "Card",
+    "name": "Card",
+    "category": "content",
+    "description": "Compact content preview with optional media and CTA.",
+    "props": [
+      { "name": "title", "type": "string", "required": true },
+      { "name": "body", "type": "string", "required": true },
+      { "name": "image", "type": "string", "required": false },
+      { "name": "ctaText", "type": "string", "required": false },
+      { "name": "ctaHref", "type": "string", "required": false }
+    ],
+    "variants": ["standard", "featured", "compact"],
+    "constraints": ["Cards should not exceed 3 actions"],
+    "requiredTokens": ["radius-md", "shadow-sm", "body-md"]
+  },
+  {
+    "id": "ISIBlock",
+    "name": "ISI Block",
+    "category": "pharma",
+    "description": "Important safety information container for HCP experiences.",
+    "props": [
+      { "name": "content", "type": "node", "required": true },
+      { "name": "expandable", "type": "boolean", "required": false, "default": false }
+    ],
+    "variants": [],
+    "constraints": [
+      "Must appear on every HCP page",
+      "Cannot be hidden by default"
+    ],
+    "requiredTokens": ["amber-300", "body-sm", "spacing-lg"]
+  },
+  {
+    "id": "Disclaimer",
+    "name": "Disclaimer",
+    "category": "pharma",
+    "description": "Mandatory disclosure and legal qualifier region.",
+    "props": [
+      { "name": "text", "type": "string", "required": true },
+      {
+        "name": "type",
+        "type": "enum",
+        "required": true,
+        "options": ["general", "pharma", "legal"]
+      }
+    ],
+    "variants": [],
+    "constraints": ["Must be visible without scrolling on mobile"],
+    "requiredTokens": ["gray-100", "body-sm", "radius-sm"]
+  },
+  {
+    "id": "CTA",
+    "name": "Call To Action",
+    "category": "action",
+    "description": "Primary action surface for routing or lead generation.",
+    "props": [
+      { "name": "text", "type": "string", "required": true },
+      { "name": "href", "type": "string", "required": true },
+      {
+        "name": "variant",
+        "type": "enum",
+        "required": false,
+        "default": "primary",
+        "options": ["primary", "secondary", "outline"]
+      }
+    ],
+    "variants": ["primary", "secondary", "outline"],
+    "constraints": ["Max 40 chars"],
+    "requiredTokens": ["primary-blue-500", "radius-full", "spacing-md"]
+  },
+  {
+    "id": "NavBar",
+    "name": "Navigation Bar",
+    "category": "navigation",
+    "description": "Top-level navigation shell with market context.",
+    "props": [
+      { "name": "logo", "type": "string", "required": true },
+      { "name": "links", "type": "node", "required": true },
+      { "name": "market", "type": "string", "required": true }
+    ],
+    "variants": ["standard", "minimal"],
+    "constraints": ["Logo must appear in navigation"],
+    "requiredTokens": ["white", "gray-200", "primary-blue-500"]
+  },
+  {
+    "id": "Footer",
+    "name": "Footer",
+    "category": "navigation",
+    "description": "Global footer with disclosures and adverse event routing.",
+    "props": [
+      { "name": "links", "type": "node", "required": true },
+      { "name": "disclaimers", "type": "node", "required": true },
+      { "name": "copyright", "type": "string", "required": true },
+      { "name": "adverseEventUrl", "type": "string", "required": true }
+    ],
+    "variants": [],
+    "constraints": ["Must include adverse event reporting link"],
+    "requiredTokens": ["gray-900", "white", "coral-400"]
+  },
+  {
+    "id": "DataTable",
+    "name": "Data Table",
+    "category": "data",
+    "description": "Structured efficacy and outcome evidence table.",
+    "props": [
+      { "name": "headers", "type": "node", "required": true },
+      { "name": "rows", "type": "node", "required": true },
+      { "name": "caption", "type": "string", "required": true }
+    ],
+    "variants": ["standard", "striped", "compact"],
+    "constraints": ["Headers must stay visible on mobile"],
+    "requiredTokens": ["gray-100", "gray-700", "body-sm"]
+  },
+  {
+    "id": "ClaimReference",
+    "name": "Claim Reference",
+    "category": "pharma",
+    "description": "Claim block with mandatory evidence citation.",
+    "props": [
+      { "name": "claim", "type": "string", "required": true },
+      { "name": "reference", "type": "string", "required": true },
+      { "name": "footnoteId", "type": "string", "required": true }
+    ],
+    "variants": [],
+    "constraints": ["Every claim must have a reference"],
+    "requiredTokens": ["primary-blue-700", "body-sm", "caption"]
+  },
+  {
+    "id": "SectionHeader",
+    "name": "Section Header",
+    "category": "content",
+    "description": "Reusable section heading with optional subheading.",
+    "props": [
+      { "name": "title", "type": "string", "required": true },
+      { "name": "subtitle", "type": "string", "required": false },
+      {
+        "name": "alignment",
+        "type": "enum",
+        "required": false,
+        "default": "left",
+        "options": ["left", "center", "right"]
+      }
+    ],
+    "variants": [],
+    "constraints": ["Section titles should be sentence case"],
+    "requiredTokens": ["heading-lg", "body-md", "spacing-sm"]
+  },
+  {
+    "id": "ContentBlock",
+    "name": "Content Block",
+    "category": "content",
+    "description": "Flexible body copy region for narrative content.",
+    "props": [
+      { "name": "body", "type": "node", "required": true },
+      {
+        "name": "alignment",
+        "type": "enum",
+        "required": false,
+        "default": "left",
+        "options": ["left", "center", "right"]
+      },
+      { "name": "maxWidth", "type": "string", "required": false }
+    ],
+    "variants": ["standard", "highlighted", "callout"],
+    "constraints": ["Long-form content must preserve readable line length"],
+    "requiredTokens": ["body-md", "spacing-lg", "primary-blue-100"]
+  },
+  {
+    "id": "ImageBlock",
+    "name": "Image Block",
+    "category": "media",
+    "description": "Image presentation with caption and accessibility metadata.",
+    "props": [
+      { "name": "src", "type": "string", "required": true },
+      { "name": "alt", "type": "string", "required": true },
+      { "name": "caption", "type": "string", "required": false },
+      { "name": "width", "type": "string", "required": false }
+    ],
+    "variants": [],
+    "constraints": ["Alt text required for accessibility"],
+    "requiredTokens": ["radius-lg", "shadow-md", "caption"]
+  }
+]
