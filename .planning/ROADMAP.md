@@ -30,12 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. PageSpec Zod schema is defined and all modules import from a single source of truth
   4. All 10-15 pharma-specific components (Hero, Card, ISI Block, Disclaimer, CTA, Nav, Footer, Data Table, Claim+Reference) render correctly with Pfizer design tokens applied via Tailwind
   5. Convex database is initialized and accepts audit log writes
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 01-01: Scaffold Next.js 14+ app with TypeScript, Tailwind, Convex, and project directory structure
-- [ ] 01-02: Define PageSpec Zod schema and load design system JSON files into the app
-- [ ] 01-03: Build 10-15 pharma-specific React components styled with Pfizer design tokens
+- [ ] 01-01-PLAN.md — Scaffold Next.js 14+ app with TypeScript, Tailwind, Convex, and project directory structure
+- [ ] 01-02-PLAN.md — Define PageSpec Zod schema and load design system JSON files into the app
+- [ ] 01-03-PLAN.md — Build 12 pharma-specific React components styled with Pfizer design tokens
 
 ### Phase 2: BUILD Pipeline
 **Goal**: A user can type a natural language brief and receive a live-rendered, brand-compliant page composed entirely from approved design system components
