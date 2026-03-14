@@ -38,14 +38,14 @@ created: 2026-03-14
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 04-01-01 | 01 | 1 | BUILD-05 | unit | `npx vitest run src/lib/__tests__/chat-edit.test.ts` | ❌ W0 | ⬜ pending |
-| 04-01-02 | 01 | 1 | BUILD-06 | unit | `npx vitest run src/components/__tests__/explainability.test.tsx` | ❌ W0 | ⬜ pending |
-| 04-02-01 | 02 | 1 | ROLE-01, ROLE-02, ROLE-03 | unit | `npx vitest run src/components/__tests__/role-views.test.tsx` | ❌ W0 | ⬜ pending |
-| 04-03-01 | 03 | 2 | SCAN-01, SCAN-02 | unit | `npx vitest run src/lib/__tests__/scan-engine.test.ts` | ❌ W0 | ⬜ pending |
-| 04-04-01 | 04 | 2 | INTEG-01 | unit | `npx vitest run src/lib/__tests__/figma-import.test.ts` | ❌ W0 | ⬜ pending |
-| 04-04-02 | 04 | 2 | INTEG-02 | unit | `npx vitest run src/components/__tests__/audit-trail.test.tsx` | ❌ W0 | ⬜ pending |
+| 04-01-01 | 01 | 1 | BUILD-05, BUILD-06 | unit | `npx vitest run src/lib/__tests__/diff.test.ts` | W0 (TDD RED) | pending |
+| 04-01-02 | 01 | 1 | BUILD-05, BUILD-06 | type-check | `npx tsc --noEmit && npx vitest run --reporter=dot` | n/a | pending |
+| 04-02-01 | 02 | 1 | SCAN-01, SCAN-02 | unit | `npx vitest run src/lib/__tests__/scan.test.ts` | W0 (TDD RED) | pending |
+| 04-02-02 | 02 | 1 | INTEG-01 | unit | `npx vitest run src/lib/__tests__/figma.test.ts` | W0 (TDD RED) | pending |
+| 04-03-01 | 03 | 2 | ROLE-01, ROLE-02, ROLE-03, INTEG-02 | unit | `npx vitest run src/components/__tests__/role-views.test.tsx` | W0 (TDD RED) | pending |
+| 04-03-02 | 03 | 2 | ROLE-01, ROLE-02, ROLE-03 | integration | `npx tsc --noEmit && npx vitest run --reporter=dot && npm run build` | n/a | pending |
 
-*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
+*Status: pending / green / red / flaky*
 
 ---
 
@@ -63,9 +63,9 @@ created: 2026-03-14
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
 | Chat edit updates page visually | BUILD-05 | Requires visual/browser check | Type "make it warmer" in chat, verify page preview updates |
-| Role views show different content | ROLE-01 | Layout is visual | Toggle roles, verify each shows distinct panel content |
+| Role views show different content | ROLE-01/02/03 | Layout is visual | Toggle roles, verify each shows distinct panel content |
 | SCAN dashboard renders portfolio | SCAN-01 | Visual dashboard | Navigate to /scan, verify compliance cards render |
-| Figma URL paste imports tokens | INTEG-01 | Requires Figma API | Paste Figma URL, verify tokens appear |
+| Figma URL paste imports tokens | INTEG-01 | Requires Figma API or demo fallback | Paste Figma URL, verify tokens appear via /api/figma-extract |
 
 ---
 
