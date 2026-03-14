@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-comply-engine-02-PLAN.md — axe-core scanner and 422 compliance gate
-last_updated: "2026-03-14T20:53:20.282Z"
+stopped_at: Completed 03-03-PLAN.md — ComplianceSidebar with scoring/auto-fix wired into 3-column BuildUI; awaiting checkpoint human-verify Task 3
+last_updated: "2026-03-14T20:56:26.361Z"
 last_activity: 2026-03-13 — Roadmap created, 5 phases mapped, ready to begin Phase 1 planning
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
   percent: 67
 ---
 
@@ -56,6 +56,7 @@ Progress: [███████░░░] 67%
 | Phase 02-build-pipeline P03 | 45 | 3 tasks | 4 files |
 | Phase 03-comply-engine P01 | 2 | 2 tasks | 3 files |
 | Phase 03-comply-engine P02 | 2 | 2 tasks | 3 files |
+| Phase 03-comply-engine P03 | 15 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -84,6 +85,8 @@ Key decisions affecting current work:
 - [Phase 03-comply-engine]: Dynamic import of axe-core keeps scanner out of Next.js server bundle — browser-only by design
 - [Phase 03-comply-engine]: generateObject replaces streamObject — full spec available before response enables synchronous gate enforcement
 - [Phase 03-comply-engine]: 422 response includes spec alongside violations so client sidebar can display layout even when blocked
+- [Phase 03-comply-engine]: axe-scanner dynamically imported inside useEffect to keep axe-core out of server bundle
+- [Phase 03-comply-engine]: overrideSpec state stores auto-fix result separately from variants — preserves original for variant switching
 
 ### Pending Todos
 
@@ -96,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-14T20:53:20.280Z
-Stopped at: Completed 03-comply-engine-02-PLAN.md — axe-core scanner and 422 compliance gate
+Last session: 2026-03-14T20:56:26.359Z
+Stopped at: Completed 03-03-PLAN.md — ComplianceSidebar with scoring/auto-fix wired into 3-column BuildUI; awaiting checkpoint human-verify Task 3
 Resume file: None
