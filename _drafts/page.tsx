@@ -76,7 +76,7 @@ function IssueCard({ issue }: { issue: ComplianceIssue }) {
           </button>
           {expanded && (
             <div className="mt-2 p-2 bg-zinc-900 border border-zinc-700 rounded">
-              <p className="text-xs text-emerald-300 mb-1 font-mono">// {issue.autoFix.description}</p>
+              <p className="text-xs text-emerald-300 mb-1 font-mono">{`// ${issue.autoFix.description}`}</p>
               <pre className="text-xs text-zinc-300 overflow-x-auto whitespace-pre-wrap">
                 {issue.autoFix.previewHtml}
               </pre>

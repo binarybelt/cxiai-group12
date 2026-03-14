@@ -24,7 +24,6 @@ import type { ComponentRef, PageSpec } from "@/types/page-spec";
 // Keys MUST exactly match the approved component IDs from the design system.
 // ---------------------------------------------------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const COMPONENT_REGISTRY: Record<string, React.ComponentType<any>> = {
   Hero,
   Card,

@@ -53,19 +53,16 @@ export function getLLM(): LanguageModel {
 
   switch (provider) {
     case "google": {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { google } = require("@ai-sdk/google") as typeof import("@ai-sdk/google");
       const model = process.env.GOOGLE_MODEL ?? PROVIDER_DEFAULTS.google;
       return google(model);
     }
     case "anthropic": {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { anthropic } = require("@ai-sdk/anthropic") as typeof import("@ai-sdk/anthropic");
       const model = process.env.ANTHROPIC_MODEL ?? PROVIDER_DEFAULTS.anthropic;
       return anthropic(model);
     }
     case "openrouter": {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { createOpenRouter } = require("@openrouter/ai-sdk-provider") as typeof import("@openrouter/ai-sdk-provider");
       const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
       const model = process.env.OPENROUTER_MODEL ?? PROVIDER_DEFAULTS.openrouter;
