@@ -17,8 +17,8 @@ Requirements for hackathon MVP (March 15 deadline). Each maps to roadmap phases.
 ### BUILD Engine
 
 - [ ] **BUILD-01**: User can type a natural language brief and receive a generated page
-- [ ] **BUILD-02**: AI interprets brief into structured requirements (component, market, product context)
-- [ ] **BUILD-03**: Component selector picks ONLY from approved design system components
+- [x] **BUILD-02**: AI interprets brief into structured requirements (component, market, product context)
+- [x] **BUILD-03**: Component selector picks ONLY from approved design system components
 - [ ] **BUILD-04**: Generated page renders as live preview using approved components + tokens
 - [ ] **BUILD-05**: User can chat-to-edit ("make it warmer") and see updated page with diff
 - [ ] **BUILD-06**: Explainability panel shows why each component/token was chosen
@@ -94,8 +94,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-01 | Phase 1 | Pending |
 | COMP-02 | Phase 1 | Pending |
 | BUILD-01 | Phase 2 | Pending |
-| BUILD-02 | Phase 2 | Pending |
-| BUILD-03 | Phase 2 | Pending |
+| BUILD-02 | Phase 2 | Complete |
+| BUILD-03 | Phase 2 | Complete |
 | BUILD-04 | Phase 2 | Pending |
 | COMPLY-01 | Phase 3 | Pending |
 | COMPLY-02 | Phase 3 | Pending |

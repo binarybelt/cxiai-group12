@@ -1,3 +1,19 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: planning
+stopped_at: Completed 02-build-pipeline-01-PLAN.md — AI SDK installed, agent contract schemas/prompts/prop-shapes created, 17 tests passing
+last_updated: "2026-03-14T00:29:02.375Z"
+last_activity: 2026-03-13 — Roadmap created, 5 phases mapped, ready to begin Phase 1 planning
+progress:
+  total_phases: 5
+  completed_phases: 1
+  total_plans: 6
+  completed_plans: 4
+  percent: 67
+---
+
 # Project State
 
 ## Project Reference
@@ -14,7 +30,7 @@ Plan: 0 of 3 in current phase
 Status: Ready to plan
 Last activity: 2026-03-13 — Roadmap created, 5 phases mapped, ready to begin Phase 1 planning
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
@@ -34,6 +50,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 02-build-pipeline P01 | 30 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -48,6 +65,9 @@ Key decisions affecting current work:
 - [Pre-Phase 1]: Multi-agent pipeline with markdown prompts (each agent = prompt.md + schema.ts)
 - [Pre-Phase 1]: Vercel AI SDK for multi-provider LLM flexibility (Claude, GPT-4o, Gemini)
 - [Pre-Phase 1]: Helix design system claims are unverified — only reference what was heard in presentation
+- [Phase 02-build-pipeline]: Used .extend() on existing page-spec.ts schemas for constrained variants — ensures BUILD-03 enforcement stays in sync with base types automatically
+- [Phase 02-build-pipeline]: Dynamic z.enum() for componentId and tokenId — BUILD-03 enforced at schema construction time from live design system data
+- [Phase 02-build-pipeline]: selectionReason on ConstrainedComponentRefSchema only — added for LLM explainability, must be stripped before renderer which uses base PageSpecSchema
 
 ### Pending Todos
 
@@ -60,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-13
-Stopped at: Roadmap created — 5 phases, 27 requirements mapped, 15 plans total
+Last session: 2026-03-14T00:29:02.373Z
+Stopped at: Completed 02-build-pipeline-01-PLAN.md — AI SDK installed, agent contract schemas/prompts/prop-shapes created, 17 tests passing
 Resume file: None
