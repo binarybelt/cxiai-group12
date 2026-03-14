@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-build-pipeline-02-PLAN.md — interpret-brief and generate-page API routes built, 28 tests passing
-last_updated: "2026-03-14T00:33:43.881Z"
+stopped_at: Completed tasks 1-2 of 02-build-pipeline-03-PLAN.md — PageRenderer (8 tests passing) and BuildUI implemented; awaiting Task 3 human-verify checkpoint
+last_updated: "2026-03-14T00:38:31.967Z"
 last_activity: 2026-03-13 — Roadmap created, 5 phases mapped, ready to begin Phase 1 planning
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 6
-  completed_plans: 5
+  completed_plans: 6
   percent: 67
 ---
 
@@ -52,6 +52,7 @@ Progress: [███████░░░] 67%
 *Updated after each plan completion*
 | Phase 02-build-pipeline P01 | 30 | 2 tasks | 7 files |
 | Phase 02-build-pipeline P02 | 15 | 2 tasks | 4 files |
+| Phase 02-build-pipeline P03 | 5 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,8 @@ Key decisions affecting current work:
 - [Phase 02-build-pipeline]: selectionReason on ConstrainedComponentRefSchema only — added for LLM explainability, must be stripped before renderer which uses base PageSpecSchema
 - [Phase 02-build-pipeline]: toTextStreamResponse() not toDataStreamResponse() — text stream format required by useObject hook
 - [Phase 02-build-pipeline]: fire-and-forget logGeneration via void — audit logging never blocks the response pipeline
+- [Phase 02-build-pipeline]: COMPONENT_REGISTRY uses React.ComponentType<any> — avoids complex prop union types while preserving runtime safety via renderComponentRef guard
+- [Phase 02-build-pipeline]: experimental_useObject aliased as useObject — current @ai-sdk/react package version; clean internal usage
 
 ### Pending Todos
 
@@ -83,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-14T00:33:43.879Z
-Stopped at: Completed 02-build-pipeline-02-PLAN.md — interpret-brief and generate-page API routes built, 28 tests passing
+Last session: 2026-03-14T00:38:31.965Z
+Stopped at: Completed tasks 1-2 of 02-build-pipeline-03-PLAN.md — PageRenderer (8 tests passing) and BuildUI implemented; awaiting Task 3 human-verify checkpoint
 Resume file: None

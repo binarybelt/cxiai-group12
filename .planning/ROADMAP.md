@@ -13,7 +13,7 @@ Starting from zero with a 2-day deadline, this roadmap delivers the full design-
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Foundation** - App skeleton, design system data, component library, and PageSpec schema
-- [ ] **Phase 2: BUILD Pipeline** - Natural language brief -> PageSpec -> live rendered page
+- [x] **Phase 2: BUILD Pipeline** - Natural language brief -> PageSpec -> live rendered page (completed 2026-03-14)
 - [ ] **Phase 3: COMPLY Engine** - Real-time compliance checking, scoring, and auto-fix as middleware
 - [ ] **Phase 4: Demo Features** - Chat-to-edit, role views, explainability, SCAN dashboard, Figma import, audit trail
 - [ ] **Phase 5: Deploy & Polish** - One-click Vercel deployment and demo-day readiness
@@ -46,7 +46,7 @@ Plans:
   2. AI interprets brief into structured requirements (component, market, product context) that are visible in the system
   3. Component selector provably selects only from the approved design system -- no off-system tokens or components appear in output
   4. Generated page renders as a live preview using the actual component library (not a mock)
-**Plans:** 1/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md -- Install AI SDK, create agent schemas with dynamic enum constraints, prop shape metadata, and prompts
@@ -111,7 +111,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 0/3 | Not started | - |
-| 2. BUILD Pipeline | 1/3 | In Progress|  |
+| 2. BUILD Pipeline | 3/3 | Complete   | 2026-03-14 |
 | 3. COMPLY Engine | 0/3 | Not started | - |
 | 4. Demo Features | 0/4 | Not started | - |
 | 5. Deploy & Polish | 0/2 | Not started | - |
