@@ -64,12 +64,12 @@ Plans:
   4. Pharma compliance check detects missing disclaimers, adverse event links, and market-specific rule violations
   5. Auto-fix button resolves listed issues using approved components and the page re-renders correctly
   6. A page spec that fails the compliance gate cannot proceed to render -- the pipeline stops and returns feedback to the selector
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 03-01: Build compliance rule engine (brand + pharma checks against PageSpec)
-- [ ] 03-02: Integrate axe-core for accessibility scanning and wire compliance gate as middleware
-- [ ] 03-03: Build compliance sidebar UI and auto-fix functionality
+- [ ] 03-01-PLAN.md -- Build compliance rule engine (brand + pharma checks, gate, auto-fix, scoring)
+- [ ] 03-02-PLAN.md -- Build axe-core accessibility scanner and wire compliance gate into API route
+- [ ] 03-03-PLAN.md -- Build compliance sidebar UI with real-time scoring and auto-fix, wire into BuildUI
 
 ### Phase 4: Demo Features
 **Goal**: The full demo story is live -- marketers can chat-to-edit, QA sees a full compliance view, developers see generated code, the SCAN dashboard shows portfolio drift, Figma token import works, and every action is in the audit trail
