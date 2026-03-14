@@ -82,13 +82,12 @@ Plans:
   4. SCAN dashboard displays a pre-loaded portfolio compliance overview and can scan one live URL and return a drift report
   5. User can paste a Figma URL and extracted design tokens appear in the system
   6. Audit trail shows a timestamped log of every change including what the AI decided
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 04-01: Build chat-to-edit loop with diff display and explainability panel
-- [ ] 04-02: Build role-based views (Marketer, QA, Developer) with role toggle
-- [ ] 04-03: Build SCAN engine dashboard (pre-scanned data + live URL scan)
-- [ ] 04-04: Build Figma token import and wire Convex audit trail
+- [ ] 04-01-PLAN.md -- Fix layout bug, build chat-to-edit with diff display and explainability panel
+- [ ] 04-02-PLAN.md -- Build SCAN dashboard with portfolio overview and live URL scan, plus Figma token import
+- [ ] 04-03-PLAN.md -- Build role-based views (Marketer, QA, Developer) with role toggle and audit trail
 
 ### Phase 5: Deploy & Polish
 **Goal**: The demo climax works -- generated page deploys to a live Vercel URL in seconds -- and the full demo flow is smooth and presentation-ready
@@ -113,5 +112,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Foundation | 0/3 | Not started | - |
 | 2. BUILD Pipeline | 3/3 | Complete   | 2026-03-14 |
 | 3. COMPLY Engine | 3/3 | Complete   | 2026-03-14 |
-| 4. Demo Features | 0/4 | Not started | - |
+| 4. Demo Features | 0/3 | Not started | - |
 | 5. Deploy & Polish | 0/2 | Not started | - |
