@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-03-PLAN.md — ComplianceSidebar with scoring/auto-fix wired into 3-column BuildUI; awaiting checkpoint human-verify Task 3
-last_updated: "2026-03-14T20:56:26.361Z"
+stopped_at: Completed 03-03-PLAN.md — COMPLY engine fully verified end-to-end, Phase 03 complete
+last_updated: "2026-03-14T21:25:00.694Z"
 last_activity: 2026-03-13 — Roadmap created, 5 phases mapped, ready to begin Phase 1 planning
 progress:
   total_phases: 5
@@ -57,6 +57,7 @@ Progress: [███████░░░] 67%
 | Phase 03-comply-engine P01 | 2 | 2 tasks | 3 files |
 | Phase 03-comply-engine P02 | 2 | 2 tasks | 3 files |
 | Phase 03-comply-engine P03 | 15 | 2 tasks | 4 files |
+| Phase 03-comply-engine P03 | 15 | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,8 @@ Key decisions affecting current work:
 - [Phase 03-comply-engine]: 422 response includes spec alongside violations so client sidebar can display layout even when blocked
 - [Phase 03-comply-engine]: axe-scanner dynamically imported inside useEffect to keep axe-core out of server bundle
 - [Phase 03-comply-engine]: overrideSpec state stores auto-fix result separately from variants — preserves original for variant switching
+- [Phase 03-comply-engine]: Variant tab switch clears overrideSpec so switching to Variant B does not retain Variant A auto-fix
+- [Phase 03-comply-engine]: 422 response includes spec alongside violations so client sidebar can display layout even when gate is blocked
 
 ### Pending Todos
 
@@ -99,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-14T20:56:26.359Z
-Stopped at: Completed 03-03-PLAN.md — ComplianceSidebar with scoring/auto-fix wired into 3-column BuildUI; awaiting checkpoint human-verify Task 3
+Last session: 2026-03-14T21:25:00.690Z
+Stopped at: Completed 03-03-PLAN.md — COMPLY engine fully verified end-to-end, Phase 03 complete
 Resume file: None
