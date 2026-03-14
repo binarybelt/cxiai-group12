@@ -132,10 +132,13 @@ export function ComplianceSidebar({
     );
   }
 
+  // computeScore accepts a11y violations as { length: number }[] to stay decoupled
+  // from the specific a11y tool — we map each A11yViolation to satisfy the contract.
+  const a11yForScore = a11yViolations.map((v) => ({ length: v.nodes.length }));
   const score: ComplianceScore = computeScore(
     brandViolations,
     pharmaViolations,
-    a11yViolations,
+    a11yForScore,
   );
 
   const overallColor =
