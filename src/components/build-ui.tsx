@@ -6,6 +6,8 @@ import { PageRenderer } from "@/components/page-renderer";
 import { ComplianceSidebar } from "@/components/compliance-sidebar";
 import { ChatPanel } from "@/components/chat-panel";
 import { ExplainabilityPanel } from "@/components/explainability-panel";
+import { AuditTrail } from "@/components/audit-trail";
+import { computeScore, runBrandChecks, runPharmaChecks } from "@/lib/compliance";
 import type { BriefInterpretation } from "@/agents/brief-interpreter/schema";
 import type { PageSpec } from "@/types/page-spec";
 import type { ComplianceViolation } from "@/types/compliance";
@@ -16,7 +18,7 @@ import type { DiffResult } from "@/types/diff";
 // Phase 1: POST /api/interpret-brief → BriefInterpretation JSON
 // Phase 2: POST /api/generate-page → JSON { variants: PageSpec[] }
 //          (generateObject — not streaming. Returns 422 on compliance gate failure)
-// Phase 4: Chat-to-edit + explainability panel
+// Phase 4: Chat-to-edit + explainability panel + role-based views
 // ---------------------------------------------------------------------------
 
 type PipelinePhase =
@@ -25,6 +27,14 @@ type PipelinePhase =
   | "generating"
   | "done"
   | "error";
+
+type ActiveRole = "marketer" | "qa" | "developer";
+
+const ROLE_LABELS: { key: ActiveRole; label: string }[] = [
+  { key: "marketer", label: "Marketer" },
+  { key: "qa", label: "QA" },
+  { key: "developer", label: "Developer" },
+];
 
 export function BuildUI() {
   const [brief, setBrief] = useState("");
@@ -41,8 +51,9 @@ export function BuildUI() {
   const [overrideSpec, setOverrideSpec] = useState<PageSpec | null>(null);
 
   // Phase 4 state
-  const [rawSpec, setRawSpec] = useState<any>(null);
+  const [rawSpec, setRawSpec] = useState<Record<string, unknown> | null>(null);
   const [diffResult, setDiffResult] = useState<DiffResult | null>(null);
+  const [activeRole, setActiveRole] = useState<ActiveRole>("marketer");
 
   // previewRef connects the ComplianceSidebar's axe scanner to the rendered DOM
   const previewRef = useRef<HTMLDivElement>(null);
@@ -53,6 +64,11 @@ export function BuildUI() {
 
   // Auto-fix replaces the selected variant's spec immutably via overrideSpec
   const currentSpec = overrideSpec ?? variants?.[selectedVariant] ?? null;
+
+  // Compute a simplified overall score for the marketer badge
+  const overallScore = currentSpec
+    ? computeScore(runBrandChecks(currentSpec), runPharmaChecks(currentSpec), []).overall
+    : 0;
 
   // -------------------------------------------------------------------------
   // Auto-fix handler
@@ -136,7 +152,7 @@ export function BuildUI() {
         setGateViolations(body.violations);
         if (body.spec?.variants) {
           setVariants(body.spec.variants);
-          setRawSpec(body.spec);
+          setRawSpec(body.spec as unknown as Record<string, unknown>);
         }
         setPhase("error");
         setErrorMsg(
@@ -152,7 +168,7 @@ export function BuildUI() {
 
       const specResult = (await genRes.json()) as { variants: PageSpec[] };
       setVariants(specResult.variants);
-      setRawSpec(specResult);
+      setRawSpec(specResult as unknown as Record<string, unknown>);
       setIsGenerating(false);
       setPhase("done");
     } catch (err) {
@@ -178,135 +194,228 @@ export function BuildUI() {
       : "Generate";
 
   // -------------------------------------------------------------------------
-  // Render — 3-column layout: brief | preview | sidebar
+  // Score badge color helper
+  // -------------------------------------------------------------------------
+
+  const scoreBadgeColor =
+    overallScore > 80
+      ? "text-green-600"
+      : overallScore > 60
+        ? "text-yellow-500"
+        : "text-red-500";
+
+  // -------------------------------------------------------------------------
+  // Render — role toggle + 3-column layout: left | preview | right
   // -------------------------------------------------------------------------
 
   return (
-    <div className="flex flex-1 overflow-hidden">
-      <div className="grid flex-1 gap-8 lg:grid-cols-[1fr_2fr_320px]">
+    <div className="flex flex-1 flex-col overflow-hidden">
+      {/* Role toggle bar */}
+      <div className="flex items-center gap-2 border-b border-gray-200 bg-white px-6 py-2">
+        {ROLE_LABELS.map(({ key, label }) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setActiveRole(key)}
+            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${
+              activeRole === key
+                ? "bg-pfizer-blue-700 text-white"
+                : "border border-gray-200 bg-white text-gray-700 hover:border-pfizer-blue-300"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* 3-column grid — structure constant across all roles */}
+      <div className="grid flex-1 gap-8 overflow-hidden lg:grid-cols-[1fr_2fr_320px]">
         {/* ------------------------------------------------------------------ */}
-        {/* Left column: brief input + interpretation + chat edit               */}
+        {/* Left column — content changes by role                               */}
         {/* ------------------------------------------------------------------ */}
         <div className="flex flex-col gap-6 overflow-y-auto p-6">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <label
-              htmlFor="brief-input"
-              className="text-sm font-semibold text-gray-700"
-            >
-              Brief
-            </label>
-            <textarea
-              id="brief-input"
-              value={brief}
-              onChange={(e) => setBrief(e.target.value)}
-              placeholder="Describe the page you need. For example: Create an HCP landing page for Lipitor in the US market with efficacy data and safety information."
-              rows={8}
-              className="w-full resize-y rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-800 placeholder:text-gray-400 focus:border-pfizer-blue-500 focus:outline-none focus:ring-2 focus:ring-pfizer-blue-200"
-            />
-            <button
-              type="submit"
-              disabled={!canSubmit}
-              className="self-start rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {buttonLabel}
-            </button>
-          </form>
+          {/* ---- Marketer left: brief form + interpretation + chat ---------- */}
+          {activeRole === "marketer" && (
+            <>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <label
+                  htmlFor="brief-input"
+                  className="text-sm font-semibold text-gray-700"
+                >
+                  Brief
+                </label>
+                <textarea
+                  id="brief-input"
+                  value={brief}
+                  onChange={(e) => setBrief(e.target.value)}
+                  placeholder="Describe the page you need. For example: Create an HCP landing page for Lipitor in the US market with efficacy data and safety information."
+                  rows={8}
+                  className="w-full resize-y rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-800 placeholder:text-gray-400 focus:border-pfizer-blue-500 focus:outline-none focus:ring-2 focus:ring-pfizer-blue-200"
+                />
+                <button
+                  type="submit"
+                  disabled={!canSubmit}
+                  className="self-start rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {buttonLabel}
+                </button>
+              </form>
 
-          {/* Generic error state */}
-          {phase === "error" && errorMsg && (
-            <div
-              role="alert"
-              className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
-            >
-              <p className="font-semibold">Error</p>
-              <p className="mt-1">{errorMsg}</p>
-            </div>
-          )}
-
-          {/* Compliance gate banner (only when gate failed) */}
-          {phase === "error" && gateViolations && (
-            <div
-              role="alert"
-              className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800"
-            >
-              <p className="font-semibold">Compliance Gate Failed</p>
-              <p className="mt-1">
-                The generated page has {gateViolations.length} compliance
-                violation(s). Review and fix in the sidebar.
-              </p>
-            </div>
-          )}
-
-          {/* Interpretation panel */}
-          {interpretation && (
-            <div className="rounded-2xl border border-gray-200 bg-white">
-              <button
-                type="button"
-                onClick={() => setShowInterpretation((v) => !v)}
-                className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-gray-700"
-              >
-                <span>Brief Interpretation</span>
-                <span className="text-gray-400">
-                  {showInterpretation ? "-- Collapse" : "-- Expand"}
-                </span>
-              </button>
-
-              {showInterpretation && (
-                <div className="border-t border-gray-100 px-4 pb-4 pt-3">
-                  <dl className="space-y-2 text-sm">
-                    <div>
-                      <dt className="font-medium text-gray-500">Page type</dt>
-                      <dd className="text-gray-900">{interpretation.pageType}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-medium text-gray-500">Market</dt>
-                      <dd className="text-gray-900">{interpretation.market}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-medium text-gray-500">Product</dt>
-                      <dd className="text-gray-900">{interpretation.product}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-medium text-gray-500">Audience</dt>
-                      <dd className="capitalize text-gray-900">
-                        {interpretation.audience}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="font-medium text-gray-500">
-                        Content requirements
-                      </dt>
-                      <dd>
-                        <ul className="list-inside list-disc text-gray-900">
-                          {interpretation.contentRequirements.map((req) => (
-                            <li key={req}>{req}</li>
-                          ))}
-                        </ul>
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="font-medium text-gray-500">Reasoning</dt>
-                      <dd className="italic text-gray-700">
-                        {interpretation.reasoning}
-                      </dd>
-                    </div>
-                  </dl>
+              {/* Generic error state */}
+              {phase === "error" && errorMsg && (
+                <div
+                  role="alert"
+                  className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+                >
+                  <p className="font-semibold">Error</p>
+                  <p className="mt-1">{errorMsg}</p>
                 </div>
               )}
-            </div>
+
+              {/* Compliance gate banner (only when gate failed) */}
+              {phase === "error" && gateViolations && (
+                <div
+                  role="alert"
+                  className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800"
+                >
+                  <p className="font-semibold">Compliance Gate Failed</p>
+                  <p className="mt-1">
+                    The generated page has {gateViolations.length} compliance
+                    violation(s). Review and fix in the sidebar.
+                  </p>
+                </div>
+              )}
+
+              {/* Interpretation panel */}
+              {interpretation && (
+                <div className="rounded-2xl border border-gray-200 bg-white">
+                  <button
+                    type="button"
+                    onClick={() => setShowInterpretation((v) => !v)}
+                    className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-gray-700"
+                  >
+                    <span>Brief Interpretation</span>
+                    <span className="text-gray-400">
+                      {showInterpretation ? "-- Collapse" : "-- Expand"}
+                    </span>
+                  </button>
+
+                  {showInterpretation && (
+                    <div className="border-t border-gray-100 px-4 pb-4 pt-3">
+                      <dl className="space-y-2 text-sm">
+                        <div>
+                          <dt className="font-medium text-gray-500">Page type</dt>
+                          <dd className="text-gray-900">{interpretation.pageType}</dd>
+                        </div>
+                        <div>
+                          <dt className="font-medium text-gray-500">Market</dt>
+                          <dd className="text-gray-900">{interpretation.market}</dd>
+                        </div>
+                        <div>
+                          <dt className="font-medium text-gray-500">Product</dt>
+                          <dd className="text-gray-900">{interpretation.product}</dd>
+                        </div>
+                        <div>
+                          <dt className="font-medium text-gray-500">Audience</dt>
+                          <dd className="capitalize text-gray-900">
+                            {interpretation.audience}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt className="font-medium text-gray-500">
+                            Content requirements
+                          </dt>
+                          <dd>
+                            <ul className="list-inside list-disc text-gray-900">
+                              {interpretation.contentRequirements.map((req) => (
+                                <li key={req}>{req}</li>
+                              ))}
+                            </ul>
+                          </dd>
+                        </div>
+                        <div>
+                          <dt className="font-medium text-gray-500">Reasoning</dt>
+                          <dd className="italic text-gray-700">
+                            {interpretation.reasoning}
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Chat edit panel — shown when a spec exists */}
+              {currentSpec && (
+                <ChatPanel
+                  currentSpec={currentSpec}
+                  onEditComplete={handleChatEdit}
+                />
+              )}
+            </>
           )}
 
-          {/* Chat edit panel — shown when a spec exists */}
-          {currentSpec && (
-            <ChatPanel
-              currentSpec={currentSpec}
-              onEditComplete={handleChatEdit}
-            />
+          {/* ---- QA left: gate violations + audit trail -------------------- */}
+          {activeRole === "qa" && (
+            <>
+              {gateViolations && gateViolations.length > 0 && (
+                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+                    Gate Violations ({gateViolations.length})
+                  </p>
+                  <ul className="mt-2 flex flex-col gap-1">
+                    {gateViolations.map((v, idx) => (
+                      <li key={`${v.ruleId}-${idx}`} className="text-xs text-amber-800">
+                        {v.message}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <AuditTrail />
+            </>
+          )}
+
+          {/* ---- Developer left: component spec list ----------------------- */}
+          {activeRole === "developer" && (
+            <>
+              {currentSpec ? (
+                <div className="rounded-2xl border border-gray-200 bg-white p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    Component Specs
+                  </p>
+                  <ul className="mt-2 flex flex-col gap-2">
+                    {currentSpec.sections.flatMap((section) =>
+                      section.components.map((comp, idx) => (
+                        <li
+                          key={`${section.id}-${comp.componentId}-${idx}`}
+                          className="rounded-lg bg-gray-50 px-3 py-2"
+                        >
+                          <p className="text-xs font-semibold text-gray-800">
+                            {comp.componentId}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Props: {Object.keys(comp.props).join(", ") || "none"}
+                          </p>
+                        </li>
+                      )),
+                    )}
+                  </ul>
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4">
+                  <p className="text-sm text-gray-400">
+                    Generate a page to see the code output
+                  </p>
+                </div>
+              )}
+            </>
           )}
         </div>
 
         {/* ------------------------------------------------------------------ */}
-        {/* Middle column: variant tabs + page preview + explainability          */}
+        {/* Middle column: variant tabs + page preview + explainability         */}
+        {/* Always the same regardless of role                                  */}
         {/* ------------------------------------------------------------------ */}
         <div className="flex flex-col gap-4 overflow-y-auto p-6">
           {/* Variant tabs */}
@@ -374,21 +483,61 @@ export function BuildUI() {
             </div>
           )}
 
-          {/* Explainability panel — collapsible, below preview */}
+          {/* Explainability panel — collapsible, below preview (prominent in marketer view) */}
           <ExplainabilityPanel
-            rawVariants={rawSpec?.variants ?? null}
+            rawVariants={(rawSpec as Record<string, unknown> | null)?.variants as unknown[] | null ?? null}
             selectedVariant={selectedVariant}
           />
         </div>
 
         {/* ------------------------------------------------------------------ */}
-        {/* Right column: compliance sidebar                                     */}
+        {/* Right column — content changes by role                              */}
         {/* ------------------------------------------------------------------ */}
-        <ComplianceSidebar
-          spec={currentSpec}
-          previewRef={previewRef}
-          onAutoFix={handleAutoFix}
-        />
+
+        {/* Marketer right: simplified score badge */}
+        {activeRole === "marketer" && (
+          <aside className="flex flex-col gap-4 overflow-y-auto border-l border-gray-200 bg-gray-50 p-4">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
+              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                Compliance Score
+              </p>
+              <p data-testid="score-badge" className={`mt-2 text-6xl font-bold tabular-nums ${scoreBadgeColor}`}>
+                {overallScore}
+              </p>
+            </div>
+          </aside>
+        )}
+
+        {/* QA right: full compliance sidebar */}
+        {activeRole === "qa" && (
+          <ComplianceSidebar
+            spec={currentSpec}
+            previewRef={previewRef}
+            onAutoFix={handleAutoFix}
+          />
+        )}
+
+        {/* Developer right: JSON code block */}
+        {activeRole === "developer" && (
+          <aside className="flex flex-col gap-4 overflow-y-auto border-l border-gray-200 bg-gray-50 p-4">
+            {currentSpec ? (
+              <div className="flex flex-col gap-2 overflow-y-auto rounded-2xl border border-gray-200 bg-gray-900 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                  PageSpec JSON
+                </p>
+                <pre className="overflow-x-auto text-xs text-green-400">
+                  <code>{JSON.stringify(currentSpec, null, 2)}</code>
+                </pre>
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4">
+                <p className="text-sm text-gray-400">
+                  Generate a page to see the code output
+                </p>
+              </div>
+            )}
+          </aside>
+        )}
       </div>
     </div>
   );
