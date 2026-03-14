@@ -1,19 +1,21 @@
 /**
  * POST /api/generate-page
  *
- * Accepts a BriefInterpretation object and streams a two-variant PageSpec
- * response using Vercel AI SDK streamObject.
+ * Accepts a BriefInterpretation object and returns a two-variant PageSpec as
+ * JSON using Vercel AI SDK generateObject.
  *
  * The constrained schema (buildConstrainedPageSpecSchema) enforces BUILD-03:
  * only approved component IDs and token IDs are accepted.
  *
- * Each completed generation is logged to the Convex audit trail via the
- * onFinish callback.
+ * A compliance gate runs after generation. Non-compliant specs return 422 with
+ * { error, violations, spec } so the client can display sidebar violations.
+ *
+ * Each completed generation is logged to the Convex audit trail.
  */
 import { readFile } from "fs/promises";
 import { join } from "path";
 
-import { streamObject } from "ai";
+import { generateObject } from "ai";
 import { NextRequest } from "next/server";
 
 import type { BriefInterpretation } from "@/agents/brief-interpreter/schema";
@@ -28,6 +30,9 @@ import {
   getMarketConfig,
 } from "@/lib/design-system";
 import { logGeneration } from "@/lib/convex-client";
+import { runComplianceGate } from "@/lib/compliance";
+import type { ComplianceViolation } from "@/types/compliance";
+import type { PageSpec } from "@/types/page-spec";
 
 export async function POST(request: NextRequest): Promise<Response> {
   try {
@@ -90,28 +95,51 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     const schema = buildConstrainedPageSpecSchema();
 
-    const result = streamObject({
+    const result = await generateObject({
       model: getLLM(),
       schema,
       system: systemPrompt,
       prompt: JSON.stringify(interpretation),
       maxRetries: 2,
-      onFinish: ({ object }) => {
-        // Fire-and-forget audit log after streaming completes
-        void logGeneration(
-          "generate-page",
-          JSON.stringify({
-            market: interpretation.market,
-            product: interpretation.product,
-            pageType: interpretation.pageType,
-            variantCount: object?.variants?.length ?? 0,
-            tokenIds: tokenIds.slice(0, 5), // log first few for context
-          }),
-        );
-      },
     });
 
-    return result.toTextStreamResponse();
+    const spec = result.object;
+
+    // Fire-and-forget audit log
+    void logGeneration(
+      "generate-page",
+      JSON.stringify({
+        market: interpretation.market,
+        product: interpretation.product,
+        pageType: interpretation.pageType,
+        variantCount: spec?.variants?.length ?? 0,
+        tokenIds: tokenIds.slice(0, 5),
+      }),
+    );
+
+    // COMPLY-06: Compliance gate — block non-compliant specs.
+    // Run gate against each variant; fail if ANY variant has errors.
+    const allViolations = (spec.variants ?? []).flatMap((variant: PageSpec) => {
+      const gateResult = runComplianceGate(variant);
+      return gateResult.violations;
+    });
+    const hasErrors = allViolations.some(
+      (v: ComplianceViolation) => v.severity === "error",
+    );
+
+    if (hasErrors) {
+      return Response.json(
+        {
+          error: "Compliance gate blocked rendering",
+          violations: allViolations,
+          spec, // include spec so client can show violations in sidebar
+        },
+        { status: 422 },
+      );
+    }
+
+    // Happy path: return the generated spec as JSON
+    return Response.json(spec);
   } catch (err) {
     console.error("[generate-page] route error:", err);
     return Response.json(
