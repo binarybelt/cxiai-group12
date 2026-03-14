@@ -1,0 +1,56 @@
+[
+  {
+    "url": "https://www.lipitor.com",
+    "product": "Lipitor",
+    "market": "US",
+    "complianceScore": 95,
+    "lastScanned": "2026-03-12T14:30:00Z",
+    "driftCount": 1,
+    "status": "compliant"
+  },
+  {
+    "url": "https://www.eliquis.eu/patient",
+    "product": "Eliquis",
+    "market": "EU",
+    "complianceScore": 72,
+    "lastScanned": "2026-03-11T09:15:00Z",
+    "driftCount": 3,
+    "status": "warning"
+  },
+  {
+    "url": "https://www.prevnar.co.uk/hcp",
+    "product": "Prevnar",
+    "market": "UK",
+    "complianceScore": 88,
+    "lastScanned": "2026-03-13T11:00:00Z",
+    "driftCount": 2,
+    "status": "compliant"
+  },
+  {
+    "url": "https://www.ibrance.com/patient",
+    "product": "Ibrance",
+    "market": "US",
+    "complianceScore": 45,
+    "lastScanned": "2026-03-10T16:45:00Z",
+    "driftCount": 8,
+    "status": "critical"
+  },
+  {
+    "url": "https://www.xeljanz.jp/hcp",
+    "product": "Xeljanz",
+    "market": "JP",
+    "complianceScore": 68,
+    "lastScanned": "2026-03-09T08:20:00Z",
+    "driftCount": 5,
+    "status": "warning"
+  },
+  {
+    "url": "https://www.comirnaty.com/patient",
+    "product": "Comirnaty",
+    "market": "Global",
+    "complianceScore": 92,
+    "lastScanned": "2026-03-14T06:00:00Z",
+    "driftCount": 1,
+    "status": "compliant"
+  }
+]
