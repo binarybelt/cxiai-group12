@@ -10,8 +10,8 @@ export const metadata = {
  */
 export default function BuildPage() {
   return (
-    <main>
-      <header className="border-b border-gray-200 bg-white px-6 py-4">
+    <div className="flex h-screen flex-col overflow-hidden">
+      <header className="flex-shrink-0 border-b border-gray-200 bg-white px-6 py-4">
         <h1 className="text-lg font-semibold text-pfizer-blue-700">
           BUILD -- Design Delivery Accelerator
         </h1>
@@ -21,6 +21,6 @@ export default function BuildPage() {
         </p>
       </header>
       <BuildUI />
-    </main>
+    </div>
   );
 }
