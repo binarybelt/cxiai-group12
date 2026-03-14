@@ -85,7 +85,7 @@ export function PageRenderer({ spec }: PageRendererProps) {
     <div className="space-y-6">
       {sortedSections.map((section) => (
         <div key={section.id} className="section-wrapper">
-          {section.components.map((ref, idx) =>
+          {(section.components ?? []).map((ref, idx) =>
             renderComponentRef(ref, idx),
           )}
         </div>

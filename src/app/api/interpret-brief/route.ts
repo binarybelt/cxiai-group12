@@ -12,11 +12,11 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 
-import { anthropic } from "@ai-sdk/anthropic";
 import { generateObject } from "ai";
 import { NextRequest } from "next/server";
 
 import { BriefInterpretationSchema } from "@/agents/brief-interpreter/schema";
+import { getLLM } from "@/lib/llm";
 import { loadComponents, loadMarkets, loadPatterns } from "@/lib/design-system";
 import { logGeneration } from "@/lib/convex-client";
 
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest): Promise<Response> {
       .replace("{{COMPONENTS}}", JSON.stringify(components, null, 2));
 
     const { object } = await generateObject({
-      model: anthropic("claude-sonnet-4-5-20250414"),
+      model: getLLM(),
       schema: BriefInterpretationSchema,
       system: systemPrompt,
       prompt: brief,

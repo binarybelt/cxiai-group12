@@ -9,10 +9,10 @@ export interface FooterProps {
 }
 
 export function Footer({
-  links,
-  disclaimers,
+  links = [],
+  disclaimers = [],
   copyright,
-  adverseEventUrl,
+  adverseEventUrl = "#",
 }: FooterProps) {
   return (
     <footer className="rounded-[2rem] bg-gray-900 px-token-xl py-token-2xl text-white shadow-token-lg">

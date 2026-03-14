@@ -10,9 +10,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 // Hoisted mocks (must be declared before any module imports that use them)
 // ---------------------------------------------------------------------------
 
-// Mock @ai-sdk/anthropic so we don't need ANTHROPIC_API_KEY
-vi.mock("@ai-sdk/anthropic", () => ({
-  anthropic: vi.fn(() => ({ modelId: "claude-sonnet-4-5-20250414" })),
+// Mock getLLM so we don't need any API key
+vi.mock("@/lib/llm", () => ({
+  getLLM: vi.fn(() => ({ modelId: "mock-model" })),
 }));
 
 // Mock generateObject from "ai"

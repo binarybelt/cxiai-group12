@@ -14,8 +14,8 @@ const rowClasses: Record<DataTableVariant, string> = {
 };
 
 export function DataTable({
-  headers,
-  rows,
+  headers = [],
+  rows = [],
   caption,
   variant = "standard",
 }: DataTableProps) {

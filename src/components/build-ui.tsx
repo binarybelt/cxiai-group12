@@ -249,7 +249,8 @@ export function BuildUI() {
 
         {/* Page preview */}
         {variants?.[selectedVariant] && (
-          <div className="flex-1 overflow-auto rounded-2xl border border-gray-200 bg-gray-50 p-4">
+          <div className="preview-sandbox flex-1 overflow-auto rounded-2xl border border-gray-200 bg-gray-50 p-4">
+            <style>{`.preview-sandbox a { pointer-events: none; cursor: default; }`}</style>
             <PageRenderer spec={variants[selectedVariant]} />
           </div>
         )}

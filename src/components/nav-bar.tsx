@@ -16,7 +16,7 @@ export interface NavBarProps {
 
 export function NavBar({
   logo,
-  links,
+  links = [],
   market,
   variant = "standard",
 }: NavBarProps) {

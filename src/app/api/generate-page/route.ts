@@ -13,11 +13,11 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 
-import { anthropic } from "@ai-sdk/anthropic";
 import { streamObject } from "ai";
 import { NextRequest } from "next/server";
 
 import type { BriefInterpretation } from "@/agents/brief-interpreter/schema";
+import { getLLM } from "@/lib/llm";
 import { buildConstrainedPageSpecSchema } from "@/agents/component-selector/schema";
 import { PROP_SHAPES } from "@/agents/component-selector/prop-shapes";
 import {
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     const schema = buildConstrainedPageSpecSchema();
 
     const result = streamObject({
-      model: anthropic("claude-sonnet-4-5-20250414"),
+      model: getLLM(),
       schema,
       system: systemPrompt,
       prompt: JSON.stringify(interpretation),

@@ -17,7 +17,7 @@ const variantClasses: Record<CTAVariant, string> = {
     "bg-transparent text-pfizer-blue-700 ring-1 ring-gray-300 hover:ring-pfizer-blue-500",
 };
 
-export function CTA({ text, href, variant = "primary" }: CTAProps) {
+export function CTA({ text, href = "#", variant = "primary" }: CTAProps) {
   return (
     <Link
       href={href}
