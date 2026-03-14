@@ -26,11 +26,11 @@ Requirements for hackathon MVP (March 15 deadline). Each maps to roadmap phases.
 ### COMPLY Engine
 
 - [ ] **COMPLY-01**: Real-time compliance score displayed in sidebar during build/edit
-- [ ] **COMPLY-02**: Brand compliance check (all tokens from approved palette)
+- [x] **COMPLY-02**: Brand compliance check (all tokens from approved palette)
 - [ ] **COMPLY-03**: Accessibility check via axe-core (WCAG AA)
-- [ ] **COMPLY-04**: Pharma compliance check (disclaimers, adverse event links, market rules)
-- [ ] **COMPLY-05**: Auto-fix button resolves issues using approved components
-- [ ] **COMPLY-06**: Compliance gate blocks rendering until PageSpec passes
+- [x] **COMPLY-04**: Pharma compliance check (disclaimers, adverse event links, market rules)
+- [x] **COMPLY-05**: Auto-fix button resolves issues using approved components
+- [x] **COMPLY-06**: Compliance gate blocks rendering until PageSpec passes
 
 ### SCAN Engine
 
@@ -98,11 +98,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BUILD-03 | Phase 2 | Complete |
 | BUILD-04 | Phase 2 | Complete |
 | COMPLY-01 | Phase 3 | Pending |
-| COMPLY-02 | Phase 3 | Pending |
+| COMPLY-02 | Phase 3 | Complete |
 | COMPLY-03 | Phase 3 | Pending |
-| COMPLY-04 | Phase 3 | Pending |
-| COMPLY-05 | Phase 3 | Pending |
-| COMPLY-06 | Phase 3 | Pending |
+| COMPLY-04 | Phase 3 | Complete |
+| COMPLY-05 | Phase 3 | Complete |
+| COMPLY-06 | Phase 3 | Complete |
 | BUILD-05 | Phase 4 | Pending |
 | BUILD-06 | Phase 4 | Pending |
 | SCAN-01 | Phase 4 | Pending |
