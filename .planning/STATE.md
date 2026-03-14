@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed tasks 1-2 of 02-build-pipeline-03-PLAN.md — PageRenderer (8 tests passing) and BuildUI implemented; awaiting Task 3 human-verify checkpoint
-last_updated: "2026-03-14T00:38:31.967Z"
+stopped_at: Completed 02-build-pipeline-03-PLAN.md — full BUILD pipeline verified end-to-end
+last_updated: "2026-03-14T01:06:35.650Z"
 last_activity: 2026-03-13 — Roadmap created, 5 phases mapped, ready to begin Phase 1 planning
 progress:
   total_phases: 5
@@ -53,6 +53,7 @@ Progress: [███████░░░] 67%
 | Phase 02-build-pipeline P01 | 30 | 2 tasks | 7 files |
 | Phase 02-build-pipeline P02 | 15 | 2 tasks | 4 files |
 | Phase 02-build-pipeline P03 | 5 | 2 tasks | 4 files |
+| Phase 02-build-pipeline P03 | 45 | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,8 @@ Key decisions affecting current work:
 - [Phase 02-build-pipeline]: fire-and-forget logGeneration via void — audit logging never blocks the response pipeline
 - [Phase 02-build-pipeline]: COMPONENT_REGISTRY uses React.ComponentType<any> — avoids complex prop union types while preserving runtime safety via renderComponentRef guard
 - [Phase 02-build-pipeline]: experimental_useObject aliased as useObject — current @ai-sdk/react package version; clean internal usage
+- [Phase 02-build-pipeline]: Multi-provider LLM support (Google Gemini default, Anthropic, OpenRouter) — reduces single-provider demo risk
+- [Phase 02-build-pipeline]: Streaming-safe component defaults — components accept partial props without crashing mid-stream
 
 ### Pending Todos
 
@@ -86,6 +89,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-14T00:38:31.965Z
-Stopped at: Completed tasks 1-2 of 02-build-pipeline-03-PLAN.md — PageRenderer (8 tests passing) and BuildUI implemented; awaiting Task 3 human-verify checkpoint
+Last session: 2026-03-14T01:06:35.648Z
+Stopped at: Completed 02-build-pipeline-03-PLAN.md — full BUILD pipeline verified end-to-end
 Resume file: None
