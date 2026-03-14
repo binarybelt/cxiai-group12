@@ -1,28 +1,18 @@
 "use client";
 
-import { experimental_useObject as useObject } from "@ai-sdk/react";
-import { useState } from "react";
-import { z } from "zod";
+import { useRef, useState } from "react";
 
 import { PageRenderer } from "@/components/page-renderer";
-import { PageSpecSchema } from "@/types/page-spec";
+import { ComplianceSidebar } from "@/components/compliance-sidebar";
 import type { BriefInterpretation } from "@/agents/brief-interpreter/schema";
 import type { PageSpec } from "@/types/page-spec";
-
-// ---------------------------------------------------------------------------
-// Schema — wraps two PageSpec variants, matching the server-side output shape.
-// We use the base PageSpecSchema here (not constrained) because selectionReason
-// is stripped on the server before the stream reaches the client.
-// ---------------------------------------------------------------------------
-
-const variantsSchema = z.object({
-  variants: z.array(PageSpecSchema),
-});
+import type { ComplianceViolation } from "@/types/compliance";
 
 // ---------------------------------------------------------------------------
 // BuildUI — client component wiring the full brief-to-page pipeline.
 // Phase 1: POST /api/interpret-brief → BriefInterpretation JSON
-// Phase 2: useObject POST /api/generate-page → streaming two-variant PageSpec
+// Phase 2: POST /api/generate-page → JSON { variants: PageSpec[] }
+//          (generateObject — not streaming. Returns 422 on compliance gate failure)
 // ---------------------------------------------------------------------------
 
 type PipelinePhase =
@@ -40,21 +30,30 @@ export function BuildUI() {
     useState<BriefInterpretation | null>(null);
   const [showInterpretation, setShowInterpretation] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<0 | 1>(0);
+  const [variants, setVariants] = useState<PageSpec[] | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [gateViolations, setGateViolations] =
+    useState<ComplianceViolation[] | null>(null);
+  const [overrideSpec, setOverrideSpec] = useState<PageSpec | null>(null);
 
-  // useObject connects to /api/generate-page and streams the two-variant output
-  const { object, submit, isLoading: isGenerating } = useObject({
-    api: "/api/generate-page",
-    schema: variantsSchema,
-    onFinish: () => {
-      setPhase("done");
-    },
-    onError: (err: Error) => {
-      setPhase("error");
-      setErrorMsg(err.message ?? "Generation failed");
-    },
-  });
+  // previewRef connects the ComplianceSidebar's axe scanner to the rendered DOM
+  const previewRef = useRef<HTMLDivElement>(null);
 
-  const variants = object?.variants as PageSpec[] | undefined;
+  // -------------------------------------------------------------------------
+  // Derived state
+  // -------------------------------------------------------------------------
+
+  // Auto-fix replaces the selected variant's spec immutably via overrideSpec
+  const currentSpec = overrideSpec ?? variants?.[selectedVariant] ?? null;
+
+  // -------------------------------------------------------------------------
+  // Auto-fix handler
+  // -------------------------------------------------------------------------
+
+  function handleAutoFix(fixedSpec: PageSpec) {
+    setOverrideSpec(fixedSpec);
+    setGateViolations(null); // clear gate violations once user has applied a fix
+  }
 
   // -------------------------------------------------------------------------
   // Submit handler — two-phase pipeline
@@ -69,6 +68,9 @@ export function BuildUI() {
     setPhase("interpreting");
     setErrorMsg(null);
     setInterpretation(null);
+    setVariants(null);
+    setOverrideSpec(null);
+    setGateViolations(null);
 
     try {
       // Phase 1: interpret brief
@@ -82,20 +84,56 @@ export function BuildUI() {
         const body = (await interpretRes.json().catch(() => ({}))) as {
           error?: string;
         };
-        throw new Error(body.error ?? `Interpret request failed (${interpretRes.status})`);
+        throw new Error(
+          body.error ?? `Interpret request failed (${interpretRes.status})`,
+        );
       }
 
       const interp = (await interpretRes.json()) as BriefInterpretation;
       setInterpretation(interp);
       setPhase("generating");
+      setIsGenerating(true);
 
-      // Phase 2: stream page generation via useObject
-      submit(interp);
+      // Phase 2: generate page spec as JSON (generateObject, not streaming)
+      const genRes = await fetch("/api/generate-page", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(interp),
+      });
+
+      if (genRes.status === 422) {
+        // Compliance gate blocked — show violations and partial spec in sidebar
+        const body = (await genRes.json()) as {
+          error: string;
+          violations: ComplianceViolation[];
+          spec?: { variants: PageSpec[] };
+        };
+        setGateViolations(body.violations);
+        if (body.spec?.variants) {
+          setVariants(body.spec.variants);
+        }
+        setPhase("error");
+        setErrorMsg(
+          "Compliance gate blocked rendering. See violations in the sidebar.",
+        );
+        setIsGenerating(false);
+        return;
+      }
+
+      if (!genRes.ok) {
+        throw new Error(`Generation failed (${genRes.status})`);
+      }
+
+      const specResult = (await genRes.json()) as { variants: PageSpec[] };
+      setVariants(specResult.variants);
+      setIsGenerating(false);
+      setPhase("done");
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "An unexpected error occurred";
       setPhase("error");
       setErrorMsg(message);
+      setIsGenerating(false);
     }
   }
 
@@ -113,11 +151,11 @@ export function BuildUI() {
       : "Generate";
 
   // -------------------------------------------------------------------------
-  // Render
+  // Render — 3-column layout: brief | preview | sidebar
   // -------------------------------------------------------------------------
 
   return (
-    <div className="grid min-h-screen gap-8 lg:grid-cols-2">
+    <div className="grid min-h-screen gap-8 lg:grid-cols-[1fr_2fr_320px]">
       {/* ------------------------------------------------------------------ */}
       {/* Left column: brief input + interpretation                            */}
       {/* ------------------------------------------------------------------ */}
@@ -146,7 +184,7 @@ export function BuildUI() {
           </button>
         </form>
 
-        {/* Error state */}
+        {/* Generic error state */}
         {phase === "error" && errorMsg && (
           <div
             role="alert"
@@ -154,6 +192,20 @@ export function BuildUI() {
           >
             <p className="font-semibold">Error</p>
             <p className="mt-1">{errorMsg}</p>
+          </div>
+        )}
+
+        {/* Compliance gate banner (only when gate failed) */}
+        {phase === "error" && gateViolations && (
+          <div
+            role="alert"
+            className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800"
+          >
+            <p className="font-semibold">Compliance Gate Failed</p>
+            <p className="mt-1">
+              The generated page has {gateViolations.length} compliance
+              violation(s). Review and fix in the sidebar.
+            </p>
           </div>
         )}
 
@@ -218,7 +270,7 @@ export function BuildUI() {
       </div>
 
       {/* ------------------------------------------------------------------ */}
-      {/* Right column: variant tabs + page preview                           */}
+      {/* Middle column: variant tabs + page preview                          */}
       {/* ------------------------------------------------------------------ */}
       <div className="flex flex-col gap-4 overflow-auto p-6">
         {/* Variant tabs */}
@@ -228,7 +280,10 @@ export function BuildUI() {
               <button
                 key={label}
                 type="button"
-                onClick={() => setSelectedVariant(idx as 0 | 1)}
+                onClick={() => {
+                  setSelectedVariant(idx as 0 | 1);
+                  setOverrideSpec(null); // clear override when switching variants
+                }}
                 disabled={isGenerating && !variants?.[idx]}
                 className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${
                   selectedVariant === idx
@@ -243,15 +298,17 @@ export function BuildUI() {
         ) : null}
 
         {/* Loading indicator for generating phase */}
-        {isGenerating && !variants?.[selectedVariant] && (
+        {isGenerating && (
           <p className="text-sm text-gray-500">Generating page...</p>
         )}
 
-        {/* Page preview */}
-        {variants?.[selectedVariant] && (
+        {/* Page preview — wrapped in previewRef for axe scanner */}
+        {currentSpec && (
           <div className="preview-sandbox flex-1 overflow-auto rounded-2xl border border-gray-200 bg-gray-50 p-4">
             <style>{`.preview-sandbox a { pointer-events: none; cursor: default; }`}</style>
-            <PageRenderer spec={variants[selectedVariant]} />
+            <div ref={previewRef}>
+              <PageRenderer spec={currentSpec} />
+            </div>
           </div>
         )}
 
@@ -265,6 +322,15 @@ export function BuildUI() {
           </div>
         )}
       </div>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* Right column: compliance sidebar                                     */}
+      {/* ------------------------------------------------------------------ */}
+      <ComplianceSidebar
+        spec={currentSpec}
+        previewRef={previewRef}
+        onAutoFix={handleAutoFix}
+      />
     </div>
   );
 }
