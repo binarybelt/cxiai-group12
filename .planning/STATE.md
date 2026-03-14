@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-build-pipeline-01-PLAN.md — AI SDK installed, agent contract schemas/prompts/prop-shapes created, 17 tests passing
-last_updated: "2026-03-14T00:29:02.375Z"
+stopped_at: Completed 02-build-pipeline-02-PLAN.md — interpret-brief and generate-page API routes built, 28 tests passing
+last_updated: "2026-03-14T00:33:43.881Z"
 last_activity: 2026-03-13 — Roadmap created, 5 phases mapped, ready to begin Phase 1 planning
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 6
-  completed_plans: 4
+  completed_plans: 5
   percent: 67
 ---
 
@@ -51,6 +51,7 @@ Progress: [███████░░░] 67%
 
 *Updated after each plan completion*
 | Phase 02-build-pipeline P01 | 30 | 2 tasks | 7 files |
+| Phase 02-build-pipeline P02 | 15 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,8 @@ Key decisions affecting current work:
 - [Phase 02-build-pipeline]: Used .extend() on existing page-spec.ts schemas for constrained variants — ensures BUILD-03 enforcement stays in sync with base types automatically
 - [Phase 02-build-pipeline]: Dynamic z.enum() for componentId and tokenId — BUILD-03 enforced at schema construction time from live design system data
 - [Phase 02-build-pipeline]: selectionReason on ConstrainedComponentRefSchema only — added for LLM explainability, must be stripped before renderer which uses base PageSpecSchema
+- [Phase 02-build-pipeline]: toTextStreamResponse() not toDataStreamResponse() — text stream format required by useObject hook
+- [Phase 02-build-pipeline]: fire-and-forget logGeneration via void — audit logging never blocks the response pipeline
 
 ### Pending Todos
 
@@ -80,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-14T00:29:02.373Z
-Stopped at: Completed 02-build-pipeline-01-PLAN.md — AI SDK installed, agent contract schemas/prompts/prop-shapes created, 17 tests passing
+Last session: 2026-03-14T00:33:43.879Z
+Stopped at: Completed 02-build-pipeline-02-PLAN.md — interpret-brief and generate-page API routes built, 28 tests passing
 Resume file: None
