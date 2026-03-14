@@ -41,7 +41,6 @@ export function BuildUI() {
   const [overrideSpec, setOverrideSpec] = useState<PageSpec | null>(null);
 
   // Phase 4 state
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [rawSpec, setRawSpec] = useState<any>(null);
   const [diffResult, setDiffResult] = useState<DiffResult | null>(null);
 

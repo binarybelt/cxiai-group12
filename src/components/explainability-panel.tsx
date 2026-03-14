@@ -7,7 +7,6 @@ import { useState } from "react";
 // ---------------------------------------------------------------------------
 
 interface ExplainabilityPanelProps {
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   rawVariants: any[] | null;
   selectedVariant: number;
 }
