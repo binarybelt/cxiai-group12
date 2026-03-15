@@ -43,7 +43,7 @@ export function BuildUI() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [interpretation, setInterpretation] =
     useState<BriefInterpretation | null>(null);
-  const [showInterpretation, setShowInterpretation] = useState(false);
+  const [showInterpretation, setShowInterpretation] = useState(true);
   const [selectedVariant, setSelectedVariant] = useState<0 | 1>(0);
   const [variants, setVariants] = useState<PageSpec[] | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -340,6 +340,29 @@ export function BuildUI() {
                             {interpretation.reasoning}
                           </dd>
                         </div>
+                        {interpretation.riskFlags && interpretation.riskFlags.length > 0 && (
+                          <div>
+                            <dt className="font-medium text-gray-500">Risk Flags</dt>
+                            <dd>
+                              <ul className="mt-1 flex flex-col gap-1">
+                                {interpretation.riskFlags.map((rf, idx) => (
+                                  <li
+                                    key={idx}
+                                    className={`rounded-lg px-2 py-1 text-xs ${
+                                      rf.severity === "high"
+                                        ? "bg-red-50 text-red-700"
+                                        : rf.severity === "medium"
+                                          ? "bg-amber-50 text-amber-700"
+                                          : "bg-yellow-50 text-yellow-700"
+                                    }`}
+                                  >
+                                    <span className="font-semibold">{rf.severity.toUpperCase()}</span>: {rf.detail}
+                                  </li>
+                                ))}
+                              </ul>
+                            </dd>
+                          </div>
+                        )}
                       </dl>
                     </div>
                   )}

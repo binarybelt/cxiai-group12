@@ -31,6 +31,24 @@ export const BriefInterpretationSchema = z.object({
     .describe(
       "Plain-language explanation of why these choices were made based on the brief",
     ),
+  riskFlags: z
+    .array(
+      z.object({
+        flag: z
+          .string()
+          .describe(
+            "Risk flag identifier (e.g., 'superlative-claim', 'missing-safety-context', 'off-label-indication')",
+          ),
+        detail: z.string().describe("Plain-language explanation of the risk"),
+        severity: z
+          .enum(["low", "medium", "high"])
+          .describe("Severity level of the risk"),
+      }),
+    )
+    .default([])
+    .describe(
+      "Compliance risk flags detected during brief pre-screening",
+    ),
 });
 
 export type BriefInterpretation = z.infer<typeof BriefInterpretationSchema>;

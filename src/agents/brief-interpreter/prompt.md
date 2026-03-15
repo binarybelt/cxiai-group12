@@ -27,6 +27,17 @@ Analyze the provided brief and output a structured interpretation with the follo
 
 {{COMPONENTS}}
 
+## Risk Pre-Screening
+
+Before interpreting, scan the brief for compliance risks:
+- Superlative claims ("best", "most effective", "guaranteed")
+- Missing safety context (efficacy claims without safety mentions)
+- Off-label indications
+- Unsubstantiated comparatives ("better than", "superior to")
+- Missing market specification (defaults to US if not stated)
+
+Return these as `riskFlags` in your response. Each flag should have a severity (low/medium/high) and a plain-language explanation.
+
 ## Rules
 
 1. **pageType** MUST be a valid pattern ID from the approved list above. Do not invent pattern IDs.

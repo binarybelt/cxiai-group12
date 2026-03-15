@@ -4,7 +4,7 @@ const features = [
   {
     title: "BUILD",
     description:
-      "Generate brand-compliant pages from natural language briefs",
+      "Type a brief. AI interprets your intent, selects only from approved design system components, and generates two compliant variants. Edit via chat. Deploy in one click.",
     href: "/build",
     icon: (
       <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -13,20 +13,9 @@ const features = [
     ),
   },
   {
-    title: "SCAN",
-    description:
-      "Monitor portfolio compliance and detect design drift",
-    href: "/scan",
-    icon: (
-      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-      </svg>
-    ),
-  },
-  {
     title: "COMPLY",
     description:
-      "Real-time compliance scoring with auto-fix suggestions",
+      "Real-time compliance gate — not a post-hoc report. Brand tokens, pharma regulations, WCAG accessibility. Pages cannot render unless they pass.",
     href: "/build",
     icon: (
       <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -34,12 +23,47 @@ const features = [
       </svg>
     ),
   },
+  {
+    title: "SCAN",
+    description:
+      "Portfolio-wide drift detection. Scan live URLs against your design system. Flag outdated tokens, missing components, compliance gaps.",
+    href: "/scan",
+    icon: (
+      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+      </svg>
+    ),
+  },
 ] as const;
 
 const steps = [
-  { number: "1", title: "Write a brief", description: "Describe the page you need in plain language" },
-  { number: "2", title: "AI generates", description: "Compliant components are assembled automatically" },
-  { number: "3", title: "Deploy", description: "Review, approve, and publish with confidence" },
+  {
+    number: "1",
+    title: "Write a brief",
+    description: "Describe your page in natural language",
+  },
+  {
+    number: "2",
+    title: "AI interprets & constrains",
+    description: "Intent mapped to approved components and tokens",
+  },
+  {
+    number: "3",
+    title: "Compliance gate",
+    description: "Brand, pharma, and accessibility checks before render",
+  },
+  {
+    number: "4",
+    title: "Review & deploy",
+    description: "Chat-to-edit, role-based views, one-click deploy",
+  },
+] as const;
+
+const differentiators = [
+  "Constrained generation — AI can only compose from approved components",
+  "Deterministic compliance gate — no LLM judgment for pass/fail",
+  "Full audit trail — every decision logged with timestamp and reasoning",
+  "Role-based views — Marketer, QA, and Developer see what they need",
 ] as const;
 
 export default function HomePage() {
@@ -48,33 +72,48 @@ export default function HomePage() {
       {/* Hero */}
       <section className="flex flex-col items-center px-6 pb-12 pt-16 text-center">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-pfizer-blue-500">
-          Design Delivery Accelerator
+          Pfizer CXI+AI Challenge 2026 — Group 12
         </p>
         <h1 className="max-w-3xl text-4xl font-bold text-gray-900 sm:text-5xl">
-          AI-powered web page generation with built-in compliance
+          Compliant by Construction
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-gray-500">
-          Generate brand-compliant pharma web pages from natural language briefs,
-          with real-time compliance scoring and design-system governance.
+          AI-powered web generation where compliance isn&apos;t a checklist —
+          it&apos;s the grammar the AI thinks in. Every component approved.
+          Every token verified. Every decision explainable.
         </p>
         <div className="mt-8 flex gap-4">
           <Link
             href="/build"
             className="rounded-lg bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-500"
           >
-            Start building
+            Start Building →
           </Link>
           <Link
-            href="/preview"
+            href="/scan"
             className="rounded-lg border border-gray-200 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-100"
           >
-            View components
+            View SCAN Dashboard
           </Link>
         </div>
       </section>
 
+      {/* Problem Statement */}
+      <section className="bg-gray-900 px-6 py-14 text-white">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="mb-4 text-xl font-bold uppercase tracking-wider text-pfizer-blue-300">
+            The Problem
+          </h2>
+          <p className="text-lg leading-relaxed text-gray-300">
+            Pfizer manages 2,000+ websites across dozens of agencies. A simple
+            page update takes weeks of back-and-forth. Existing AI tools generate
+            freely then check — we constrain at generation time.
+          </p>
+        </div>
+      </section>
+
       {/* Feature cards */}
-      <section className="mx-auto grid w-full max-w-5xl gap-6 px-6 pb-16 sm:grid-cols-3">
+      <section className="mx-auto grid w-full max-w-5xl gap-6 px-6 py-16 sm:grid-cols-3">
         {features.map((f) => (
           <Link
             key={f.title}
@@ -98,7 +137,7 @@ export default function HomePage() {
           <h2 className="mb-10 text-center text-2xl font-bold text-gray-900">
             How it works
           </h2>
-          <div className="grid gap-8 sm:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-4">
             {steps.map((s) => (
               <div key={s.number} className="text-center">
                 <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-pfizer-blue-700 text-sm font-bold text-white">
@@ -112,6 +151,45 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Trust Differentiators */}
+      <section className="border-t border-gray-200 px-6 py-16">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900">
+            What makes this different
+          </h2>
+          <ul className="space-y-4">
+            {differentiators.map((d) => (
+              <li
+                key={d}
+                className="flex items-start gap-3 text-gray-700"
+              >
+                <svg
+                  className="mt-1 h-5 w-5 flex-shrink-0 text-pfizer-blue-700"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m4.5 12.75 6 6 9-13.5"
+                  />
+                </svg>
+                <span className="text-base leading-relaxed">{d}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Footer note */}
+      <section className="border-t border-gray-200 px-6 py-8">
+        <p className="text-center text-sm text-gray-400">
+          Built for the Pfizer CXI+AI Challenge 2026
+        </p>
       </section>
     </main>
   );

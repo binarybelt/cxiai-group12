@@ -12,11 +12,11 @@ Starting from zero with a 2-day deadline, this roadmap delivers the full design-
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - App skeleton, design system data, component library, and PageSpec schema
+- [x] **Phase 1: Foundation** - App skeleton, design system data, component library, and PageSpec schema (completed 2026-03-14)
 - [x] **Phase 2: BUILD Pipeline** - Natural language brief -> PageSpec -> live rendered page (completed 2026-03-14)
 - [x] **Phase 3: COMPLY Engine** - Real-time compliance checking, scoring, and auto-fix as middleware (completed 2026-03-14)
-- [ ] **Phase 4: Demo Features** - Chat-to-edit, role views, explainability, SCAN dashboard, Figma import, audit trail
-- [ ] **Phase 5: Deploy & Polish** - One-click Vercel deployment and demo-day readiness
+- [x] **Phase 4: Demo Features** - Chat-to-edit, role views, explainability, SCAN dashboard, Figma import, audit trail (completed 2026-03-15)
+- [x] **Phase 5: Deploy & Polish** - One-click Vercel deployment and demo-day readiness (completed 2026-03-15)
 
 ## Phase Details
 
@@ -33,9 +33,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md -- Scaffold Next.js 14+ app with TypeScript, Tailwind, Convex, and project directory structure
-- [ ] 01-02-PLAN.md -- Define PageSpec Zod schema and load design system JSON files into the app
-- [ ] 01-03-PLAN.md -- Build 12 pharma-specific React components styled with Pfizer design tokens
+- [x] 01-01-PLAN.md -- Scaffold Next.js 14+ app with TypeScript, Tailwind, Convex, and project directory structure
+- [x] 01-02-PLAN.md -- Define PageSpec Zod schema and load design system JSON files into the app
+- [x] 01-03-PLAN.md -- Build 12 pharma-specific React components styled with Pfizer design tokens
 
 ### Phase 2: BUILD Pipeline
 **Goal**: A user can type a natural language brief and receive a live-rendered, brand-compliant page composed entirely from approved design system components
@@ -49,9 +49,9 @@ Plans:
 **Plans:** 3/3 plans complete
 
 Plans:
-- [ ] 02-01-PLAN.md -- Install AI SDK, create agent schemas with dynamic enum constraints, prop shape metadata, and prompts
-- [ ] 02-02-PLAN.md -- Build interpret-brief and generate-page API routes with Convex audit logging
-- [ ] 02-03-PLAN.md -- Build page renderer, Build UI with streaming preview and variant tabs
+- [x] 02-01-PLAN.md -- Install AI SDK, create agent schemas with dynamic enum constraints, prop shape metadata, and prompts
+- [x] 02-02-PLAN.md -- Build interpret-brief and generate-page API routes with Convex audit logging
+- [x] 02-03-PLAN.md -- Build page renderer, Build UI with streaming preview and variant tabs
 
 ### Phase 3: COMPLY Engine
 **Goal**: Every page and every edit is continuously scored against brand, accessibility, and pharma compliance rules -- and the page cannot render unless it passes the compliance gate
@@ -67,9 +67,9 @@ Plans:
 **Plans:** 3/3 plans complete
 
 Plans:
-- [ ] 03-01-PLAN.md -- Build compliance rule engine (brand + pharma checks, gate, auto-fix, scoring)
-- [ ] 03-02-PLAN.md -- Build axe-core accessibility scanner and wire compliance gate into API route
-- [ ] 03-03-PLAN.md -- Build compliance sidebar UI with real-time scoring and auto-fix, wire into BuildUI
+- [x] 03-01-PLAN.md -- Build compliance rule engine (brand + pharma checks, gate, auto-fix, scoring)
+- [x] 03-02-PLAN.md -- Build axe-core accessibility scanner and wire compliance gate into API route
+- [x] 03-03-PLAN.md -- Build compliance sidebar UI with real-time scoring and auto-fix, wire into BuildUI
 
 ### Phase 4: Demo Features
 **Goal**: The full demo story is live -- marketers can chat-to-edit, QA sees a full compliance view, developers see generated code, the SCAN dashboard shows portfolio drift, Figma token import works, and every action is in the audit trail
@@ -85,9 +85,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md -- Fix layout bug, build chat-to-edit with diff display and explainability panel
-- [ ] 04-02-PLAN.md -- Build SCAN dashboard with portfolio overview and live URL scan, plus Figma token import
-- [ ] 04-03-PLAN.md -- Build role-based views (Marketer, QA, Developer) with role toggle and audit trail
+- [x] 04-01-PLAN.md -- Fix layout bug, build chat-to-edit with diff display and explainability panel
+- [x] 04-02-PLAN.md -- Build SCAN dashboard with portfolio overview and live URL scan, plus Figma token import
+- [x] 04-03-PLAN.md -- Build role-based views (Marketer, QA, Developer) with role toggle and audit trail
 
 ### Phase 5: Deploy & Polish
 **Goal**: The demo climax works -- generated page deploys to a live Vercel URL in seconds -- and the full demo flow is smooth and presentation-ready
@@ -99,8 +99,8 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 05-01: Integrate Vercel Deploy API (code generator -> POST /v13/deployments -> live URL in UI)
-- [ ] 05-02: End-to-end demo flow walkthrough and polish
+- [x] 05-01: Integrate Vercel Deploy API (code generator -> POST /v13/deployments -> live URL in UI)
+- [x] 05-02: End-to-end demo flow walkthrough and polish
 
 ## Progress
 
@@ -109,8 +109,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/3 | Not started | - |
+| 1. Foundation | 3/3 | Complete   | 2026-03-14 |
 | 2. BUILD Pipeline | 3/3 | Complete   | 2026-03-14 |
 | 3. COMPLY Engine | 3/3 | Complete   | 2026-03-14 |
-| 4. Demo Features | 0/3 | Not started | - |
-| 5. Deploy & Polish | 0/2 | Not started | - |
+| 4. Demo Features | 3/3 | Complete   | 2026-03-15 |
+| 5. Deploy & Polish | 2/2 | Complete   | 2026-03-15 |
