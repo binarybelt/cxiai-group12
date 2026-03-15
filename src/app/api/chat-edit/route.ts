@@ -1,19 +1,21 @@
 /**
  * POST /api/chat-edit
  *
- * Accepts a current PageSpec and an edit instruction, then uses generateObject
- * to produce an updated PageSpec via the chat-editor agent.
+ * Accepts a current PageSpec (single variant) and an edit instruction, then
+ * uses generateObject to produce an updated PageSpec via the chat-editor agent.
  *
- * Returns the first variant (variants[0]) since chat-edit focuses on a single
- * edited result. Runs the compliance gate before returning.
+ * Optimised for token budget: only the selected variant is injected into the
+ * system prompt, and the schema expects a single variant (not two).
  *
- * Returns 422 with violations if the compliance gate fails.
+ * Runs the compliance gate before returning. Returns 422 with violations if
+ * the compliance gate fails.
  */
 import { readFile } from "fs/promises";
 import { join } from "path";
 
 import { generateObject } from "ai";
 import { NextRequest } from "next/server";
+import { z } from "zod";
 
 import { getLLM } from "@/lib/llm";
 import { buildConstrainedPageSpecSchema } from "@/agents/component-selector/schema";
@@ -21,9 +23,25 @@ import { logGeneration } from "@/lib/convex-client";
 import { runComplianceGate } from "@/lib/compliance";
 import type { PageSpec } from "@/types/page-spec";
 
+// Vercel serverless: allow up to 60 s for LLM round-trip
+export const maxDuration = 60;
+
 interface ChatEditRequest {
   spec: PageSpec;
   instruction: string;
+}
+
+/**
+ * Build a single-variant wrapper schema by extracting the inner PageSpec
+ * schema from the two-variant wrapper used by generate-page.
+ */
+function buildSingleVariantSchema() {
+  const twoVariantSchema = buildConstrainedPageSpecSchema();
+  // The inner element schema is the constrained PageSpec
+  const innerPageSpec = twoVariantSchema.shape.variants.element;
+  return z.object({
+    variant: innerPageSpec.describe("The edited PageSpec variant"),
+  });
 }
 
 export async function POST(request: NextRequest): Promise<Response> {
@@ -48,24 +66,41 @@ export async function POST(request: NextRequest): Promise<Response> {
     );
     const promptTemplate = await readFile(promptPath, "utf-8");
 
-    // Inject the current spec into the system prompt
+    // Inject only the selected variant (compact JSON to save tokens)
+    const compactSpec = JSON.stringify(spec);
     const systemPrompt = promptTemplate.replace(
       "{{CURRENT_SPEC}}",
-      JSON.stringify(spec, null, 2),
+      compactSpec,
     );
 
-    const schema = buildConstrainedPageSpecSchema();
+    console.log(
+      `[chat-edit] system prompt length: ${systemPrompt.length} chars, spec: ${compactSpec.length} chars`,
+    );
 
-    const result = await generateObject({
-      model: getLLM(),
-      schema,
-      system: systemPrompt,
-      prompt: instruction,
-      maxRetries: 2,
-    });
+    const schema = buildSingleVariantSchema();
 
-    const editedSpec = result.object;
-    const variant = editedSpec.variants[0] as PageSpec;
+    let result;
+    try {
+      result = await generateObject({
+        model: getLLM(),
+        schema,
+        system: systemPrompt,
+        prompt: instruction,
+        maxRetries: 2,
+      });
+    } catch (llmErr) {
+      console.error("[chat-edit] LLM generateObject error:", llmErr);
+      const llmMessage =
+        llmErr instanceof Error ? llmErr.message : String(llmErr);
+      return Response.json(
+        {
+          error: `LLM generation failed: ${llmMessage.slice(0, 300)}`,
+        },
+        { status: 502 },
+      );
+    }
+
+    const variant = result.object.variant as PageSpec;
 
     // Fire-and-forget audit log
     void logGeneration(
@@ -100,8 +135,9 @@ export async function POST(request: NextRequest): Promise<Response> {
     });
   } catch (err) {
     console.error("[chat-edit] route error:", err);
+    const message = err instanceof Error ? err.message : String(err);
     return Response.json(
-      { error: "Chat edit failed" },
+      { error: `Chat edit failed: ${message.slice(0, 300)}` },
       { status: 500 },
     );
   }

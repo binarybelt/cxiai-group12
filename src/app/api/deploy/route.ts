@@ -69,7 +69,18 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const deployData = (await deployRes.json()) as { url?: string };
+      const deployData = (await deployRes.json()) as {
+        url?: string;
+        readyState?: string;
+        inspectorUrl?: string;
+      };
+
+      console.log("[deploy] Vercel response:", {
+        url: deployData.url,
+        readyState: deployData.readyState,
+        inspectorUrl: deployData.inspectorUrl,
+      });
+
       const deployUrl = deployData.url
         ? `https://${deployData.url}`
         : `https://${slug}.vercel.app`;

@@ -34,6 +34,9 @@ import { runComplianceGate } from "@/lib/compliance";
 import type { ComplianceViolation } from "@/types/compliance";
 import type { PageSpec } from "@/types/page-spec";
 
+// Vercel serverless: allow up to 60 s for LLM round-trip
+export const maxDuration = 60;
+
 export async function POST(request: NextRequest): Promise<Response> {
   try {
     const interpretation = (await request.json()) as BriefInterpretation;

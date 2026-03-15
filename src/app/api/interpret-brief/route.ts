@@ -20,6 +20,9 @@ import { getLLM } from "@/lib/llm";
 import { loadComponents, loadMarkets, loadPatterns } from "@/lib/design-system";
 import { logGeneration } from "@/lib/convex-client";
 
+// Vercel serverless: allow up to 60 s for LLM round-trip
+export const maxDuration = 60;
+
 export async function POST(request: NextRequest): Promise<Response> {
   try {
     const body = await request.json() as { brief?: unknown };

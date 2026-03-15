@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -23,6 +23,13 @@ export function ExplainabilityPanel({
   selectedVariant,
 }: ExplainabilityPanelProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Auto-expand when data becomes available
+  useEffect(() => {
+    if (rawVariants !== null && rawVariants.length > 0) {
+      setIsExpanded(true);
+    }
+  }, [rawVariants]);
 
   if (!rawVariants) {
     return (
@@ -60,7 +67,7 @@ export function ExplainabilityPanel({
         <div className="border-t border-gray-100 px-4 pb-4 pt-3">
           <ul className="flex flex-col gap-3">
             {variant.sections.map(
-              (section: { id: string; components: { componentId: string; selectionReason?: string }[] }) => (
+              (section: { id: string; components: { componentId: string; selectionReason?: string; tokenOverrides?: { tokenId: string; value: string }[] }[] }) => (
                 <li key={section.id}>
                   <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                     {section.id}
@@ -68,7 +75,11 @@ export function ExplainabilityPanel({
                   <ul className="mt-1 flex flex-col gap-1">
                     {section.components.map(
                       (
-                        comp: { componentId: string; selectionReason?: string },
+                        comp: {
+                          componentId: string;
+                          selectionReason?: string;
+                          tokenOverrides?: { tokenId: string; value: string }[];
+                        },
                         idx: number,
                       ) => (
                         <li
@@ -78,10 +89,32 @@ export function ExplainabilityPanel({
                           <p className="text-xs font-medium text-gray-800">
                             {comp.componentId}
                           </p>
-                          {comp.selectionReason && (
+                          {comp.selectionReason ? (
                             <p className="mt-0.5 text-xs text-gray-500">
+                              <span className="font-medium text-gray-600">Reason:</span>{" "}
                               {comp.selectionReason}
                             </p>
+                          ) : (
+                            <p className="mt-0.5 text-xs italic text-gray-400">
+                              No selection reason provided
+                            </p>
+                          )}
+                          {comp.tokenOverrides && comp.tokenOverrides.length > 0 && (
+                            <div className="mt-1">
+                              <p className="text-xs font-medium text-gray-600">
+                                Token Overrides:
+                              </p>
+                              <ul className="mt-0.5 flex flex-wrap gap-1">
+                                {comp.tokenOverrides.map((tok) => (
+                                  <li
+                                    key={tok.tokenId}
+                                    className="rounded bg-blue-50 px-2 py-0.5 text-xs text-blue-700"
+                                  >
+                                    {tok.tokenId}: {tok.value}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
                           )}
                         </li>
                       ),

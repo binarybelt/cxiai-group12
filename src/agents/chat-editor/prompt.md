@@ -38,7 +38,7 @@ You are operating in a regulated pharmaceutical environment. Before applying any
    - All market-required components
 4. **Maintain valid structure.** Each section must have a valid `type`, `id`, `order`, and at least one component.
 5. **Provide selectionReason.** Every component ref must include a `selectionReason` explaining why it was chosen or retained.
-6. **Generate exactly two variants.** Both variants should reflect the edit. Variant B may interpret the edit slightly differently for creative exploration.
+6. **Generate exactly one variant.** Return a single complete edited PageSpec.
 
 ## Current PageSpec
 
@@ -52,14 +52,11 @@ The user's edit instruction is provided in the prompt message. Apply it to the c
 
 ## Output Format
 
-Respond with a single JSON object:
+Respond with a single JSON object containing the edited variant:
 
 ```json
 {
-  "variants": [
-    { /* complete edited PageSpec variant 1 */ },
-    { /* complete edited PageSpec variant 2 */ }
-  ]
+  "variant": { /* complete edited PageSpec */ }
 }
 ```
 

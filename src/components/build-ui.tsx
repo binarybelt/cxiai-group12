@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { PageRenderer } from "@/components/page-renderer";
 import { ComplianceSidebar } from "@/components/compliance-sidebar";
@@ -9,6 +9,7 @@ import { DeployPanel } from "@/components/deploy-panel";
 import { ExplainabilityPanel } from "@/components/explainability-panel";
 import { AuditTrail } from "@/components/audit-trail";
 import { computeScore, runBrandChecks, runPharmaChecks } from "@/lib/compliance";
+import { generateComplianceReport } from "@/lib/compliance-report";
 import type { BriefInterpretation } from "@/agents/brief-interpreter/schema";
 import type { PageSpec } from "@/types/page-spec";
 import type { ComplianceViolation } from "@/types/compliance";
@@ -37,6 +38,21 @@ const ROLE_LABELS: { key: ActiveRole; label: string }[] = [
   { key: "developer", label: "Developer" },
 ];
 
+const EXAMPLE_BRIEFS = [
+  {
+    label: "HCP Landing -- Ibrance UK",
+    text: "Create an HCP landing page for Ibrance in the UK market. Include new efficacy data, patient support resources, and a strong call-to-action for HCP registration.",
+  },
+  {
+    label: "Patient Education -- Paxlovid US",
+    text: "Create a patient education page for Paxlovid in the US market. Include how the medication works, eligibility criteria, and where to get it. Emphasize accessibility.",
+  },
+  {
+    label: "Safety Update -- Eliquis EU",
+    text: "Create a safety update page for Eliquis in the EU market. Include updated bleeding risk data, dosage adjustments for renal impairment, and emergency contact information.",
+  },
+];
+
 export function BuildUI() {
   const [brief, setBrief] = useState("");
   const [phase, setPhase] = useState<PipelinePhase>("idle");
@@ -56,8 +72,21 @@ export function BuildUI() {
   const [diffResult, setDiffResult] = useState<DiffResult | null>(null);
   const [activeRole, setActiveRole] = useState<ActiveRole>("marketer");
 
+  // Generation timer state
+  const [generationStartTime, setGenerationStartTime] = useState<number | null>(null);
+  const [generationDuration, setGenerationDuration] = useState<number | null>(null);
+
   // previewRef connects the ComplianceSidebar's axe scanner to the rendered DOM
   const previewRef = useRef<HTMLDivElement>(null);
+
+  // Record generation duration when phase transitions to "done"
+  useEffect(() => {
+    if (phase === "done" && generationStartTime !== null) {
+      const elapsed = (Date.now() - generationStartTime) / 1000;
+      setGenerationDuration(elapsed);
+      setGenerationStartTime(null);
+    }
+  }, [phase, generationStartTime]);
 
   // -------------------------------------------------------------------------
   // Derived state
@@ -113,6 +142,8 @@ export function BuildUI() {
     setGateViolations(null);
     setRawSpec(null);
     setDiffResult(null);
+    setGenerationStartTime(Date.now());
+    setGenerationDuration(null);
 
     try {
       // Phase 1: interpret brief
@@ -260,6 +291,21 @@ export function BuildUI() {
                 >
                   {buttonLabel}
                 </button>
+
+                {/* Example brief buttons */}
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs text-gray-400">Examples:</span>
+                  {EXAMPLE_BRIEFS.map((example) => (
+                    <button
+                      key={example.label}
+                      type="button"
+                      onClick={() => setBrief(example.text)}
+                      className="rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-600 transition hover:border-pfizer-blue-300 hover:text-pfizer-blue-700"
+                    >
+                      {example.label}
+                    </button>
+                  ))}
+                </div>
               </form>
 
               {/* Generic error state */}
@@ -397,6 +443,19 @@ export function BuildUI() {
                 </div>
               )}
               <AuditTrail />
+              <button
+                type="button"
+                onClick={() => {
+                  if (!currentSpec) return;
+                  const html = generateComplianceReport(currentSpec);
+                  const blob = new Blob([html], { type: "text/html" });
+                  const url = URL.createObjectURL(blob);
+                  window.open(url, "_blank");
+                }}
+                className="w-full rounded-full border border-pfizer-blue-200 bg-pfizer-blue-50 px-4 py-2 text-sm font-semibold text-pfizer-blue-700 transition hover:bg-pfizer-blue-100"
+              >
+                Export Compliance Report
+              </button>
             </>
           )}
 
@@ -442,9 +501,9 @@ export function BuildUI() {
         {/* Always the same regardless of role                                  */}
         {/* ------------------------------------------------------------------ */}
         <div className="flex flex-col gap-4 overflow-y-auto p-6">
-          {/* Variant tabs */}
+          {/* Variant tabs + generation timer */}
           {(variants && variants.length > 0) || isGenerating ? (
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2">
               {(["A", "B"] as const).map((label, idx) => (
                 <button
                   key={label}
@@ -463,6 +522,11 @@ export function BuildUI() {
                   Variant {label}
                 </button>
               ))}
+              {generationDuration !== null && (
+                <span className="ml-auto rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                  Brief to compliant page: {generationDuration.toFixed(1)}s
+                </span>
+              )}
             </div>
           ) : null}
 
