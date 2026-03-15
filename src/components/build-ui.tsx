@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { PageRenderer } from "@/components/page-renderer";
 import { ComplianceSidebar } from "@/components/compliance-sidebar";
 import { ChatPanel } from "@/components/chat-panel";
+import { DeployPanel } from "@/components/deploy-panel";
 import { ExplainabilityPanel } from "@/components/explainability-panel";
 import { AuditTrail } from "@/components/audit-trail";
 import { computeScore, runBrandChecks, runPharmaChecks } from "@/lib/compliance";
@@ -482,6 +483,9 @@ export function BuildUI() {
               </p>
             </div>
           )}
+
+          {/* Deploy panel — shown when a spec exists */}
+          {currentSpec && <DeployPanel currentSpec={currentSpec} />}
 
           {/* Explainability panel — collapsible, below preview (prominent in marketer view) */}
           <ExplainabilityPanel
