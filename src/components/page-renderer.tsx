@@ -24,7 +24,7 @@ import type { ComponentRef, PageSpec } from "@/types/page-spec";
 // Keys MUST exactly match the approved component IDs from the design system.
 // ---------------------------------------------------------------------------
 
-const COMPONENT_REGISTRY: Record<string, React.ComponentType<any>> = {
+const COMPONENT_REGISTRY = {
   Hero,
   Card,
   ISIBlock,
@@ -37,7 +37,7 @@ const COMPONENT_REGISTRY: Record<string, React.ComponentType<any>> = {
   SectionHeader,
   ContentBlock,
   ImageBlock,
-};
+} as unknown as Record<string, React.ComponentType<Record<string, unknown>>>;
 
 // ---------------------------------------------------------------------------
 // renderComponentRef — looks up the component in the registry and renders it

@@ -29,3 +29,4 @@ Next.js App Router scaffold that subsequent plans will extend.
 - Shared types and schemas live in `src/types/`
 - Design system JSON data lives in `src/design-system/`
 - Future agent prompts and schemas live in `agents/`
+- always calculate "time to do something" in "claude-code" hours instead of human hours. you must look up the latest claude code features to derive the correct estimate.

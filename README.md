@@ -124,7 +124,7 @@ npm run dev
 ## Project Quality
 
 - **118 tests** across 16 test files
-- **TypeScript strict mode** — zero `any` escapes
+- **TypeScript strict mode** — strict TypeScript throughout
 - **Zero lint errors**
 - **Modular agent architecture** — each agent is a `prompt.md` + `schema.ts` pair
 - **Immutable data patterns** — no mutation anywhere in the pipeline

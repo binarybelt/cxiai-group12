@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Pfizer — Design Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Pfizer Blue (REAL tokens from pfizer.com CSS) ── */
+  --pfizer-blue-10: #e8f2ff;
+  --pfizer-blue-20: #cfdfff;
+  --pfizer-blue-30: #9cc0ff;
+  --pfizer-blue-40: #6397ff;
+  --pfizer-blue-50: #3578ff;
+  --pfizer-blue-60: #2e29ff; /* Electric / Interactive */
+  --pfizer-blue-70: #0000c9; /* PRIMARY BRAND BLUE */
+  --pfizer-blue-80: #00009d;
+  --pfizer-blue-90: #000067; /* Dark theme base */
+  --pfizer-blue-100: #00003a; /* Deepest navy */
+
+  /* ── Pfizer Cyan ── */
+  --pfizer-cyan-10: #e0f5ff;
+  --pfizer-cyan-40: #35b6ff;
+  --pfizer-cyan-50: #0095ff;
+
+  /* ── Neutrals ── */
+  --neutral-white: #ffffff;
+  --neutral-10: #f0f0f0;
+  --neutral-20: #e0e0e0;
+  --neutral-30: #c9c9c9;
+  --neutral-40: #b3b3b3;
+  --neutral-50: #999999;
+  --neutral-60: #666666;
+  --neutral-70: #525252;
+  --neutral-80: #3d3d3d;
+  --neutral-90: #292929;
+  --neutral-100: #171717;
+  --neutral-black: #0a0a0a;
+
+  /* ── Semantic ── */
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  /* ── App Shell ── */
+  --shell-bg: #000032;
+  --shell-surface: rgba(255, 255, 255, 0.04);
+  --shell-surface-hover: rgba(255, 255, 255, 0.07);
+  --shell-border: rgba(255, 255, 255, 0.08);
+  --shell-border-strong: rgba(255, 255, 255, 0.14);
+  --shell-text-primary: rgba(255, 255, 255, 0.92);
+  --shell-text-secondary: rgba(255, 255, 255, 0.60);
+  --shell-text-tertiary: rgba(255, 255, 255, 0.40);
+
+  /* ── Glass ── */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-blur: 16px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  /* ── Typography ── */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* ── Spacing ── */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 20px; --space-6: 24px;
+  --space-8: 32px; --space-10: 40px; --space-12: 48px;
+  --space-16: 64px; --space-20: 80px; --space-24: 96px;
+
+  /* ── Radius ── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 20px rgba(46, 41, 255, 0.15);
+  --shadow-glow-strong: 0 0 40px rgba(46, 41, 255, 0.25);
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--shell-bg);
+  color: var(--shell-text-primary);
+  line-height: 1.5;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(46, 41, 255, 0.3);
+  color: white;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ═══════════════════════════════════════════════
+   NOISE TEXTURE OVERLAY
+   ═══════════════════════════════════════════════ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ═══════════════════════════════════════════════
+   BACKGROUND GRADIENT
+   ═══════════════════════════════════════════════ */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(46, 41, 255, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0, 149, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 70% at 50% 50%, rgba(0, 0, 103, 0.3) 0%, transparent 70%),
+    var(--shell-bg);
+}
+
+/* ═══════════════════════════════════════════════
+   SECTION LAYOUT
+   ═══════════════════════════════════════════════ */
+.prototype-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  background: rgba(0, 0, 50, 0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--shell-border);
+  font-size: 13px;
+}
+.prototype-nav a {
+  color: var(--shell-text-secondary);
+  text-decoration: none;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  transition: all 0.2s;
+}
+.prototype-nav a:hover {
+  color: var(--shell-text-primary);
+  background: var(--shell-surface-hover);
+}
+
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6);
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pfizer-cyan-40);
+  margin-bottom: var(--space-2);
+}
+
+.section-heading {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: var(--space-8);
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--shell-border);
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   1. COLOR PALETTE
+   ═══════════════════════════════════════════════ */
+.palette-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+.palette-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--shell-text-secondary);
+  margin-bottom: var(--space-2);
+}
+.palette-strip {
+  display: flex;
+  gap: 2px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.swatch {
+  flex: 1;
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--space-1);
+  font-size: 9px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  transition: transform 0.2s;
+  cursor: default;
+}
+.swatch:hover {
+  transform: scaleY(1.15);
+  z-index: 1;
+}
+.swatch-name {
+  opacity: 0.7;
+  font-size: 8px;
+  margin-bottom: 2px;
+}
+
+/* ═══════════════════════════════════════════════
+   2. TYPOGRAPHY
+   ═══════════════════════════════════════════════ */
+.type-specimen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.type-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-8);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--shell-border);
+}
+.type-meta {
+  min-width: 140px;
+  font-size: 11px;
+  color: var(--shell-text-tertiary);
+  font-family: var(--font-mono);
+}
+.type-sample {
+  flex: 1;
+}
+
+/* ═══════════════════════════════════════════════
+   3. GLASS COMPONENTS
+   ═══════════════════════════════════════════════ */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  padding: var(--space-6);
+  transition: all 0.3s ease;
+}
+.glass-card:hover {
+  background: var(--shell-surface-hover);
+  border-color: var(--shell-border-strong);
+  box-shadow: var(--shadow-glow);
+}
+.glass-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.glass-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-2);
+}
+.glass-card-desc {
+  font-size: 13px;
+  color: var(--shell-text-secondary);
+  line-height: 1.6;
+}
+.glass-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--pfizer-blue-60), var(--pfizer-blue-70));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-3);
+  box-shadow: var(--shadow-glow);
+}
+.glass-card-icon svg {
+  width: 20px;
+  height: 20px;
+  color: white;
+}
+
+/* ═══════════════════════════════════════════════
+   4. BUTTONS
+   ═══════════════════════════════════════════════ */
+.btn-row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+}
+.btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--shell-bg), 0 0 0 4px var(--pfizer-blue-60);
+}
+.btn-primary {
+  background: var(--pfizer-blue-70);
+  color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 201, 0.3);
+}
+.btn-primary:hover {
+  background: var(--pfizer-blue-60);
+  box-shadow: var(--shadow-glow-strong);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+
+.btn-electric {
+  background: var(--pfizer-blue-60);
+  color: white;
+  box-shadow: var(--shadow-glow);
+}
+.btn-electric:hover {
+  box-shadow: var(--shadow-glow-strong);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--shell-text-primary);
+  border: 1px solid var(--shell-border-strong);
+}
+.btn-ghost:hover {
+  background: var(--shell-surface-hover);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+/* ═══════════════════════════════════════════════
+   5. TWO-LAYER ARCHITECTURE
+   ═══════════════════════════════════════════════ */
+.two-layer-demo {
+  display: grid;
+  grid-template-columns: 280px 1fr 260px;
+  gap: var(--space-3);
+  min-height: 600px;
+}
+
+.panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--shell-border);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.panel-body {
+  padding: var(--space-4);
+}
+
+/* ── Browser Frame (for preview) ── */
+.browser-frame {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--shell-border-strong);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.3),
+    0 20px 60px rgba(0,0,0,0.4),
+    0 0 40px rgba(46, 41, 255, 0.08);
+}
+.browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 10px var(--space-4);
+  background: var(--neutral-90);
+  border-bottom: 1px solid var(--neutral-80);
+}
+.browser-dots {
+  display: flex;
+  gap: 6px;
+}
+.browser-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.browser-dot-red { background: #ff5f57; }
+.browser-dot-yellow { background: #febc2e; }
+.browser-dot-green { background: #28c840; }
+.browser-url {
+  flex: 1;
+  background: var(--neutral-80);
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--neutral-40);
+  font-family: var(--font-mono);
+  margin-left: var(--space-2);
+}
+
+.browser-content {
+  background: white;
+  color: #1a1a2e;
+  padding: var(--space-8);
+  min-height: 480px;
+  font-family: var(--font-sans);
+}
+
+/* ── Pfizer Preview Content (Light/Compliant) ── */
+.preview-hero {
+  background: linear-gradient(135deg, var(--pfizer-blue-10), var(--pfizer-cyan-10));
+  border-radius: var(--radius-md);
+  padding: var(--space-8) var(--space-6);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+.preview-hero h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--pfizer-blue-70);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-2);
+}
+.preview-hero p {
+  font-size: 15px;
+  color: var(--neutral-60);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.preview-btn {
+  display: inline-block;
+  margin-top: var(--space-4);
+  padding: 10px 24px;
+  background: var(--pfizer-blue-70);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.preview-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+.preview-card {
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  background: white;
+}
+.preview-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--pfizer-blue-70);
+  margin-bottom: var(--space-1);
+}
+.preview-card p {
+  font-size: 13px;
+  color: var(--neutral-60);
+  line-height: 1.5;
+}
+.preview-isi {
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  background: #fffbeb;
+  border: 1px solid #fbbf24;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  color: #92400e;
+}
+.preview-isi strong { font-weight: 600; }
+.preview-disclaimer {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: #f8fafc;
+  border-left: 3px solid var(--pfizer-blue-70);
+  font-size: 11px;
+  color: var(--neutral-60);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════
+   6. COMPLIANCE GAUGE
+   ═══════════════════════════════════════════════ */
+.gauge-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+}
+.gauge {
+  width: 160px;
+  height: 160px;
+  position: relative;
+}
+.gauge svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.gauge-bg {
+  fill: none;
+  stroke: var(--shell-surface);
+  stroke-width: 8;
+}
+.gauge-fill {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.gauge-fill-high { stroke: var(--success); filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.4)); }
+.gauge-fill-mid { stroke: var(--warning); filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.4)); }
+.gauge-fill-low { stroke: var(--error); filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.4)); }
+
+.gauge-value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.gauge-number {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.gauge-label {
+  font-size: 11px;
+  color: var(--shell-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.score-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 200px;
+}
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.score-label {
+  font-size: 12px;
+  color: var(--shell-text-secondary);
+  min-width: 80px;
+}
+.score-bar-bg {
+  flex: 1;
+  height: 6px;
+  background: var(--shell-surface);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.score-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 1s ease;
+}
+.score-val {
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* ═══════════════════════════════════════════════
+   7. NAV BAR
+   ═══════════════════════════════════════════════ */
+.app-nav-demo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-5);
+  background: rgba(0, 0, 50, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--shell-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-6);
+}
+.app-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.app-nav-logo .logo-mark {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--pfizer-blue-60), var(--pfizer-blue-70));
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-glow);
+}
+.app-nav-links {
+  display: flex;
+  gap: var(--space-1);
+}
+.app-nav-link {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--shell-text-secondary);
+  text-decoration: none;
+  position: relative;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.app-nav-link:hover {
+  color: var(--shell-text-primary);
+  background: var(--shell-surface-hover);
+}
+.app-nav-link.active {
+  color: white;
+  background: rgba(46, 41, 255, 0.15);
+}
+.app-nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 2px;
+  background: var(--pfizer-blue-60);
+  border-radius: 1px;
+  box-shadow: 0 0 8px var(--pfizer-blue-60);
+}
+
+/* ═══════════════════════════════════════════════
+   8. CHAT PANEL
+   ═══════════════════════════════════════════════ */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  max-height: 300px;
+  overflow-y: auto;
+}
+.chat-msg {
+  display: flex;
+  gap: var(--space-2);
+  max-width: 90%;
+}
+.chat-msg-user { align-self: flex-end; flex-direction: row-reverse; }
+.chat-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+}
+.chat-avatar-ai {
+  background: linear-gradient(135deg, var(--pfizer-blue-60), var(--pfizer-cyan-50));
+}
+.chat-avatar-user {
+  background: var(--neutral-70);
+}
+.chat-bubble {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.chat-bubble-ai {
+  background: var(--shell-surface);
+  border: 1px solid var(--shell-border);
+  color: var(--shell-text-primary);
+}
+.chat-bubble-user {
+  background: var(--pfizer-blue-70);
+  color: white;
+}
+.chat-input-wrapper {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-top: 1px solid var(--shell-border);
+}
+.chat-input {
+  flex: 1;
+  background: var(--shell-surface);
+  border: 1px solid var(--shell-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  color: var(--shell-text-primary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.chat-input:focus {
+  border-color: var(--pfizer-blue-60);
+  box-shadow: 0 0 0 3px rgba(46, 41, 255, 0.1);
+}
+.chat-input::placeholder { color: var(--shell-text-tertiary); }
+.chat-send-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--pfizer-blue-60);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-glow);
+}
+.chat-send-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-glow-strong);
+}
+.chat-send-btn svg { width: 16px; height: 16px; color: white; }
+
+/* ── Typing Indicator ── */
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: var(--space-2) var(--space-3);
+}
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--shell-text-tertiary);
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.16s; }
+.typing-dot:nth-child(3) { animation-delay: 0.32s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════
+   9. LOADING / SKELETON STATES
+   ═══════════════════════════════════════════════ */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-line { height: 12px; margin-bottom: 8px; }
+.skeleton-line:last-child { width: 60%; }
+.skeleton-block { height: 120px; margin-bottom: var(--space-4); }
+.skeleton-circle { width: 48px; height: 48px; border-radius: 50%; }
+
+/* ═══════════════════════════════════════════════
+   10. EMPTY STATE
+   ═══════════════════════════════════════════════ */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+}
+.empty-state-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-xl);
+  background: var(--shell-surface);
+  border: 1px solid var(--shell-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  animation: emptyPulse 3s ease-in-out infinite;
+}
+@keyframes emptyPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(46, 41, 255, 0); }
+  50% { box-shadow: 0 0 0 12px rgba(46, 41, 255, 0.06); }
+}
+.empty-state-icon svg { width: 28px; height: 28px; color: var(--pfizer-blue-40); }
+.empty-state-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+.empty-state-desc {
+  font-size: 13px;
+  color: var(--shell-text-tertiary);
+  max-width: 300px;
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+
+/* ═══════════════════════════════════════════════
+   11. HERO SECTION (LANDING)
+   ═══════════════════════════════════════════════ */
+.hero {
+  text-align: center;
+  padding: var(--space-24) var(--space-6) var(--space-16);
+  position: relative;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(46, 41, 255, 0.2) 0%, transparent 70%);
+  z-index: -1;
+  filter: blur(60px);
+}
+.hero-overline {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pfizer-cyan-40);
+  margin-bottom: var(--space-4);
+}
+.hero-title {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: var(--space-4);
+  background: linear-gradient(180deg, var(--neutral-white) 30%, var(--neutral-40) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-subtitle {
+  font-size: 18px;
+  color: var(--shell-text-secondary);
+  max-width: 580px;
+  margin: 0 auto var(--space-8);
+  line-height: 1.6;
+}
+.hero-ctas {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px 12px 4px 4px;
+  background: var(--shell-surface);
+  border: 1px solid var(--shell-border);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  color: var(--shell-text-secondary);
+  margin-bottom: var(--space-6);
+}
+.hero-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+  animation: badgePulse 2s infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ═══════════════════════════════════════════════
+   12. ROLE TOGGLE
+   ═══════════════════════════════════════════════ */
+.role-toggle {
+  display: inline-flex;
+  gap: 2px;
+  background: var(--shell-surface);
+  border: 1px solid var(--shell-border);
+  border-radius: var(--radius-full);
+  padding: 3px;
+}
+.role-toggle-btn {
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--shell-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+}
+.role-toggle-btn:hover {
+  color: var(--shell-text-primary);
+}
+.role-toggle-btn.active {
+  background: var(--pfizer-blue-60);
+  color: white;
+  box-shadow: var(--shadow-glow);
+}
+
+/* ═══════════════════════════════════════════════
+   13. PIPELINE STEPS
+   ═══════════════════════════════════════════════ */
+.pipeline-steps {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+}
+.pipeline-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 12px;
+  color: var(--shell-text-tertiary);
+}
+.pipeline-step.active { color: var(--pfizer-blue-40); }
+.pipeline-step.done { color: var(--success); }
+.pipeline-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--shell-surface);
+  border: 1px solid var(--shell-border);
+}
+.pipeline-step.active .pipeline-dot {
+  background: var(--pfizer-blue-60);
+  border-color: var(--pfizer-blue-60);
+  box-shadow: 0 0 8px var(--pfizer-blue-60);
+  animation: pipelinePulse 1.5s ease-in-out infinite;
+}
+.pipeline-step.done .pipeline-dot {
+  background: var(--success);
+  border-color: var(--success);
+}
+@keyframes pipelinePulse {
+  0%, 100% { box-shadow: 0 0 4px var(--pfizer-blue-60); }
+  50% { box-shadow: 0 0 12px var(--pfizer-blue-60); }
+}
+.pipeline-connector {
+  width: 24px;
+  height: 1px;
+  background: var(--shell-border);
+}
+.pipeline-connector.done { background: var(--success); }
+
+/* ═══════════════════════════════════════════════
+   COMPARE: BEFORE / AFTER
+   ═══════════════════════════════════════════════ */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+.compare-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.compare-label {
+  padding: var(--space-2) var(--space-4);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.compare-before .compare-label {
+  background: var(--neutral-80);
+  color: var(--neutral-40);
+}
+.compare-after .compare-label {
+  background: linear-gradient(90deg, var(--pfizer-blue-70), var(--pfizer-blue-60));
+  color: white;
+}
+.compare-before .compare-body {
+  background: white;
+  color: #333;
+  padding: var(--space-4);
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #e5e7eb;
+}
+.compare-after .compare-body {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  padding: var(--space-4);
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .two-layer-demo { grid-template-columns: 1fr; }
+  .glass-card-grid { grid-template-columns: 1fr; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 36px; }
+}
+
+/* ═══════════════════════════════════════════════
+   ANIMATION: REDUCED MOTION
+   ═══════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ PROTOTYPE NAV ═══ -->
+<nav class="prototype-nav">
+  <a href="#hero">Hero</a>
+  <a href="#palette">Colors</a>
+  <a href="#typography">Type</a>
+  <a href="#glass">Glass</a>
+  <a href="#buttons">Buttons</a>
+  <a href="#workspace">Workspace</a>
+  <a href="#gauge">Gauge</a>
+  <a href="#states">States</a>
+  <a href="#compare">Compare</a>
+</nav>
+
+<!-- ═══ 1. HERO SECTION ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    CXI + AI Challenge Entry
+  </div>
+  <h1 class="hero-title">Design Delivery<br>Accelerator</h1>
+  <p class="hero-subtitle">
+    AI-powered pharma content generation with compliance built in.
+    From brief to deployed page in minutes, not months.
+  </p>
+  <div class="hero-ctas">
+    <button class="btn btn-electric" onclick="document.getElementById('workspace').scrollIntoView({behavior:'smooth'})">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Start Building
+    </button>
+    <button class="btn btn-ghost">Watch Demo</button>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══ 2. COLOR PALETTE ═══ -->
+<section class="section" id="palette">
+  <div class="section-title">Design Tokens</div>
+  <h2 class="section-heading">Pfizer Color System</h2>
+  <p style="color: var(--shell-text-secondary); margin-bottom: var(--space-8); font-size: 14px;">
+    Extracted from pfizer.com CSS. 10-step scales for blue, cyan, and neutrals.
+  </p>
+
+  <div class="palette-row">
+    <div>
+      <div class="palette-label">Pfizer Blue (Primary)</div>
+      <div class="palette-strip">
+        <div class="swatch" style="background:var(--pfizer-blue-10);color:#000"><span class="swatch-name">10</span>#e8f2ff</div>
+        <div class="swatch" style="background:var(--pfizer-blue-20);color:#000"><span class="swatch-name">20</span>#cfdfff</div>
+        <div class="swatch" style="background:var(--pfizer-blue-30);color:#000"><span class="swatch-name">30</span>#9cc0ff</div>
+        <div class="swatch" style="background:var(--pfizer-blue-40);color:#fff"><span class="swatch-name">40</span>#6397ff</div>
+        <div class="swatch" style="background:var(--pfizer-blue-50);color:#fff"><span class="swatch-name">50</span>#3578ff</div>
+        <div class="swatch" style="background:var(--pfizer-blue-60);color:#fff"><span class="swatch-name">60</span>#2e29ff</div>
+        <div class="swatch" style="background:var(--pfizer-blue-70);color:#fff"><span class="swatch-name">70</span>#0000c9</div>
+        <div class="swatch" style="background:var(--pfizer-blue-80);color:#fff"><span class="swatch-name">80</span>#00009d</div>
+        <div class="swatch" style="background:var(--pfizer-blue-90);color:#fff"><span class="swatch-name">90</span>#000067</div>
+        <div class="swatch" style="background:var(--pfizer-blue-100);color:#fff"><span class="swatch-name">100</span>#00003a</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="palette-label">Pfizer Cyan (Secondary)</div>
+      <div class="palette-strip">
+        <div class="swatch" style="background:var(--pfizer-cyan-10);color:#000"><span class="swatch-name">10</span>#e0f5ff</div>
+        <div class="swatch" style="background:#aee4ff;color:#000"><span class="swatch-name">20</span>#aee4ff</div>
+        <div class="swatch" style="background:#68d1ff;color:#000"><span class="swatch-name">30</span>#68d1ff</div>
+        <div class="swatch" style="background:var(--pfizer-cyan-40);color:#fff"><span class="swatch-name">40</span>#35b6ff</div>
+        <div class="swatch" style="background:var(--pfizer-cyan-50);color:#fff"><span class="swatch-name">50</span>#0095ff</div>
+        <div class="swatch" style="background:#006eb2;color:#fff"><span class="swatch-name">60</span>#006eb2</div>
+        <div class="swatch" style="background:#005589;color:#fff"><span class="swatch-name">70</span>#005589</div>
+        <div class="swatch" style="background:#003e65;color:#fff"><span class="swatch-name">80</span>#003e65</div>
+        <div class="swatch" style="background:#002942;color:#fff"><span class="swatch-name">90</span>#002942</div>
+        <div class="swatch" style="background:#001928;color:#fff"><span class="swatch-name">100</span>#001928</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="palette-label">Neutrals</div>
+      <div class="palette-strip">
+        <div class="swatch" style="background:var(--neutral-white);color:#000"><span class="swatch-name">white</span>#fff</div>
+        <div class="swatch" style="background:var(--neutral-10);color:#000"><span class="swatch-name">10</span>#f0f0f0</div>
+        <div class="swatch" style="background:var(--neutral-20);color:#000"><span class="swatch-name">20</span>#e0e0e0</div>
+        <div class="swatch" style="background:var(--neutral-30);color:#000"><span class="swatch-name">30</span>#c9c9c9</div>
+        <div class="swatch" style="background:var(--neutral-50);color:#fff"><span class="swatch-name">50</span>#999</div>
+        <div class="swatch" style="background:var(--neutral-60);color:#fff"><span class="swatch-name">60</span>#666</div>
+        <div class="swatch" style="background:var(--neutral-70);color:#fff"><span class="swatch-name">70</span>#525252</div>
+        <div class="swatch" style="background:var(--neutral-80);color:#fff"><span class="swatch-name">80</span>#3d3d3d</div>
+        <div class="swatch" style="background:var(--neutral-90);color:#fff"><span class="swatch-name">90</span>#292929</div>
+        <div class="swatch" style="background:var(--neutral-black);color:#fff"><span class="swatch-name">black</span>#0a0a0a</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="palette-label">Semantic</div>
+      <div class="palette-strip" style="max-width: 300px;">
+        <div class="swatch" style="background:var(--success);color:#fff">Success</div>
+        <div class="swatch" style="background:var(--warning);color:#000">Warning</div>
+        <div class="swatch" style="background:var(--error);color:#fff">Error</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══ 3. TYPOGRAPHY ═══ -->
+<section class="section" id="typography">
+  <div class="section-title">Typography</div>
+  <h2 class="section-heading">Inter Type Scale</h2>
+
+  <div class="type-specimen">
+    <div class="type-row">
+      <div class="type-meta">56px / 800<br>-0.03em</div>
+      <div class="type-sample" style="font-size:56px;font-weight:800;letter-spacing:-0.03em;line-height:1.05">Design Delivery</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">36px / 700<br>-0.02em</div>
+      <div class="type-sample" style="font-size:36px;font-weight:700;letter-spacing:-0.02em;line-height:1.15">Compliance Score</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">24px / 600<br>-0.015em</div>
+      <div class="type-sample" style="font-size:24px;font-weight:600;letter-spacing:-0.015em;line-height:1.2">Brief Interpretation</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">18px / 500<br>-0.01em</div>
+      <div class="type-sample" style="font-size:18px;font-weight:500;letter-spacing:-0.01em">AI-powered pharma content generation</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">14px / 400<br>Body text</div>
+      <div class="type-sample" style="font-size:14px;font-weight:400;color:var(--shell-text-secondary)">Generate compliant pharmaceutical web pages from natural language briefs. Every component is pre-approved, every claim is referenced, every page meets WCAG AA standards.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">13px / 500<br>UI Label</div>
+      <div class="type-sample" style="font-size:13px;font-weight:500;color:var(--shell-text-secondary)">Compliance Gate &middot; Brand Score &middot; Pharma Score &middot; Accessibility</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">11px / 600<br>Overline</div>
+      <div class="type-sample" style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--pfizer-cyan-40)">Important Safety Information</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══ 4. GLASS CARDS ═══ -->
+<section class="section" id="glass">
+  <div class="section-title">Components</div>
+  <h2 class="section-heading">Glass Cards</h2>
+
+  <div class="glass-card-grid">
+    <div class="glass-card">
+      <div class="glass-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <div class="glass-card-title">Brief to Page</div>
+      <div class="glass-card-desc">Describe what you need in plain English. AI generates two compliant variants in seconds.</div>
+    </div>
+    <div class="glass-card">
+      <div class="glass-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      </div>
+      <div class="glass-card-title">Compliance Gate</div>
+      <div class="glass-card-desc">Every page passes brand, pharma, and accessibility checks before it renders. Non-compliant specs are blocked.</div>
+    </div>
+    <div class="glass-card">
+      <div class="glass-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      </div>
+      <div class="glass-card-title">Chat to Edit</div>
+      <div class="glass-card-desc">Refine generated pages through conversation. Compliance is re-checked after every edit.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══ 5. BUTTONS ═══ -->
+<section class="section" id="buttons">
+  <div class="section-title">Interactive</div>
+  <h2 class="section-heading">Buttons & Controls</h2>
+
+  <div class="palette-label">Primary Actions</div>
+  <div class="btn-row">
+    <button class="btn btn-primary">Generate Page</button>
+    <button class="btn btn-electric">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Deploy to Vercel
+    </button>
+    <button class="btn btn-ghost">View Source</button>
+  </div>
+
+  <div class="palette-label">Small / Nav Actions</div>
+  <div class="btn-row">
+    <button class="btn btn-primary btn-sm">Auto-Fix</button>
+    <button class="btn btn-ghost btn-sm">Export HTML</button>
+    <button class="btn btn-ghost btn-sm">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      Download
+    </button>
+  </div>
+
+  <div class="palette-label">Role Toggle</div>
+  <div class="btn-row">
+    <div class="role-toggle">
+      <button class="role-toggle-btn active">Marketer</button>
+      <button class="role-toggle-btn">QA</button>
+      <button class="role-toggle-btn">Developer</button>
+    </div>
+  </div>
+
+  <div class="palette-label">Pipeline Steps</div>
+  <div class="pipeline-steps" style="background:var(--shell-surface);border-radius:var(--radius-lg);display:inline-flex">
+    <div class="pipeline-step done">
+      <div class="pipeline-dot"></div>
+      Brief
+    </div>
+    <div class="pipeline-connector done"></div>
+    <div class="pipeline-step done">
+      <div class="pipeline-dot"></div>
+      Interpret
+    </div>
+    <div class="pipeline-connector done"></div>
+    <div class="pipeline-step active">
+      <div class="pipeline-dot"></div>
+      Generate
+    </div>
+    <div class="pipeline-connector"></div>
+    <div class="pipeline-step">
+      <div class="pipeline-dot"></div>
+      Compliance
+    </div>
+    <div class="pipeline-connector"></div>
+    <div class="pipeline-step">
+      <div class="pipeline-dot"></div>
+      Preview
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══ 6. COMPLIANCE GAUGE ═══ -->
+<section class="section" id="gauge">
+  <div class="section-title">Compliance</div>
+  <h2 class="section-heading">Trust Score Gauge</h2>
+
+  <div style="display:flex;gap:var(--space-8);flex-wrap:wrap;">
+    <!-- High Score -->
+    <div class="glass-card" style="flex:1;min-width:300px;">
+      <div class="gauge-container">
+        <div class="gauge">
+          <svg viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="42"/>
+            <circle class="gauge-fill gauge-fill-high" cx="50" cy="50" r="42"
+              stroke-dasharray="264" stroke-dashoffset="26"/>
+          </svg>
+          <div class="gauge-value">
+            <div class="gauge-number" style="color:var(--success)">93</div>
+            <div class="gauge-label">Trust Score</div>
+          </div>
+        </div>
+        <div class="score-breakdown">
+          <div class="score-row">
+            <span class="score-label">Brand</span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:100%;background:var(--success)"></div></div>
+            <span class="score-val" style="color:var(--success)">100</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">Pharma</span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;background:var(--success)"></div></div>
+            <span class="score-val" style="color:var(--success)">90</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">A11y</span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;background:var(--success)"></div></div>
+            <span class="score-val" style="color:var(--success)">90</span>
+          </div>
+          <div style="margin-top:var(--space-2);display:flex;align-items:center;gap:var(--space-2);">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--success);display:inline-block"></span>
+            <span style="font-size:12px;color:var(--success);font-weight:500">Gate: PASSED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medium Score -->
+    <div class="glass-card" style="flex:1;min-width:300px;">
+      <div class="gauge-container">
+        <div class="gauge">
+          <svg viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="42"/>
+            <circle class="gauge-fill gauge-fill-mid" cx="50" cy="50" r="42"
+              stroke-dasharray="264" stroke-dashoffset="92"/>
+          </svg>
+          <div class="gauge-value">
+            <div class="gauge-number" style="color:var(--warning)">65</div>
+            <div class="gauge-label">Trust Score</div>
+          </div>
+        </div>
+        <div class="score-breakdown">
+          <div class="score-row">
+            <span class="score-label">Brand</span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:75%;background:var(--warning)"></div></div>
+            <span class="score-val" style="color:var(--warning)">75</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">Pharma</span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:60%;background:var(--error)"></div></div>
+            <span class="score-val" style="color:var(--error)">60</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">A11y</span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:60%;background:var(--error)"></div></div>
+            <span class="score-val" style="color:var(--error)">60</span>
+          </div>
+          <div style="margin-top:var(--space-2);display:flex;align-items:center;gap:var(--space-2);">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--error);display:inline-block"></span>
+            <span style="font-size:12px;color:var(--error);font-weight:500">Gate: BLOCKED (2 errors)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══ 7. LOADING & EMPTY STATES ═══ -->
+<section class="section" id="states">
+  <div class="section-title">States</div>
+  <h2 class="section-heading">Loading & Empty States</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+    <!-- Skeleton Loading -->
+    <div class="glass-card">
+      <div class="palette-label" style="margin-bottom:var(--space-4)">Skeleton Loading</div>
+      <div class="skeleton skeleton-block"></div>
+      <div class="skeleton skeleton-line" style="width:80%"></div>
+      <div class="skeleton skeleton-line" style="width:100%"></div>
+      <div class="skeleton skeleton-line" style="width:60%"></div>
+      <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4)">
+        <div class="skeleton skeleton-circle"></div>
+        <div style="flex:1">
+          <div class="skeleton skeleton-line" style="width:40%"></div>
+          <div class="skeleton skeleton-line" style="width:70%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="glass-card">
+      <div class="empty-state">
+        <div class="empty-state-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+          </svg>
+        </div>
+        <div class="empty-state-title">Start with a brief</div>
+        <div class="empty-state-desc">Describe the pharma page you need. We'll interpret your brief, generate compliant variants, and let you refine through chat.</div>
+        <button class="btn btn-primary btn-sm">Enter a Brief</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat + Typing -->
+  <div style="margin-top:var(--space-4)">
+    <div class="palette-label" style="margin-bottom:var(--space-3)">Chat Panel with Typing Indicator</div>
+    <div class="glass-card" style="padding:0;max-width:360px;">
+      <div class="panel-header">
+        <span>Chat to Edit</span>
+        <span style="font-size:11px;color:var(--shell-text-tertiary)">3 messages</span>
+      </div>
+      <div class="chat-messages">
+        <div class="chat-msg chat-msg-user">
+          <div class="chat-avatar chat-avatar-user">V</div>
+          <div class="chat-bubble chat-bubble-user">Move the ISI block above the footer</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-avatar chat-avatar-ai">AI</div>
+          <div class="chat-bubble chat-bubble-ai">I've moved the ISI block above the footer. Compliance re-checked: all rules pass. Trust score remains at 93.</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-avatar chat-avatar-ai">AI</div>
+          <div class="chat-bubble chat-bubble-ai">
+            <div class="typing-indicator">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-wrapper">
+        <input class="chat-input" placeholder="Describe an edit..." />
+        <button class="chat-send-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══ 8. FULL WORKSPACE MOCK ═══ -->
+<section class="section" id="workspace">
+  <div class="section-title">Full Layout</div>
+  <h2 class="section-heading">Build Workspace</h2>
+
+  <!-- App Nav -->
+  <div class="app-nav-demo">
+    <div class="app-nav-logo">
+      <div class="logo-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <span>Pfizer DDA</span>
+    </div>
+    <div class="app-nav-links">
+      <a class="app-nav-link" href="#">Home</a>
+      <a class="app-nav-link active" href="#">Build</a>
+      <a class="app-nav-link" href="#">Scan</a>
+    </div>
+    <div style="flex:1"></div>
+    <div class="role-toggle">
+      <button class="role-toggle-btn active">Marketer</button>
+      <button class="role-toggle-btn">QA</button>
+      <button class="role-toggle-btn">Developer</button>
+    </div>
+  </div>
+
+  <!-- Pipeline -->
+  <div class="pipeline-steps" style="background:var(--shell-surface);border-radius:var(--radius-lg);margin-bottom:var(--space-3);display:inline-flex">
+    <div class="pipeline-step done"><div class="pipeline-dot"></div>Brief</div>
+    <div class="pipeline-connector done"></div>
+    <div class="pipeline-step done"><div class="pipeline-dot"></div>Interpret</div>
+    <div class="pipeline-connector done"></div>
+    <div class="pipeline-step done"><div class="pipeline-dot"></div>Generate</div>
+    <div class="pipeline-connector done"></div>
+    <div class="pipeline-step done"><div class="pipeline-dot"></div>Compliance</div>
+    <div class="pipeline-connector done"></div>
+    <div class="pipeline-step active"><div class="pipeline-dot"></div>Preview</div>
+  </div>
+
+  <!-- 3-Column Layout -->
+  <div class="two-layer-demo">
+    <!-- LEFT: Brief + Interpretation -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Brief</span>
+        <span style="font-size:11px;color:var(--success)">Interpreted</span>
+      </div>
+      <div class="panel-body">
+        <div style="background:var(--shell-surface);border:1px solid var(--shell-border);border-radius:var(--radius-md);padding:var(--space-3);font-size:13px;color:var(--shell-text-secondary);margin-bottom:var(--space-4);line-height:1.6;">
+          Create an HCP awareness page for Paxlovid, targeting US pulmonologists. Include efficacy data table and patient eligibility criteria.
+        </div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--pfizer-cyan-40);font-weight:600;margin-bottom:var(--space-2);">Interpretation</div>
+        <div style="font-size:12px;color:var(--shell-text-secondary);line-height:1.6;">
+          <div style="margin-bottom:var(--space-2)"><span style="color:var(--shell-text-tertiary)">Market:</span> US (FDA)</div>
+          <div style="margin-bottom:var(--space-2)"><span style="color:var(--shell-text-tertiary)">Audience:</span> HCP</div>
+          <div style="margin-bottom:var(--space-2)"><span style="color:var(--shell-text-tertiary)">Product:</span> Paxlovid</div>
+          <div style="margin-bottom:var(--space-2)"><span style="color:var(--shell-text-tertiary)">Components:</span> Hero, DataTable, ISIBlock, Disclaimer, Footer</div>
+          <div style="display:flex;gap:var(--space-1);flex-wrap:wrap;margin-top:var(--space-2)">
+            <span style="font-size:11px;padding:2px 8px;background:rgba(245,158,11,0.15);color:#f59e0b;border-radius:var(--radius-full);">HCP: ISI Required</span>
+            <span style="font-size:11px;padding:2px 8px;background:rgba(245,158,11,0.15);color:#f59e0b;border-radius:var(--radius-full);">FDA Disclosure</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER: Preview in Browser Frame -->
+    <div class="browser-frame">
+      <div class="browser-chrome">
+        <div class="browser-dots">
+          <div class="browser-dot browser-dot-red"></div>
+          <div class="browser-dot browser-dot-yellow"></div>
+          <div class="browser-dot browser-dot-green"></div>
+        </div>
+        <div class="browser-url">preview.pfizer-dda.vercel.app/paxlovid-hcp</div>
+      </div>
+      <div class="browser-content">
+        <div class="preview-hero">
+          <h2>Paxlovid for COVID-19</h2>
+          <p>Treatment information for healthcare professionals. Review efficacy data and patient eligibility criteria.</p>
+          <a href="#" class="preview-btn">View Prescribing Information</a>
+        </div>
+        <div class="preview-card-grid">
+          <div class="preview-card">
+            <h3>Efficacy Data</h3>
+            <p>89% reduction in risk of hospitalization or death in high-risk adults. Results from EPIC-HR trial.</p>
+          </div>
+          <div class="preview-card">
+            <h3>Patient Eligibility</h3>
+            <p>Adults with mild-to-moderate COVID-19 at high risk for progression. Must be within 5 days of symptom onset.</p>
+          </div>
+        </div>
+        <div class="preview-isi">
+          <strong>IMPORTANT SAFETY INFORMATION</strong><br>
+          Paxlovid is contraindicated in patients with clinically significant hypersensitivity reactions. Drug interactions may lead to potentially significant drug interactions...
+        </div>
+        <div class="preview-disclaimer">
+          This information is intended for US healthcare professionals only. For full prescribing information, visit pfizer.com/paxlovid-pi. Report adverse events to FDA MedWatch at 1-800-FDA-1088 or fda.gov/medwatch.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Compliance -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Compliance</span>
+        <button class="btn btn-primary btn-sm" style="padding:4px 10px;font-size:11px">Auto-Fix</button>
+      </div>
+      <div class="panel-body">
+        <div style="display:flex;justify-content:center;margin-bottom:var(--space-4)">
+          <div class="gauge" style="width:100px;height:100px;">
+            <svg viewBox="0 0 100 100">
+              <circle class="gauge-bg" cx="50" cy="50" r="42"/>
+              <circle class="gauge-fill gauge-fill-high" cx="50" cy="50" r="42"
+                stroke-dasharray="264" stroke-dashoffset="18"/>
+            </svg>
+            <div class="gauge-value">
+              <div class="gauge-number" style="font-size:24px;color:var(--success)">93</div>
+              <div class="gauge-label" style="font-size:9px">Score</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="score-breakdown" style="margin-bottom:var(--space-4)">
+          <div class="score-row">
+            <span class="score-label">Brand</span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:100%;background:var(--success)"></div></div>
+            <span class="score-val" style="color:var(--success);font-size:11px">100</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">Pharma</span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;background:var(--success)"></div></div>
+            <span class="score-val" style="color:var(--success);font-size:11px">90</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">A11y</span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;background:var(--success)"></div></div>
+            <span class="score-val" style="color:var(--success);font-size:11px">90</span>
+          </div>
+        </div>
+
+        <div style="font-size:11px;color:var(--shell-text-tertiary);margin-bottom:var(--space-2)">CHECKS PASSED</div>
+        <div style="font-size:12px;color:var(--shell-text-secondary);line-height:2">
+          <div style="display:flex;align-items:center;gap:var(--space-2)"><span style="color:var(--success)">&#10003;</span> Brand components only</div>
+          <div style="display:flex;align-items:center;gap:var(--space-2)"><span style="color:var(--success)">&#10003;</span> Approved color tokens</div>
+          <div style="display:flex;align-items:center;gap:var(--space-2)"><span style="color:var(--success)">&#10003;</span> ISI block present</div>
+          <div style="display:flex;align-items:center;gap:var(--space-2)"><span style="color:var(--success)">&#10003;</span> Adverse event URL</div>
+          <div style="display:flex;align-items:center;gap:var(--space-2)"><span style="color:var(--success)">&#10003;</span> Disclaimer present</div>
+          <div style="display:flex;align-items:center;gap:var(--space-2)"><span style="color:var(--warning)">!</span> <span style="color:var(--warning)">Fair balance (advisory)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══ 9. BEFORE / AFTER ═══ -->
+<section class="section" id="compare">
+  <div class="section-title">Transformation</div>
+  <h2 class="section-heading">Before vs. After</h2>
+
+  <div class="compare-grid">
+    <div class="compare-card compare-before">
+      <div class="compare-label">Current (Arial, White, Flat)</div>
+      <div class="compare-body">
+        <div style="font-size:20px;font-weight:bold;margin-bottom:8px;color:#1a1a2e">Compliance Score</div>
+        <div style="font-size:48px;font-weight:bold;color:#16a34a;margin-bottom:12px">93</div>
+        <div style="font-size:12px;color:#6b7280;margin-bottom:4px">Brand: 100</div>
+        <div style="font-size:12px;color:#6b7280;margin-bottom:4px">Pharma: 90</div>
+        <div style="font-size:12px;color:#6b7280">Accessibility: 90</div>
+        <button style="margin-top:16px;padding:6px 16px;background:#0093D0;color:white;border:none;border-radius:6px;font-family:Arial;font-size:13px;cursor:pointer">Auto-Fix</button>
+      </div>
+    </div>
+
+    <div class="compare-card compare-after">
+      <div class="compare-label">Future Pfizer</div>
+      <div class="compare-body">
+        <div style="display:flex;justify-content:center;margin-bottom:var(--space-3)">
+          <div class="gauge" style="width:80px;height:80px;">
+            <svg viewBox="0 0 100 100">
+              <circle class="gauge-bg" cx="50" cy="50" r="42"/>
+              <circle class="gauge-fill gauge-fill-high" cx="50" cy="50" r="42"
+                stroke-dasharray="264" stroke-dashoffset="18"/>
+            </svg>
+            <div class="gauge-value">
+              <div class="gauge-number" style="font-size:20px;color:var(--success)">93</div>
+              <div class="gauge-label" style="font-size:8px">Score</div>
+            </div>
+          </div>
+        </div>
+        <div class="score-breakdown">
+          <div class="score-row"><span class="score-label" style="font-size:11px">Brand</span><div class="score-bar-bg"><div class="score-bar-fill" style="width:100%;background:var(--success)"></div></div><span class="score-val" style="font-size:11px;color:var(--success)">100</span></div>
+          <div class="score-row"><span class="score-label" style="font-size:11px">Pharma</span><div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;background:var(--success)"></div></div><span class="score-val" style="font-size:11px;color:var(--success)">90</span></div>
+          <div class="score-row"><span class="score-label" style="font-size:11px">A11y</span><div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;background:var(--success)"></div></div><span class="score-val" style="font-size:11px;color:var(--success)">90</span></div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:var(--space-3);width:100%">Auto-Fix</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="padding:var(--space-16) var(--space-6);text-align:center;">
+  <p style="font-size:12px;color:var(--shell-text-tertiary)">Future Pfizer Design Prototype &middot; Design Delivery Accelerator &middot; CXI+AI Challenge 2026</p>
+</div>
+
+</body>
+</html>

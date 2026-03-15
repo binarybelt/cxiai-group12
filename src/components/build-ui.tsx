@@ -10,6 +10,8 @@ import { ExplainabilityPanel } from "@/components/explainability-panel";
 import { AuditTrail } from "@/components/audit-trail";
 import { computeScore, runBrandChecks, runPharmaChecks } from "@/lib/compliance";
 import { generateComplianceReport } from "@/lib/compliance-report";
+import { createAuditEntry } from "@/lib/audit-chain";
+import { addAuditEntry, clearAuditEntries } from "@/lib/audit-chain-store";
 import type { BriefInterpretation } from "@/agents/brief-interpreter/schema";
 import type { PageSpec } from "@/types/page-spec";
 import type { ComplianceViolation } from "@/types/compliance";
@@ -145,6 +147,9 @@ export function BuildUI() {
     setGenerationStartTime(Date.now());
     setGenerationDuration(null);
 
+    clearAuditEntries();
+    let previousHash = "0000000000000000000000000000000000000000000000000000000000000000"; // genesis
+
     try {
       // Phase 1: interpret brief
       const interpretRes = await fetch("/api/interpret-brief", {
@@ -164,6 +169,14 @@ export function BuildUI() {
 
       const interp = (await interpretRes.json()) as BriefInterpretation;
       setInterpretation(interp);
+
+      const interpretEntry = await createAuditEntry(
+        1, "interpret-brief", "brief-interpreter-agent",
+        trimmedBrief, JSON.stringify(interp).slice(0, 500), previousHash,
+      );
+      addAuditEntry(interpretEntry);
+      previousHash = interpretEntry.entryHash;
+
       setPhase("generating");
       setIsGenerating(true);
 
@@ -186,6 +199,24 @@ export function BuildUI() {
           setVariants(body.spec.variants);
           setRawSpec(body.spec as unknown as Record<string, unknown>);
         }
+
+        const failGenEntry = await createAuditEntry(
+          2, "generate-page", "component-selector-agent",
+          JSON.stringify(interp).slice(0, 500),
+          JSON.stringify(body.spec ?? {}).slice(0, 500),
+          previousHash,
+        );
+        addAuditEntry(failGenEntry);
+        previousHash = failGenEntry.entryHash;
+
+        const failGateEntry = await createAuditEntry(
+          3, "compliance-gate", "deterministic-engine",
+          JSON.stringify(body.spec ?? {}).slice(0, 500),
+          `FAILED -- ${body.violations.length} violation(s): ${body.violations.map((v) => v.message).join("; ").slice(0, 400)}`,
+          previousHash,
+        );
+        addAuditEntry(failGateEntry);
+
         setPhase("error");
         setErrorMsg(
           "Compliance gate blocked rendering. See violations in the sidebar.",
@@ -201,6 +232,24 @@ export function BuildUI() {
       const specResult = (await genRes.json()) as { variants: PageSpec[] };
       setVariants(specResult.variants);
       setRawSpec(specResult as unknown as Record<string, unknown>);
+
+      const generateEntry = await createAuditEntry(
+        2, "generate-page", "component-selector-agent",
+        JSON.stringify(interp).slice(0, 500),
+        JSON.stringify(specResult).slice(0, 500),
+        previousHash,
+      );
+      addAuditEntry(generateEntry);
+      previousHash = generateEntry.entryHash;
+
+      const gateEntry = await createAuditEntry(
+        3, "compliance-gate", "deterministic-engine",
+        JSON.stringify(specResult).slice(0, 500),
+        "PASSED -- all variants compliant",
+        previousHash,
+      );
+      addAuditEntry(gateEntry);
+
       setIsGenerating(false);
       setPhase("done");
     } catch (err) {
@@ -530,9 +579,24 @@ export function BuildUI() {
             </div>
           ) : null}
 
-          {/* Loading indicator for generating phase */}
+          {/* Loading skeleton for generating phase */}
           {isGenerating && (
-            <p className="text-sm text-gray-500">Generating page...</p>
+            <div className="flex flex-col gap-4">
+              <div className="h-48 animate-pulse rounded-2xl bg-gray-200" />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="h-24 animate-pulse rounded-xl bg-gray-200" />
+                <div className="h-24 animate-pulse rounded-xl bg-gray-200" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="h-4 w-3/4 animate-pulse rounded bg-gray-200" />
+                <div className="h-4 w-1/2 animate-pulse rounded bg-gray-200" />
+                <div className="h-4 w-2/3 animate-pulse rounded bg-gray-200" />
+              </div>
+              <div className="h-16 animate-pulse rounded-xl bg-gray-200" />
+              <p className="text-center text-sm text-gray-500">
+                {phase === "interpreting" ? "Interpreting brief..." : "Generating compliant page..."}
+              </p>
+            </div>
           )}
 
           {/* Diff summary banner */}
@@ -585,17 +649,77 @@ export function BuildUI() {
         {/* Right column — content changes by role                              */}
         {/* ------------------------------------------------------------------ */}
 
-        {/* Marketer right: simplified score badge */}
+        {/* Marketer right: score badge + breakdown + top issues */}
         {activeRole === "marketer" && (
           <aside className="flex flex-col gap-4 overflow-y-auto border-l border-gray-200 bg-gray-50 p-4">
             <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
               <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                 Compliance Score
               </p>
-              <p data-testid="score-badge" className={`mt-2 text-6xl font-bold tabular-nums ${scoreBadgeColor}`}>
+              <p data-testid="score-badge" className={`mt-2 text-5xl font-bold tabular-nums ${scoreBadgeColor}`}>
                 {overallScore}
               </p>
             </div>
+            {currentSpec && (() => {
+              const brandV = runBrandChecks(currentSpec);
+              const pharmaV = runPharmaChecks(currentSpec);
+              const brandScore = computeScore(brandV, [], []).brand;
+              const pharmaScore = computeScore([], pharmaV, []).pharma;
+              const allViolations = [...brandV, ...pharmaV];
+              const errors = allViolations.filter(v => v.severity === "error");
+              return (
+                <>
+                  <div className="rounded-2xl border border-gray-200 bg-white p-4">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500">Breakdown</p>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-600">Brand</span>
+                        <span className={`font-semibold ${brandScore === 100 ? "text-green-600" : "text-amber-600"}`}>{brandScore}</span>
+                      </div>
+                      <div className="h-1.5 rounded-full bg-gray-100">
+                        <div className="h-1.5 rounded-full bg-green-500" style={{ width: `${brandScore}%` }} />
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-600">Pharma</span>
+                        <span className={`font-semibold ${pharmaScore === 100 ? "text-green-600" : "text-amber-600"}`}>{pharmaScore}</span>
+                      </div>
+                      <div className="h-1.5 rounded-full bg-gray-100">
+                        <div className="h-1.5 rounded-full bg-green-500" style={{ width: `${pharmaScore}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                  {errors.length > 0 && (
+                    <div className="rounded-2xl border border-red-200 bg-red-50 p-4">
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-red-600">
+                        Top Issues ({errors.length})
+                      </p>
+                      <ul className="flex flex-col gap-1">
+                        {errors.slice(0, 3).map((v, i) => (
+                          <li key={i} className="text-xs text-red-700">• {v.message}</li>
+                        ))}
+                      </ul>
+                      <button
+                        type="button"
+                        onClick={() => setActiveRole("qa")}
+                        className="mt-2 text-xs font-semibold text-red-600 hover:text-red-800"
+                      >
+                        Switch to QA view →
+                      </button>
+                    </div>
+                  )}
+                  {errors.length === 0 && allViolations.length === 0 && (
+                    <div className="rounded-2xl border border-green-200 bg-green-50 p-4 text-center">
+                      <p className="text-sm font-semibold text-green-700">All checks passed</p>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
+            {!currentSpec && (
+              <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4">
+                <p className="text-sm text-gray-400 text-center">Generate a page to see compliance details</p>
+              </div>
+            )}
           </aside>
         )}
 

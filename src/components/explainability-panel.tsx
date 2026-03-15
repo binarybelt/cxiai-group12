@@ -1,35 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
 interface ExplainabilityPanelProps {
-  rawVariants: any[] | null;
+  rawVariants: unknown[] | null;
   selectedVariant: number;
 }
 
 // ---------------------------------------------------------------------------
 // ExplainabilityPanel — shows selectionReason for each component in the spec.
 //
-// Accepts `any[]` because the raw constrained output includes selectionReason
-// which is not in the base PageSpec type — we use runtime access.
+// Accepts `unknown[]` because the raw constrained output includes selectionReason
+// which is not in the base PageSpec type — we use runtime narrowing.
 // ---------------------------------------------------------------------------
 
 export function ExplainabilityPanel({
   rawVariants,
   selectedVariant,
 }: ExplainabilityPanelProps) {
+  const hasData = rawVariants !== null && rawVariants.length > 0;
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hasAutoExpanded, setHasAutoExpanded] = useState(false);
 
-  // Auto-expand when data becomes available
-  useEffect(() => {
-    if (rawVariants !== null && rawVariants.length > 0) {
-      setIsExpanded(true);
-    }
-  }, [rawVariants]);
+  // Auto-expand once when data first becomes available
+  if (hasData && !hasAutoExpanded) {
+    setIsExpanded(true);
+    setHasAutoExpanded(true);
+  }
 
   if (!rawVariants) {
     return (
@@ -41,7 +42,8 @@ export function ExplainabilityPanel({
     );
   }
 
-  const variant = rawVariants[selectedVariant];
+  const rawVariant = rawVariants[selectedVariant];
+  const variant = rawVariant as Record<string, unknown> | undefined;
   if (!variant || !variant.sections) {
     return (
       <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4">
@@ -66,22 +68,15 @@ export function ExplainabilityPanel({
       {isExpanded && (
         <div className="border-t border-gray-100 px-4 pb-4 pt-3">
           <ul className="flex flex-col gap-3">
-            {variant.sections.map(
-              (section: { id: string; components: { componentId: string; selectionReason?: string; tokenOverrides?: { tokenId: string; value: string }[] }[] }) => (
+            {(variant.sections as { id: string; components: { componentId: string; selectionReason?: string; tokenOverrides?: { tokenId: string; value: string }[] }[] }[]).map(
+              (section) => (
                 <li key={section.id}>
                   <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                     {section.id}
                   </p>
                   <ul className="mt-1 flex flex-col gap-1">
                     {section.components.map(
-                      (
-                        comp: {
-                          componentId: string;
-                          selectionReason?: string;
-                          tokenOverrides?: { tokenId: string; value: string }[];
-                        },
-                        idx: number,
-                      ) => (
+                      (comp, idx) => (
                         <li
                           key={`${comp.componentId}-${idx}`}
                           className="rounded-lg bg-gray-50 px-3 py-2"
