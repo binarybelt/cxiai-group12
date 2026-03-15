@@ -102,6 +102,21 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     const variant = result.object.variant as PageSpec;
 
+    // Post-process: fix adverseEventUrl placeholders
+    const ADVERSE_EVENT_URLS: Record<string, string> = {
+      UK: "https://yellowcard.mhra.gov.uk",
+      US: "https://www.fda.gov/medwatch",
+      EU: "https://www.ema.europa.eu/en/human-regulatory/post-authorisation/pharmacovigilance",
+    };
+    const fallbackUrl = ADVERSE_EVENT_URLS[variant.market] ?? ADVERSE_EVENT_URLS.US;
+    for (const section of variant.sections ?? []) {
+      for (const comp of section.components ?? []) {
+        if (comp.componentId === "Footer" && (!comp.props["adverseEventUrl"] || comp.props["adverseEventUrl"] === "#")) {
+          comp.props["adverseEventUrl"] = fallbackUrl;
+        }
+      }
+    }
+
     // Fire-and-forget audit log
     void logGeneration(
       "chat-edit",

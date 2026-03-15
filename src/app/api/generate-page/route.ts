@@ -108,6 +108,25 @@ export async function POST(request: NextRequest): Promise<Response> {
 
     const spec = result.object;
 
+    // Post-process: fix adverseEventUrl placeholders with real market URLs.
+    // LLMs sometimes produce "#" despite prompt instructions.
+    const ADVERSE_EVENT_URLS: Record<string, string> = {
+      UK: "https://yellowcard.mhra.gov.uk",
+      US: "https://www.fda.gov/medwatch",
+      EU: "https://www.ema.europa.eu/en/human-regulatory/post-authorisation/pharmacovigilance",
+    };
+    const fallbackUrl = ADVERSE_EVENT_URLS[interpretation.market] ?? ADVERSE_EVENT_URLS.US;
+
+    for (const variant of spec.variants ?? []) {
+      for (const section of (variant as PageSpec).sections ?? []) {
+        for (const comp of section.components ?? []) {
+          if (comp.componentId === "Footer" && (!comp.props["adverseEventUrl"] || comp.props["adverseEventUrl"] === "#")) {
+            comp.props["adverseEventUrl"] = fallbackUrl;
+          }
+        }
+      }
+    }
+
     // Fire-and-forget audit log
     void logGeneration(
       "generate-page",
