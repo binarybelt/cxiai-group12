@@ -15,9 +15,9 @@ export interface TokenDraft {
 
 /** 8 hardcoded pharma-like colours used as demo fallback. */
 export const DEMO_FIGMA_TOKENS: TokenDraft[] = [
-  { name: "Brand Primary", value: "#8B5CF6", category: "color" },
-  { name: "Brand Deep", value: "#6D28D9", category: "color" },
-  { name: "Brand Tint", value: "#EDE9FE", category: "color" },
+  { name: "Brand Primary", value: "#A78BFA", category: "color" },
+  { name: "Brand Deep", value: "#7C3AED", category: "color" },
+  { name: "Brand Tint", value: "#E8E4EE", category: "color" },
   { name: "Dark Navy", value: "#0F172A", category: "color" },
   { name: "Neutral Gray", value: "#64748B", category: "color" },
   { name: "Surface White", value: "#FFFFFF", category: "color" },

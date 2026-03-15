@@ -19,7 +19,7 @@ export function ISIBlock({ content, expandable = false }: ISIBlockProps) {
       : null;
 
   return (
-    <section className="rounded-[1.5rem] border border-amber-300/70 bg-amber-300/15 p-token-lg shadow-token-sm">
+    <section className="rounded-[1.5rem] border border-amber-300/30 bg-amber-300/[0.07] p-token-lg shadow-token-sm">
       <div
         className="border-l-4 border-amber-300 pl-token-md"
         role="region"
@@ -27,11 +27,11 @@ export function ISIBlock({ content, expandable = false }: ISIBlockProps) {
       >
         <p
           id={headingId}
-          className="text-caption font-semibold uppercase tracking-[0.26em] text-gray-900"
+          className="text-caption font-semibold uppercase tracking-[0.26em] text-white/[0.93]"
         >
           Important Safety Information
         </p>
-        <div id={contentId} className="mt-token-md text-body-sm text-gray-900">
+        <div id={contentId} className="mt-token-md text-body-sm text-white/[0.93]">
           {expandable ? (
             <>
               {!expanded && truncatedBody}
@@ -59,7 +59,7 @@ export function ISIBlock({ content, expandable = false }: ISIBlockProps) {
             onClick={() => setExpanded((value) => !value)}
             aria-controls={contentId}
             aria-expanded={expanded}
-            className="mt-token-md inline-flex items-center rounded-token-full border border-gray-300 px-4 py-2 text-body-sm font-semibold text-gray-900 transition hover:border-gray-500"
+            className="mt-token-md inline-flex items-center rounded-token-full border border-white/[0.12] px-4 py-2 text-body-sm font-semibold text-white/[0.93] transition hover:border-white/30"
           >
             {expanded ? "Show less" : "Read more"}
           </button>

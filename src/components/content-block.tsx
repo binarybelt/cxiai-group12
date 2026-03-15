@@ -15,9 +15,9 @@ const alignmentClasses: Record<ContentAlignment, string> = {
 };
 
 const variantClasses: Record<ContentVariant, string> = {
-  standard: "border border-gray-200 bg-white",
-  highlighted: "border border-brand-100 bg-brand-100/45",
-  callout: "border border-gray-200 bg-white border-l-4 border-l-brand-500",
+  standard: "border border-white/[0.08] bg-white/[0.03]",
+  highlighted: "border border-brand-accent/20 bg-brand-accent/10",
+  callout: "border border-white/[0.08] bg-white/[0.03] border-l-4 border-l-brand-accent",
 };
 
 export function ContentBlock({
@@ -28,7 +28,7 @@ export function ContentBlock({
 }: ContentBlockProps) {
   return (
     <section
-      className={`rounded-[1.5rem] px-token-lg py-token-lg text-body-md text-gray-700 shadow-token-sm ${variantClasses[variant]} ${alignmentClasses[alignment]}`}
+      className={`rounded-[1.5rem] px-token-lg py-token-lg text-body-md text-white/70 shadow-token-sm ${variantClasses[variant]} ${alignmentClasses[alignment]}`}
       style={{ maxWidth }}
     >
       {body}

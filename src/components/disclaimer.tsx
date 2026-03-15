@@ -6,9 +6,9 @@ export interface DisclaimerProps {
 }
 
 const typeClasses: Record<DisclaimerType, string> = {
-  general: "border border-gray-200 bg-gray-100 text-gray-700",
-  pharma: "border border-amber-300/70 bg-amber-300/10 text-gray-900",
-  legal: "border border-gray-300 bg-white text-gray-700",
+  general: "border border-white/[0.08] bg-white/[0.05] text-white/70",
+  pharma: "border border-amber-300/40 bg-amber-300/[0.07] text-white/[0.93]",
+  legal: "border border-white/[0.12] bg-white/[0.03] text-white/70",
 };
 
 export function Disclaimer({ text, type = "general" }: DisclaimerProps) {

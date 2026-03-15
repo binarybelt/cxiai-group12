@@ -15,7 +15,7 @@ export function Footer({
   adverseEventUrl = "#",
 }: FooterProps) {
   return (
-    <footer className="rounded-[2rem] bg-gray-900 px-token-xl py-token-2xl text-white shadow-token-lg">
+    <footer className="rounded-[2rem] bg-white/[0.03] px-token-xl py-token-2xl text-white shadow-token-lg">
       <div className="grid gap-token-xl lg:grid-cols-[1fr_0.8fr]">
         <div>
           <p className="text-caption uppercase tracking-[0.24em] text-white/55">

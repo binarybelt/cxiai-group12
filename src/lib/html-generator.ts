@@ -163,10 +163,10 @@ export function generateStandaloneHtml(spec: PageSpec): string {
         extend: {
           colors: {
             'brand': {
-              100: '#EDE9FE',
-              500: '#8B5CF6',
-              700: '#6D28D9',
-              800: '#5B21B6',
+              100: '#E8E4EE',
+              500: '#A78BFA',
+              700: '#7C3AED',
+              800: '#5E4E6E',
             },
           },
         },

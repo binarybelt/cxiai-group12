@@ -12,9 +12,9 @@ export interface CardProps {
 }
 
 const variantClasses: Record<CardVariant, string> = {
-  standard: "bg-white shadow-token-sm",
-  featured: "bg-white shadow-token-lg ring-1 ring-brand-100",
-  compact: "bg-gray-100 shadow-token-sm",
+  standard: "bg-white/[0.03] shadow-token-sm",
+  featured: "bg-white/[0.05] shadow-token-lg ring-1 ring-brand-accent/20",
+  compact: "bg-white/[0.05] shadow-token-sm",
 };
 
 export function Card({
@@ -27,7 +27,7 @@ export function Card({
 }: CardProps) {
   return (
     <article
-      className={`overflow-hidden rounded-[1.5rem] border border-gray-200 ${variantClasses[variant]}`}
+      className={`overflow-hidden rounded-[1.5rem] border border-white/[0.08] ${variantClasses[variant]}`}
     >
       {variant !== "compact" && image ? (
         <img
@@ -40,12 +40,12 @@ export function Card({
         />
       ) : null}
       <div className="space-y-token-md p-token-lg">
-        <h3 className="text-heading-md text-gray-900">{title}</h3>
-        <p className="text-body-md text-gray-700">{body}</p>
+        <h3 className="text-heading-md text-white/[0.93]">{title}</h3>
+        <p className="text-body-md text-white/70">{body}</p>
         {ctaText ? (
           <Link
             href={ctaHref}
-            className="inline-flex items-center text-body-sm font-semibold text-brand-700"
+            className="inline-flex items-center text-body-sm font-semibold text-brand-accent"
           >
             {ctaText}
           </Link>

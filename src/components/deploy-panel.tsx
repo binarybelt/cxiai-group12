@@ -61,7 +61,7 @@ export function DeployPanel({ currentSpec }: DeployPanelProps) {
           type="button"
           disabled={!currentSpec}
           onClick={handleDeploy}
-          className="w-full rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white transition hover:shadow-[0_0_20px_rgba(109,40,217,0.4)] disabled:cursor-not-allowed disabled:opacity-40"
+          className="w-full rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white transition hover:shadow-[0_0_20px_rgba(124,58,237,0.4)] disabled:cursor-not-allowed disabled:opacity-40"
         >
           Deploy to Vercel
         </button>

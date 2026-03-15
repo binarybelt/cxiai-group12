@@ -19,9 +19,9 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <header className={alignmentClasses[alignment]}>
-      <h2 className="text-heading-lg text-gray-900">{title}</h2>
+      <h2 className="text-heading-lg text-white/[0.93]">{title}</h2>
       {subtitle ? (
-        <p className="mt-token-sm text-body-md text-gray-500">{subtitle}</p>
+        <p className="mt-token-sm text-body-md text-white/50">{subtitle}</p>
       ) : null}
     </header>
   );

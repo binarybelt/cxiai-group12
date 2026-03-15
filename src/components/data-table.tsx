@@ -9,7 +9,7 @@ export interface DataTableProps {
 
 const rowClasses: Record<DataTableVariant, string> = {
   standard: "",
-  striped: "odd:bg-white even:bg-gray-100",
+  striped: "odd:bg-white/[0.02] even:bg-white/[0.05]",
   compact: "",
 };
 
@@ -20,9 +20,9 @@ export function DataTable({
   variant = "standard",
 }: DataTableProps) {
   return (
-    <div className="overflow-x-auto rounded-[1.5rem] border border-gray-200 bg-white shadow-token-sm">
+    <div className="overflow-x-auto rounded-[1.5rem] border border-white/[0.08] bg-white/[0.03] shadow-token-sm">
       <table className="min-w-full border-separate border-spacing-0">
-        <caption className="px-token-lg pt-token-lg text-left text-body-sm font-semibold text-gray-700">
+        <caption className="px-token-lg pt-token-lg text-left text-body-sm font-semibold text-white/70">
           {caption}
         </caption>
         <thead>
@@ -43,9 +43,9 @@ export function DataTable({
               {row.map((cell) => (
                 <td
                   key={`${row[0]}-${cell}`}
-                  className={`border-t border-gray-200 px-token-lg ${
+                  className={`border-t border-white/[0.06] px-token-lg ${
                     variant === "compact" ? "py-2" : "py-4"
-                  } text-gray-700`}
+                  } text-white/70`}
                 >
                   {cell}
                 </td>

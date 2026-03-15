@@ -214,7 +214,7 @@ export default function HomePage() {
             <motion.div className="mt-8 flex gap-4" variants={heroChildVariants}>
               <Link
                 href="/build"
-                className="rounded-lg bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_20px_rgba(109,40,217,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                className="rounded-lg bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_20px_rgba(124,58,237,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
               >
                 Start Building →
               </Link>
@@ -435,7 +435,7 @@ export default function HomePage() {
             <div className="flex justify-center gap-4">
               <Link
                 href="/build"
-                className="rounded-lg bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_20px_rgba(109,40,217,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                className="rounded-lg bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_20px_rgba(124,58,237,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
               >
                 Try the Demo →
               </Link>

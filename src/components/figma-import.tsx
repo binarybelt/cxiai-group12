@@ -73,7 +73,7 @@ export function FigmaImport() {
         <button
           type="submit"
           disabled={loading}
-          className="rounded-full bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_16px_rgba(109,40,217,0.4)] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#0C0A12]"
+          className="rounded-full bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_16px_rgba(124,58,237,0.4)] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#0C0A12]"
         >
           {loading ? "Importing..." : "Import"}
         </button>

@@ -34,8 +34,8 @@ body::before {
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(ellipse 600px 400px at 15% 20%, rgba(60, 20, 80, 0.30), transparent),
-    radial-gradient(ellipse 500px 500px at 80% 60%, rgba(139, 92, 246, 0.10), transparent),
+    radial-gradient(ellipse 600px 400px at 15% 20%, rgba(60, 40, 70, 0.30), transparent),
+    radial-gradient(ellipse 500px 500px at 80% 60%, rgba(167, 139, 250, 0.10), transparent),
     radial-gradient(ellipse 400px 300px at 50% 90%, rgba(167, 139, 250, 0.06), transparent);
   animation: drift 20s ease-in-out infinite;
   pointer-events: none;
@@ -93,7 +93,7 @@ a {
 
 /* ---- Selection color ---- */
 ::selection {
-  background: rgba(139, 92, 246, 0.3);
+  background: rgba(167, 139, 250, 0.3);
   color: white;
 }
 
