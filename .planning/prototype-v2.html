@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Pfizer — Design Prototype v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   RESET
+   ═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Pfizer Blue (REAL from pfizer.com) ── */
+  --pf-blue-10: #e8f2ff;  --pf-blue-20: #cfdfff;
+  --pf-blue-30: #9cc0ff;  --pf-blue-40: #6397ff;
+  --pf-blue-50: #3578ff;  --pf-blue-60: #2e29ff;
+  --pf-blue-70: #0000c9;  --pf-blue-80: #00009d;
+  --pf-blue-90: #000067;  --pf-blue-100: #00003a;
+
+  /* ── Pfizer Cyan ── */
+  --pf-cyan-10: #e0f5ff;  --pf-cyan-40: #35b6ff;
+  --pf-cyan-50: #0095ff;
+
+  /* ── Pharma Teal (second accent) ── */
+  --teal: #00D4AA;
+  --teal-glow: rgba(0, 212, 170, 0.12);
+
+  /* ── Semantic ── */
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
+
+  /* ── Atmosphere ── */
+  --bg-deep: #000014;
+  --glow-primary: rgba(0, 0, 201, 0.15);
+  --glow-secondary: rgba(0, 212, 170, 0.08);
+  --glow-accent: rgba(76, 111, 255, 0.06);
+
+  /* ── Text (opacity-based, NOT named grays) ── */
+  --text-1: rgba(255,255,255, 0.93);
+  --text-2: rgba(255,255,255, 0.55);
+  --text-3: rgba(255,255,255, 0.35);
+  --text-4: rgba(255,255,255, 0.18);
+
+  /* ── Surfaces ── */
+  --surface-1: rgba(255,255,255, 0.03);
+  --surface-2: rgba(255,255,255, 0.05);
+  --surface-hover: rgba(255,255,255, 0.07);
+  --border-1: rgba(255,255,255, 0.06);
+  --border-2: rgba(255,255,255, 0.10);
+  --border-3: rgba(255,255,255, 0.16);
+
+  /* ── Fonts ── */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  /* ── Tracking (inversely proportional to size) ── */
+  --track-display: -0.04em;
+  --track-heading: -0.025em;
+  --track-body: 0.005em;
+  --track-label: 0.08em;
+  --track-overline: 0.2em;
+
+  /* ── Radius ── */
+  --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 24px; --r-full: 9999px;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  min-height: 100%;
+  background: var(--bg-deep);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-1);
+  line-height: 1.6;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  letter-spacing: var(--track-body);
+}
+
+::selection { background: rgba(46, 41, 255, 0.35); color: white; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+
+/* ═══════════════════════════════════════════════
+   ATMOSPHERE (the "alive" background)
+   ═══════════════════════════════════════════════ */
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Primary glow — top left, Pfizer blue */
+.atm-glow-1 {
+  position: absolute;
+  width: 70vw; height: 70vh;
+  top: -20%; left: -15%;
+  background: radial-gradient(circle, var(--glow-primary) 0%, transparent 65%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: drift1 28s ease-in-out infinite alternate;
+}
+
+/* Secondary glow — bottom right, teal */
+.atm-glow-2 {
+  position: absolute;
+  width: 50vw; height: 50vh;
+  bottom: -15%; right: -10%;
+  background: radial-gradient(circle, var(--glow-secondary) 0%, transparent 65%);
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: drift2 35s ease-in-out infinite alternate;
+}
+
+/* Accent glow — center, indigo */
+.atm-glow-3 {
+  position: absolute;
+  width: 40vw; height: 40vh;
+  top: 35%; left: 25%;
+  background: radial-gradient(circle, var(--glow-accent) 0%, transparent 65%);
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: drift3 32s ease-in-out infinite alternate;
+}
+
+/* Engineering grid */
+.atm-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Noise overlay */
+.atm-noise {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+}
+
+/* Vignette */
+.atm-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(0,0,20,0.6) 100%);
+}
+
+@keyframes drift1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(6vw, 4vh) scale(1.12); }
+}
+@keyframes drift2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-5vw, -6vh) scale(1.18); }
+}
+@keyframes drift3 {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+  100% { transform: translate(4vw, -3vh) scale(1.08) rotate(6deg); }
+}
+
+/* ═══════════════════════════════════════════════
+   CONTENT WRAPPER
+   ═══════════════════════════════════════════════ */
+.content { position: relative; z-index: 1; }
+
+/* ═══════════════════════════════════════════════
+   SCROLL REVEAL ANIMATION (CSS IntersectionObserver via animation-timeline)
+   ═══════════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(4px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              filter 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+/* Stagger children */
+.reveal-stagger > .reveal:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 80ms; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 160ms; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 240ms; }
+.reveal-stagger > .reveal:nth-child(5) { transition-delay: 320ms; }
+
+/* ═══════════════════════════════════════════════
+   PROTOTYPE NAV
+   ═══════════════════════════════════════════════ */
+.proto-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  padding: 10px 24px;
+  background: rgba(0, 0, 20, 0.75);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-1);
+  font-family: var(--font-body); font-size: 13px; font-weight: 500;
+}
+.proto-nav a {
+  color: var(--text-3); text-decoration: none;
+  padding: 4px 12px; border-radius: var(--r-full);
+  transition: color 0.2s, background 0.2s;
+}
+.proto-nav a:hover { color: var(--text-1); background: var(--surface-hover); }
+
+/* ═══════════════════════════════════════════════
+   SECTION
+   ═══════════════════════════════════════════════ */
+.section {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 80px 32px;
+}
+.section-label {
+  font-family: var(--font-display);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: var(--track-overline);
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 600;
+  letter-spacing: var(--track-heading);
+  line-height: 1.15;
+  margin-bottom: 40px;
+}
+hr.divider {
+  border: none;
+  border-top: 1px solid var(--border-1);
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   HERO — asymmetric, product-forward
+   ═══════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 32px 80px;
+  max-width: 1120px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero-content {
+  flex: 1;
+  max-width: 560px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px 5px 6px;
+  background: var(--surface-1); border: 1px solid var(--border-1);
+  border-radius: var(--r-full);
+  font-family: var(--font-body); font-size: 12px; font-weight: 500;
+  color: var(--text-2);
+  margin-bottom: 32px;
+  animation: heroFadeIn 0.8s ease-out both;
+}
+.badge-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 10px var(--teal-glow);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  color: white;
+  margin-bottom: 0;
+  animation: heroTitleIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s both;
+}
+.hero-title span {
+  display: block;
+  background: linear-gradient(180deg, rgba(255,255,255,1) 20%, rgba(255,255,255,0.45) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+  font-family: var(--font-body);
+  font-size: 17px; font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-top: 28px;
+  max-width: 460px;
+  animation: heroFadeIn 0.8s ease-out 0.4s both;
+}
+.hero-ctas {
+  display: flex; gap: 12px;
+  margin-top: 40px;
+  animation: heroFadeIn 0.8s ease-out 0.55s both;
+}
+
+@keyframes heroTitleIn {
+  from { opacity: 0; transform: translateY(24px); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero product preview */
+.hero-preview {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  animation: heroPreviewIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s both;
+}
+@keyframes heroPreviewIn {
+  from { opacity: 0; transform: perspective(1200px) rotateY(-8deg) translateX(40px) scale(0.95); }
+  to   { opacity: 1; transform: perspective(1200px) rotateY(-3deg) translateX(0) scale(1); }
+}
+.hero-preview-frame {
+  width: 480px;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-2);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.3),
+    0 30px 80px -20px rgba(0,0,0,0.6),
+    0 0 60px rgba(46, 41, 255, 0.06);
+  transform: perspective(1200px) rotateY(-3deg);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.hero-preview-frame:hover {
+  transform: perspective(1200px) rotateY(0deg) scale(1.01);
+}
+
+/* ═══════════════════════════════════════════════
+   GLASS CARD (with top-lit border + inset highlight)
+   ═══════════════════════════════════════════════ */
+.glass {
+  background: var(--surface-1);
+  backdrop-filter: blur(24px) saturate(1.15);
+  -webkit-backdrop-filter: blur(24px) saturate(1.15);
+  border: 1px solid var(--border-1);
+  border-top-color: var(--border-2);
+  border-radius: var(--r-lg);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.04),
+    0 2px 4px rgba(0,0,0,0.2),
+    0 16px 48px -8px rgba(0,0,0,0.4);
+  transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1),
+              background 0.25s ease-out,
+              border-color 0.25s ease-out,
+              box-shadow 0.4s ease-out;
+}
+.glass:hover {
+  background: var(--surface-2);
+  border-color: rgba(0, 212, 170, 0.15);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.08),
+    0 4px 8px rgba(0,0,0,0.3),
+    0 24px 64px -8px rgba(0,0,0,0.5),
+    0 0 30px rgba(0, 212, 170, 0.04);
+  transform: translateY(-3px);
+}
+
+.glass-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.glass-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--r-md);
+  background: linear-gradient(135deg, var(--pf-blue-60), var(--pf-blue-80));
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 0 24px rgba(46, 41, 255, 0.2);
+}
+.glass-icon svg { width: 20px; height: 20px; color: white; }
+
+.glass-title {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 600;
+  letter-spacing: var(--track-heading);
+  margin-bottom: 8px;
+}
+.glass-desc {
+  font-size: 13px; color: var(--text-2); line-height: 1.65;
+}
+
+/* ═══════════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body); font-weight: 600;
+  font-size: 14px; letter-spacing: 0.01em;
+  padding: 11px 22px; border-radius: var(--r-md);
+  border: none; cursor: pointer; outline: none;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+              background 0.2s ease-out,
+              box-shadow 0.3s ease-out;
+}
+.btn:active { transform: scale(0.96); }
+.btn:focus-visible { box-shadow: 0 0 0 2px var(--bg-deep), 0 0 0 4px var(--pf-blue-60); }
+
+.btn-primary {
+  background: var(--pf-blue-70); color: white;
+  box-shadow: 0 0 24px rgba(0,0,201,0.25), 0 4px 12px rgba(0,0,0,0.3);
+}
+.btn-primary:hover {
+  background: var(--pf-blue-60);
+  box-shadow: 0 0 36px rgba(46,41,255,0.3), 0 8px 20px rgba(0,0,0,0.4);
+  transform: translateY(-1px);
+}
+
+.btn-teal {
+  background: rgba(0, 212, 170, 0.12); color: var(--teal);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+}
+.btn-teal:hover {
+  background: rgba(0, 212, 170, 0.18);
+  box-shadow: 0 0 20px var(--teal-glow);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent; color: var(--text-1);
+  border: 1px solid var(--border-2);
+}
+.btn-ghost:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-3);
+}
+
+.btn-sm { padding: 7px 14px; font-size: 13px; }
+
+/* ═══════════════════════════════════════════════
+   BROWSER FRAME
+   ═══════════════════════════════════════════════ */
+.browser {
+  border-radius: var(--r-lg); overflow: hidden;
+  border: 1px solid var(--border-2);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.4),
+    0 24px 72px -16px rgba(0,0,0,0.6),
+    0 0 48px rgba(46, 41, 255, 0.05);
+}
+.browser-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  background: #141418;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.browser-dots { display: flex; gap: 7px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+.browser-url {
+  flex: 1; margin-left: 8px;
+  background: #1e1e24; border-radius: var(--r-sm);
+  padding: 5px 12px; font-family: var(--font-mono);
+  font-size: 11px; color: rgba(255,255,255,0.35);
+}
+.browser-body {
+  background: white; color: #1a1a2e;
+  padding: 32px; min-height: 400px;
+  font-family: var(--font-body);
+}
+
+/* ── Preview content (light/compliant Pfizer) ── */
+.pv-hero {
+  background: linear-gradient(135deg, var(--pf-blue-10), var(--pf-cyan-10));
+  border-radius: var(--r-md); padding: 32px 24px;
+  margin-bottom: 24px; text-align: center;
+}
+.pv-hero h2 {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 700;
+  color: var(--pf-blue-70); letter-spacing: var(--track-heading);
+  margin-bottom: 8px;
+}
+.pv-hero p { font-size: 14px; color: #666; max-width: 420px; margin: 0 auto; line-height: 1.6; }
+.pv-btn {
+  display: inline-block; margin-top: 16px;
+  padding: 9px 22px; background: var(--pf-blue-70);
+  color: white; border-radius: var(--r-full);
+  font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  text-decoration: none;
+}
+.pv-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pv-card {
+  border: 1px solid #e5e7eb; border-radius: var(--r-md);
+  padding: 20px; background: white;
+}
+.pv-card h3 {
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 600; color: var(--pf-blue-70); margin-bottom: 4px;
+}
+.pv-card p { font-size: 12px; color: #666; line-height: 1.5; }
+.pv-isi {
+  margin-top: 20px; padding: 14px;
+  background: #fffbeb; border: 1px solid #fbbf24;
+  border-radius: 4px; font-size: 11px; color: #92400e;
+}
+.pv-isi strong { font-weight: 700; }
+.pv-disclaimer {
+  margin-top: 10px; padding: 10px;
+  background: #f8fafc; border-left: 3px solid var(--pf-blue-70);
+  font-size: 10px; color: #999; line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════
+   COMPLIANCE GAUGE
+   ═══════════════════════════════════════════════ */
+.gauge { width: 140px; height: 140px; position: relative; }
+.gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.gauge-bg { fill: none; stroke: var(--surface-1); stroke-width: 7; }
+.gauge-fill {
+  fill: none; stroke-width: 7; stroke-linecap: round;
+  stroke-dasharray: 264;
+  animation: gaugeFill 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes gaugeFill {
+  from { stroke-dashoffset: 264; }
+}
+.gauge-high { stroke: var(--success); filter: drop-shadow(0 0 10px rgba(52,211,153,0.35)); }
+.gauge-mid  { stroke: var(--warning); filter: drop-shadow(0 0 10px rgba(251,191,36,0.35)); }
+.gauge-low  { stroke: var(--error);   filter: drop-shadow(0 0 10px rgba(248,113,113,0.35)); }
+.gauge-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.gauge-num {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.gauge-lbl {
+  font-family: var(--font-display);
+  font-size: 10px; font-weight: 500;
+  color: var(--text-3);
+  letter-spacing: var(--track-overline);
+  text-transform: uppercase;
+}
+
+/* Score bars */
+.scores { display: flex; flex-direction: column; gap: 10px; min-width: 180px; }
+.score-row { display: flex; align-items: center; gap: 10px; }
+.score-name { font-size: 12px; color: var(--text-2); min-width: 64px; font-weight: 500; }
+.score-track { flex: 1; height: 5px; background: var(--surface-1); border-radius: var(--r-full); overflow: hidden; }
+.score-fill {
+  height: 100%; border-radius: var(--r-full);
+  animation: barFill 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: left;
+}
+@keyframes barFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.score-val {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  min-width: 28px; text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ═══════════════════════════════════════════════
+   APP NAV
+   ═══════════════════════════════════════════════ */
+.app-nav {
+  display: flex; align-items: center; gap: 24px;
+  padding: 10px 20px;
+  background: rgba(0, 0, 20, 0.5);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r-lg);
+  margin-bottom: 16px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.logo-mark {
+  width: 30px; height: 30px;
+  border-radius: var(--r-sm);
+  background: linear-gradient(135deg, var(--pf-blue-60), var(--pf-blue-80));
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(46,41,255,0.25);
+}
+.logo-mark svg { width: 16px; height: 16px; color: white; }
+.nav-links { display: flex; gap: 2px; }
+.nav-link {
+  padding: 6px 14px; border-radius: var(--r-full);
+  font-family: var(--font-body); font-size: 13px; font-weight: 500;
+  color: var(--text-3); text-decoration: none;
+  transition: color 0.2s, background 0.2s;
+  cursor: pointer; position: relative;
+}
+.nav-link:hover { color: var(--text-1); background: var(--surface-hover); }
+.nav-link.active { color: white; background: rgba(46,41,255,0.12); }
+.nav-link.active::after {
+  content: ""; position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 14px; height: 2px;
+  background: var(--pf-blue-60); border-radius: 1px;
+  box-shadow: 0 0 10px var(--pf-blue-60);
+}
+
+/* Role toggle */
+.roles {
+  display: inline-flex; gap: 2px;
+  background: var(--surface-1); border: 1px solid var(--border-1);
+  border-radius: var(--r-full); padding: 3px;
+}
+.role-btn {
+  padding: 6px 16px; border-radius: var(--r-full);
+  font-family: var(--font-body); font-size: 13px; font-weight: 500;
+  color: var(--text-3); cursor: pointer;
+  border: none; background: transparent;
+  transition: color 0.2s, background 0.15s, box-shadow 0.2s;
+}
+.role-btn:hover { color: var(--text-1); }
+.role-btn.on {
+  background: var(--pf-blue-60); color: white;
+  box-shadow: 0 0 16px rgba(46,41,255,0.3);
+}
+
+/* Pipeline */
+.pipeline {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 8px 16px; background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r-lg); margin-bottom: 12px;
+}
+.pip-step { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-3); font-weight: 500; }
+.pip-step.done { color: var(--success); }
+.pip-step.on  { color: var(--pf-blue-40); }
+.pip-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--surface-2); border: 1px solid var(--border-2);
+  transition: all 0.3s;
+}
+.pip-step.done .pip-dot { background: var(--success); border-color: var(--success); box-shadow: 0 0 6px rgba(52,211,153,0.4); }
+.pip-step.on .pip-dot {
+  background: var(--pf-blue-60); border-color: var(--pf-blue-60);
+  box-shadow: 0 0 8px var(--pf-blue-60);
+  animation: pipPulse 1.8s ease-in-out infinite;
+}
+@keyframes pipPulse {
+  0%, 100% { box-shadow: 0 0 4px var(--pf-blue-60); }
+  50% { box-shadow: 0 0 14px var(--pf-blue-60); }
+}
+.pip-line { width: 20px; height: 1px; background: var(--border-1); }
+.pip-step.done + .pip-line { background: var(--success); }
+
+/* ═══════════════════════════════════════════════
+   3-COLUMN WORKSPACE
+   ═══════════════════════════════════════════════ */
+.workspace {
+  display: grid;
+  grid-template-columns: 260px 1fr 240px;
+  gap: 12px;
+  min-height: 560px;
+}
+.panel {
+  background: var(--surface-1);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-1);
+  border-top-color: var(--border-2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+.panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-1);
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 500;
+}
+.panel-body { padding: 16px; }
+
+/* ═══════════════════════════════════════════════
+   CHAT PANEL
+   ═══════════════════════════════════════════════ */
+.chat-msgs { display: flex; flex-direction: column; gap: 10px; padding: 12px; }
+.chat-msg { display: flex; gap: 8px; max-width: 92%; }
+.chat-msg-u { align-self: flex-end; flex-direction: row-reverse; }
+.chat-av {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 10px; font-weight: 600;
+}
+.chat-av-ai { background: linear-gradient(135deg, var(--pf-blue-60), var(--teal)); }
+.chat-av-u  { background: var(--surface-2); border: 1px solid var(--border-2); }
+.chat-bub {
+  padding: 8px 12px; border-radius: var(--r-md);
+  font-size: 13px; line-height: 1.55;
+}
+.chat-bub-ai { background: var(--surface-1); border: 1px solid var(--border-1); color: var(--text-1); }
+.chat-bub-u  { background: var(--pf-blue-70); color: white; }
+
+/* Typing dots */
+.typing { display: flex; gap: 5px; padding: 8px 12px; }
+.typing-d {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text-3);
+  animation: typeBounce 1.4s ease-in-out infinite;
+}
+.typing-d:nth-child(2) { animation-delay: 0.16s; }
+.typing-d:nth-child(3) { animation-delay: 0.32s; }
+@keyframes typeBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+.chat-input-wrap {
+  display: flex; gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--border-1);
+}
+.chat-input {
+  flex: 1; background: var(--surface-1); border: 1px solid var(--border-1);
+  border-radius: var(--r-md); padding: 7px 12px;
+  color: var(--text-1); font-family: var(--font-body); font-size: 13px;
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.chat-input:focus { border-color: var(--pf-blue-60); box-shadow: 0 0 0 3px rgba(46,41,255,0.12); }
+.chat-input::placeholder { color: var(--text-4); }
+.chat-send {
+  width: 32px; height: 32px; border-radius: var(--r-md);
+  background: var(--pf-blue-60); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 0 12px rgba(46,41,255,0.2);
+}
+.chat-send:hover { transform: scale(1.08); box-shadow: 0 0 20px rgba(46,41,255,0.35); }
+.chat-send:active { transform: scale(0.94); }
+.chat-send svg { width: 14px; height: 14px; color: white; }
+
+/* ═══════════════════════════════════════════════
+   SKELETON
+   ═══════════════════════════════════════════════ */
+.skel {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.07) 50%, rgba(255,255,255,0.03) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+  border-radius: var(--r-sm);
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skel-line { height: 10px; margin-bottom: 8px; }
+.skel-block { height: 100px; margin-bottom: 12px; border-radius: var(--r-md); }
+
+/* ═══════════════════════════════════════════════
+   EMPTY STATE
+   ═══════════════════════════════════════════════ */
+.empty {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 48px 24px; text-align: center;
+}
+.empty-icon {
+  width: 56px; height: 56px; border-radius: var(--r-xl);
+  background: var(--surface-1); border: 1px solid var(--border-1);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  animation: emptyGlow 3.5s ease-in-out infinite;
+}
+@keyframes emptyGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,170,0); }
+  50% { box-shadow: 0 0 0 14px rgba(0,212,170,0.06); }
+}
+.empty-icon svg { width: 24px; height: 24px; color: var(--teal); }
+.empty-title {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 600;
+  margin-bottom: 8px;
+}
+.empty-desc { font-size: 13px; color: var(--text-3); max-width: 280px; line-height: 1.65; margin-bottom: 20px; }
+
+/* ═══════════════════════════════════════════════
+   COLOR PALETTE
+   ═══════════════════════════════════════════════ */
+.palette-strip { display: flex; gap: 2px; border-radius: var(--r-lg); overflow: hidden; }
+.swatch {
+  flex: 1; height: 56px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding: 4px; font-family: var(--font-mono);
+  font-size: 8px; font-weight: 400;
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+  cursor: default;
+}
+.swatch:hover { transform: scaleY(1.2); z-index: 1; }
+.sw-name { opacity: 0.6; font-size: 7px; margin-bottom: 1px; }
+
+/* ═══════════════════════════════════════════════
+   TYPE SPECIMEN
+   ═══════════════════════════════════════════════ */
+.type-row {
+  display: flex; align-items: baseline; gap: 32px;
+  padding: 16px 0; border-bottom: 1px solid var(--border-1);
+}
+.type-meta {
+  min-width: 120px; font-family: var(--font-mono);
+  font-size: 10px; color: var(--text-3); line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .hero { flex-direction: column; text-align: center; min-height: auto; padding-top: 100px; }
+  .hero-content { max-width: 100%; }
+  .hero-sub { margin-left: auto; margin-right: auto; }
+  .hero-ctas { justify-content: center; }
+  .hero-preview { justify-content: center; margin-top: 48px; }
+  .hero-preview-frame { width: 100%; max-width: 440px; transform: none; }
+  .workspace { grid-template-columns: 1fr; }
+  .glass-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════
+   REDUCED MOTION
+   ═══════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ ATMOSPHERE ═══ -->
+<div class="atmosphere">
+  <div class="atm-glow-1"></div>
+  <div class="atm-glow-2"></div>
+  <div class="atm-glow-3"></div>
+  <div class="atm-grid"></div>
+  <div class="atm-noise"></div>
+  <div class="atm-vignette"></div>
+</div>
+
+<div class="content">
+
+<!-- ═══ NAV ═══ -->
+<nav class="proto-nav">
+  <a href="#hero">Hero</a>
+  <a href="#palette">Colors</a>
+  <a href="#type">Type</a>
+  <a href="#glass">Glass</a>
+  <a href="#workspace">Workspace</a>
+  <a href="#gauge">Gauge</a>
+  <a href="#states">States</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      CXI + AI Challenge
+    </div>
+    <h1 class="hero-title">
+      <span>Compliant</span>
+      <span>by Construction</span>
+    </h1>
+    <p class="hero-sub">
+      AI-generated pharma pages that pass brand, regulatory, and accessibility gates before they render. Brief to deployed page in minutes.
+    </p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Start Building
+      </button>
+      <button class="btn btn-ghost">How It Works</button>
+    </div>
+  </div>
+  <div class="hero-preview">
+    <div class="hero-preview-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+        <div class="browser-url">pfizer-dda.vercel.app</div>
+      </div>
+      <div class="browser-body" style="padding:20px;min-height:280px;">
+        <div class="pv-hero" style="padding:20px 16px;margin-bottom:16px;">
+          <h2 style="font-size:20px;">Paxlovid for HCPs</h2>
+          <p style="font-size:12px;">Treatment information for healthcare professionals</p>
+        </div>
+        <div class="pv-cards">
+          <div class="pv-card" style="padding:14px;">
+            <h3 style="font-size:13px;">Efficacy Data</h3>
+            <p style="font-size:11px;">89% risk reduction in high-risk adults</p>
+          </div>
+          <div class="pv-card" style="padding:14px;">
+            <h3 style="font-size:13px;">Eligibility</h3>
+            <p style="font-size:11px;">Adults within 5 days of symptom onset</p>
+          </div>
+        </div>
+        <div class="pv-isi" style="margin-top:12px;padding:10px;font-size:9px;">
+          <strong>IMPORTANT SAFETY INFORMATION</strong><br>
+          Contraindicated in patients with hypersensitivity...
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ COLORS ═══ -->
+<section class="section reveal-stagger" id="palette">
+  <div class="section-label reveal">Design Tokens</div>
+  <h2 class="section-title reveal">Color System</h2>
+
+  <div class="reveal" style="margin-bottom:24px;">
+    <div style="font-size:12px;color:var(--text-3);margin-bottom:8px;font-weight:500;">Pfizer Blue</div>
+    <div class="palette-strip">
+      <div class="swatch" style="background:#e8f2ff;color:#000"><span class="sw-name">10</span>#e8f2ff</div>
+      <div class="swatch" style="background:#cfdfff;color:#000"><span class="sw-name">20</span>#cfdfff</div>
+      <div class="swatch" style="background:#9cc0ff;color:#000"><span class="sw-name">30</span>#9cc0ff</div>
+      <div class="swatch" style="background:#6397ff;color:#fff"><span class="sw-name">40</span>#6397ff</div>
+      <div class="swatch" style="background:#3578ff;color:#fff"><span class="sw-name">50</span>#3578ff</div>
+      <div class="swatch" style="background:#2e29ff;color:#fff"><span class="sw-name">60</span>#2e29ff</div>
+      <div class="swatch" style="background:#0000c9;color:#fff"><span class="sw-name">70</span>#0000c9</div>
+      <div class="swatch" style="background:#00009d;color:#fff"><span class="sw-name">80</span>#00009d</div>
+      <div class="swatch" style="background:#000067;color:#fff"><span class="sw-name">90</span>#000067</div>
+      <div class="swatch" style="background:#00003a;color:#fff"><span class="sw-name">100</span>#00003a</div>
+    </div>
+  </div>
+  <div class="reveal" style="margin-bottom:24px;">
+    <div style="font-size:12px;color:var(--text-3);margin-bottom:8px;font-weight:500;">Neutrals</div>
+    <div class="palette-strip">
+      <div class="swatch" style="background:#fff;color:#000"><span class="sw-name">wht</span></div>
+      <div class="swatch" style="background:#f0f0f0;color:#000"><span class="sw-name">10</span></div>
+      <div class="swatch" style="background:#e0e0e0;color:#000"><span class="sw-name">20</span></div>
+      <div class="swatch" style="background:#c9c9c9;color:#000"><span class="sw-name">30</span></div>
+      <div class="swatch" style="background:#999;color:#fff"><span class="sw-name">50</span></div>
+      <div class="swatch" style="background:#666;color:#fff"><span class="sw-name">60</span></div>
+      <div class="swatch" style="background:#525252;color:#fff"><span class="sw-name">70</span></div>
+      <div class="swatch" style="background:#3d3d3d;color:#fff"><span class="sw-name">80</span></div>
+      <div class="swatch" style="background:#292929;color:#fff"><span class="sw-name">90</span></div>
+      <div class="swatch" style="background:#0a0a0a;color:#fff"><span class="sw-name">blk</span></div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div style="font-size:12px;color:var(--text-3);margin-bottom:8px;font-weight:500;">Accents + Semantic</div>
+    <div class="palette-strip" style="max-width:400px;">
+      <div class="swatch" style="background:var(--teal);color:#000">Teal</div>
+      <div class="swatch" style="background:var(--pf-cyan-50);color:#fff">Cyan</div>
+      <div class="swatch" style="background:var(--success);color:#000">Pass</div>
+      <div class="swatch" style="background:var(--warning);color:#000">Warn</div>
+      <div class="swatch" style="background:var(--error);color:#fff">Fail</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ TYPOGRAPHY ═══ -->
+<section class="section reveal-stagger" id="type">
+  <div class="section-label reveal">Typography</div>
+  <h2 class="section-title reveal">Space Grotesk + Plus Jakarta Sans</h2>
+
+  <div class="reveal">
+    <div class="type-row">
+      <div class="type-meta">Display<br>72px / 700<br>-0.045em</div>
+      <div style="font-family:var(--font-display);font-size:64px;font-weight:700;letter-spacing:-0.045em;line-height:0.95">Compliant</div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="type-row">
+      <div class="type-meta">Heading 1<br>36px / 600<br>-0.025em</div>
+      <div style="font-family:var(--font-display);font-size:36px;font-weight:600;letter-spacing:-0.025em;line-height:1.1">Trust Score</div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="type-row">
+      <div class="type-meta">Heading 2<br>24px / 600<br>-0.02em</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:600;letter-spacing:-0.02em;line-height:1.2">Brief Interpretation</div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="type-row">
+      <div class="type-meta">Body Large<br>17px / 300<br>0.005em</div>
+      <div style="font-family:var(--font-body);font-size:17px;font-weight:300;color:var(--text-2);line-height:1.7;letter-spacing:0.005em">AI-powered pharma content that passes every compliance gate before it renders.</div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="type-row">
+      <div class="type-meta">Body<br>14px / 400</div>
+      <div style="font-family:var(--font-body);font-size:14px;color:var(--text-2);line-height:1.65">Generate compliant pharmaceutical web pages from natural language briefs. Every component is pre-approved, every claim is referenced.</div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="type-row">
+      <div class="type-meta">Label<br>13px / 500<br>0.08em</div>
+      <div style="font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--text-2);letter-spacing:0.08em">Compliance Gate &middot; Brand Score &middot; Pharma Score</div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="type-row">
+      <div class="type-meta">Overline<br>11px / 500<br>0.2em</div>
+      <div style="font-family:var(--font-display);font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal)">Important Safety Information</div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="type-row">
+      <div class="type-meta">Mono<br>13px / 400</div>
+      <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-2);letter-spacing:0.02em">score: 93 | brand: 100 | pharma: 90 | a11y: 90</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ GLASS CARDS ═══ -->
+<section class="section reveal-stagger" id="glass">
+  <div class="section-label reveal">Components</div>
+  <h2 class="section-title reveal">Glass Cards</h2>
+
+  <div class="glass-grid">
+    <div class="glass reveal" style="padding:24px;">
+      <div class="glass-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div class="glass-title">Brief to Page</div>
+      <div class="glass-desc">Describe what you need. AI generates two compliant variants in seconds.</div>
+    </div>
+    <div class="glass reveal" style="padding:24px;">
+      <div class="glass-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+      <div class="glass-title">Compliance Gate</div>
+      <div class="glass-desc">Every page passes brand, pharma, and accessibility checks before render.</div>
+    </div>
+    <div class="glass reveal" style="padding:24px;">
+      <div class="glass-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
+      <div class="glass-title">Chat to Edit</div>
+      <div class="glass-desc">Refine through conversation. Compliance re-checked after every edit.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ WORKSPACE ═══ -->
+<section class="section" id="workspace">
+  <div class="section-label reveal">Full Layout</div>
+  <h2 class="section-title reveal">Build Workspace</h2>
+
+  <div class="reveal">
+    <!-- Nav -->
+    <div class="app-nav">
+      <div class="nav-logo">
+        <div class="logo-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <span>Pfizer DDA</span>
+      </div>
+      <div class="nav-links">
+        <a class="nav-link">Home</a>
+        <a class="nav-link active">Build</a>
+        <a class="nav-link">Scan</a>
+      </div>
+      <div style="flex:1"></div>
+      <div class="roles">
+        <button class="role-btn on">Marketer</button>
+        <button class="role-btn">QA</button>
+        <button class="role-btn">Developer</button>
+      </div>
+    </div>
+
+    <!-- Pipeline -->
+    <div class="pipeline">
+      <div class="pip-step done"><div class="pip-dot"></div>Brief</div>
+      <div class="pip-line" style="background:var(--success)"></div>
+      <div class="pip-step done"><div class="pip-dot"></div>Interpret</div>
+      <div class="pip-line" style="background:var(--success)"></div>
+      <div class="pip-step done"><div class="pip-dot"></div>Generate</div>
+      <div class="pip-line" style="background:var(--success)"></div>
+      <div class="pip-step done"><div class="pip-dot"></div>Compliance</div>
+      <div class="pip-line"></div>
+      <div class="pip-step on"><div class="pip-dot"></div>Preview</div>
+    </div>
+
+    <!-- 3-col -->
+    <div class="workspace">
+      <!-- LEFT -->
+      <div class="panel">
+        <div class="panel-head"><span>Brief</span><span style="font-size:11px;color:var(--success)">Interpreted</span></div>
+        <div class="panel-body">
+          <div style="background:var(--surface-1);border:1px solid var(--border-1);border-radius:var(--r-md);padding:10px 12px;font-size:12px;color:var(--text-2);line-height:1.6;margin-bottom:16px;">
+            Create an HCP awareness page for Paxlovid, targeting US pulmonologists. Include efficacy data and eligibility criteria.
+          </div>
+          <div style="font-family:var(--font-display);font-size:10px;letter-spacing:var(--track-overline);text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:8px;">Interpretation</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.8;">
+            <div><span style="color:var(--text-3)">Market</span> US (FDA)</div>
+            <div><span style="color:var(--text-3)">Audience</span> HCP</div>
+            <div><span style="color:var(--text-3)">Product</span> Paxlovid</div>
+          </div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:10px">
+            <span style="font-size:10px;padding:3px 8px;background:rgba(251,191,36,0.1);color:var(--warning);border-radius:var(--r-full);font-weight:500">ISI Required</span>
+            <span style="font-size:10px;padding:3px 8px;background:rgba(251,191,36,0.1);color:var(--warning);border-radius:var(--r-full);font-weight:500">FDA Disclosure</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER: Browser frame -->
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="browser-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+          <div class="browser-url">preview.pfizer-dda.vercel.app/paxlovid-hcp</div>
+        </div>
+        <div class="browser-body">
+          <div class="pv-hero">
+            <h2>Paxlovid for COVID-19</h2>
+            <p>Treatment information for healthcare professionals. Review efficacy data and patient eligibility.</p>
+            <a href="#" class="pv-btn">View Prescribing Info</a>
+          </div>
+          <div class="pv-cards">
+            <div class="pv-card"><h3>Efficacy Data</h3><p>89% reduction in hospitalization risk in high-risk adults. EPIC-HR trial.</p></div>
+            <div class="pv-card"><h3>Patient Eligibility</h3><p>Adults with mild-to-moderate COVID-19 at high risk. Within 5 days of onset.</p></div>
+          </div>
+          <div class="pv-isi"><strong>IMPORTANT SAFETY INFORMATION</strong><br>Contraindicated in patients with clinically significant hypersensitivity...</div>
+          <div class="pv-disclaimer">US healthcare professionals only. Report adverse events: FDA MedWatch 1-800-FDA-1088.</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Compliance -->
+      <div class="panel">
+        <div class="panel-head"><span>Compliance</span><button class="btn btn-teal btn-sm" style="padding:4px 10px;font-size:10px">Auto-Fix</button></div>
+        <div class="panel-body">
+          <div style="display:flex;justify-content:center;margin-bottom:16px">
+            <div class="gauge">
+              <svg viewBox="0 0 100 100">
+                <circle class="gauge-bg" cx="50" cy="50" r="42"/>
+                <circle class="gauge-fill gauge-high" cx="50" cy="50" r="42" style="stroke-dashoffset:18"/>
+              </svg>
+              <div class="gauge-center">
+                <div class="gauge-num" style="color:var(--success)">93</div>
+                <div class="gauge-lbl">Score</div>
+              </div>
+            </div>
+          </div>
+          <div class="scores" style="margin-bottom:16px">
+            <div class="score-row"><span class="score-name">Brand</span><div class="score-track"><div class="score-fill" style="width:100%;background:var(--success)"></div></div><span class="score-val" style="color:var(--success)">100</span></div>
+            <div class="score-row"><span class="score-name">Pharma</span><div class="score-track"><div class="score-fill" style="width:90%;background:var(--success)"></div></div><span class="score-val" style="color:var(--success)">90</span></div>
+            <div class="score-row"><span class="score-name">A11y</span><div class="score-track"><div class="score-fill" style="width:90%;background:var(--success)"></div></div><span class="score-val" style="color:var(--success)">90</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px">
+            <span style="width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 8px rgba(52,211,153,0.4)"></span>
+            <span style="font-size:11px;color:var(--success);font-weight:600;font-family:var(--font-display)">Gate: PASSED</span>
+          </div>
+          <div style="font-family:var(--font-display);font-size:10px;letter-spacing:var(--track-overline);text-transform:uppercase;color:var(--text-3);margin-bottom:6px">Checks</div>
+          <div style="font-size:11px;color:var(--text-2);line-height:2">
+            <div style="display:flex;align-items:center;gap:6px"><span style="color:var(--success)">&#10003;</span>Brand components</div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="color:var(--success)">&#10003;</span>Approved tokens</div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="color:var(--success)">&#10003;</span>ISI block present</div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="color:var(--success)">&#10003;</span>Adverse event URL</div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="color:var(--success)">&#10003;</span>Disclaimer</div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="color:var(--warning)">!</span><span style="color:var(--warning)">Fair balance</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ GAUGE ═══ -->
+<section class="section" id="gauge">
+  <div class="section-label reveal">Compliance</div>
+  <h2 class="section-title reveal">Trust Score</h2>
+  <div style="display:flex;gap:16px;flex-wrap:wrap" class="reveal-stagger">
+    <div class="glass reveal" style="padding:28px;flex:1;min-width:300px;">
+      <div style="display:flex;align-items:center;gap:32px;">
+        <div class="gauge">
+          <svg viewBox="0 0 100 100"><circle class="gauge-bg" cx="50" cy="50" r="42"/><circle class="gauge-fill gauge-high" cx="50" cy="50" r="42" style="stroke-dashoffset:18"/></svg>
+          <div class="gauge-center"><div class="gauge-num" style="color:var(--success)">93</div><div class="gauge-lbl">Score</div></div>
+        </div>
+        <div class="scores">
+          <div class="score-row"><span class="score-name">Brand</span><div class="score-track"><div class="score-fill" style="width:100%;background:var(--success)"></div></div><span class="score-val" style="color:var(--success)">100</span></div>
+          <div class="score-row"><span class="score-name">Pharma</span><div class="score-track"><div class="score-fill" style="width:90%;background:var(--success)"></div></div><span class="score-val" style="color:var(--success)">90</span></div>
+          <div class="score-row"><span class="score-name">A11y</span><div class="score-track"><div class="score-fill" style="width:90%;background:var(--success)"></div></div><span class="score-val" style="color:var(--success)">90</span></div>
+          <div style="margin-top:8px;display:flex;align-items:center;gap:6px"><span style="width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 8px rgba(52,211,153,0.4)"></span><span style="font-size:11px;color:var(--success);font-weight:600;font-family:var(--font-display)">PASSED</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="glass reveal" style="padding:28px;flex:1;min-width:300px;">
+      <div style="display:flex;align-items:center;gap:32px;">
+        <div class="gauge">
+          <svg viewBox="0 0 100 100"><circle class="gauge-bg" cx="50" cy="50" r="42"/><circle class="gauge-fill gauge-low" cx="50" cy="50" r="42" style="stroke-dashoffset:158"/></svg>
+          <div class="gauge-center"><div class="gauge-num" style="color:var(--error)">40</div><div class="gauge-lbl">Score</div></div>
+        </div>
+        <div class="scores">
+          <div class="score-row"><span class="score-name">Brand</span><div class="score-track"><div class="score-fill" style="width:50%;background:var(--error)"></div></div><span class="score-val" style="color:var(--error)">50</span></div>
+          <div class="score-row"><span class="score-name">Pharma</span><div class="score-track"><div class="score-fill" style="width:30%;background:var(--error)"></div></div><span class="score-val" style="color:var(--error)">30</span></div>
+          <div class="score-row"><span class="score-name">A11y</span><div class="score-track"><div class="score-fill" style="width:40%;background:var(--warning)"></div></div><span class="score-val" style="color:var(--warning)">40</span></div>
+          <div style="margin-top:8px;display:flex;align-items:center;gap:6px"><span style="width:7px;height:7px;border-radius:50%;background:var(--error);box-shadow:0 0 8px rgba(248,113,113,0.4)"></span><span style="font-size:11px;color:var(--error);font-weight:600;font-family:var(--font-display)">BLOCKED</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══ STATES ═══ -->
+<section class="section" id="states">
+  <div class="section-label reveal">States</div>
+  <h2 class="section-title reveal">Loading, Empty, Chat</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;" class="reveal-stagger">
+    <!-- Skeleton -->
+    <div class="glass reveal" style="padding:20px;">
+      <div style="font-size:11px;color:var(--text-3);font-weight:500;margin-bottom:12px;font-family:var(--font-display);letter-spacing:var(--track-label);">Skeleton</div>
+      <div class="skel skel-block"></div>
+      <div class="skel skel-line" style="width:80%"></div>
+      <div class="skel skel-line"></div>
+      <div class="skel skel-line" style="width:55%"></div>
+    </div>
+
+    <!-- Empty -->
+    <div class="glass reveal" style="padding:0;">
+      <div class="empty">
+        <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
+        <div class="empty-title">Start with a brief</div>
+        <div class="empty-desc">Describe the pharma page you need. We'll handle compliance.</div>
+        <button class="btn btn-primary btn-sm">Enter Brief</button>
+      </div>
+    </div>
+
+    <!-- Chat -->
+    <div class="glass reveal" style="padding:0;">
+      <div class="panel-head"><span>Chat</span><span style="font-size:10px;color:var(--text-3)">3 msgs</span></div>
+      <div class="chat-msgs">
+        <div class="chat-msg chat-msg-u"><div class="chat-av chat-av-u">V</div><div class="chat-bub chat-bub-u">Move ISI above footer</div></div>
+        <div class="chat-msg"><div class="chat-av chat-av-ai">AI</div><div class="chat-bub chat-bub-ai">Done. Compliance re-checked. Score: 93.</div></div>
+        <div class="chat-msg"><div class="chat-av chat-av-ai">AI</div><div class="chat-bub chat-bub-ai"><div class="typing"><div class="typing-d"></div><div class="typing-d"></div><div class="typing-d"></div></div></div></div>
+      </div>
+      <div class="chat-input-wrap">
+        <input class="chat-input" placeholder="Describe an edit...">
+        <button class="chat-send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="padding:64px 32px;text-align:center;">
+  <p style="font-size:11px;color:var(--text-4);font-family:var(--font-display);letter-spacing:var(--track-label)">
+    Future Pfizer Design Prototype v2 &middot; Space Grotesk + Plus Jakarta Sans &middot; CXI+AI 2026
+  </p>
+</div>
+
+</div><!-- /content -->
+
+<!-- ═══ SCROLL REVEAL JS ═══ -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
