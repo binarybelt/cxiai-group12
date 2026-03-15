@@ -45,15 +45,13 @@ export default function PreviewPage() {
 
         <section className="rounded-[2rem] border border-white/[0.08] bg-white/[0.03] p-token-xl shadow-token-md backdrop-blur">
           <p className="text-caption uppercase tracking-[0.32em] text-pfizer-blue-accent">
-            Component Library Preview
+            COMPONENT LIBRARY
           </p>
           <h1 className="mt-token-md text-heading-xl text-white">
-            All approved design system components
+            The approved building blocks
           </h1>
           <p className="mt-token-md max-w-3xl text-body-lg text-white/70">
-            This page is the visual checkpoint for constrained generation:
-            every section below is built from the fixed component library that
-            later phases will compose into compliant pages.
+            Every component the AI can use. Nothing else exists.
           </p>
         </section>
 

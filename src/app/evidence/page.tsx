@@ -204,11 +204,10 @@ export default function EvidencePage() {
       {/* Header */}
       <div className="mb-8 mt-4">
         <h1 className="text-2xl font-bold text-white/[0.93]">
-          Compliance Evidence Chain
+          Every Decision, Verified
         </h1>
         <p className="mt-1 text-sm text-white/[0.55]">
-          FDA 21 CFR Part 11 compliant audit trail with SHA-256 hash chain
-          verification
+          Tamper-proof audit trail — every AI decision hashed, chained, and verifiable. Click to prove it.
         </p>
       </div>
 

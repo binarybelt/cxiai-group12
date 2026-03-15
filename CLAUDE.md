@@ -4,23 +4,31 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Status
 
-Phase 1 foundation work is in progress. The repository now contains the initial
-Next.js App Router scaffold that subsequent plans will extend.
+Phase 1 complete. The site has a cinematic, scroll-driven landing page with
+Motion animations, rewritten copy across all pages for narrative storytelling,
+and a restructured navigation (Build, Scan, Audit Trail, How It Works, Components).
 
 ## Commands
 
-- Dev: `npm run dev`
-- Build: `npm run build`
-- Lint: `npm run lint`
-- Test: `npm test`
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server (webpack, hot reload) |
+| `npm run build` | Production build with type checking (webpack) |
+| `npm start` | Serve production build |
+| `npm run lint` | ESLint across entire project |
+| `npm test` | Run test suite (Vitest) |
+| `npm run test:coverage` | Run tests with V8 coverage report |
 
 ## Architecture
 
-- Next.js 14+ App Router
-- TypeScript with strict mode enabled
-- Tailwind CSS for UI styling
-- Convex for backend state and audit logging
+- Next.js 16 App Router (webpack mode)
+- TypeScript strict mode
+- Tailwind CSS 3 for UI styling
+- Convex for real-time backend state and audit logging
+- Vercel AI SDK (multi-provider: Gemini, Claude, OpenRouter)
 - Zod for runtime schemas and cross-agent contracts
+- Vitest + Testing Library for tests
+- Motion (Framer Motion) for animations
 
 ## Conventions
 

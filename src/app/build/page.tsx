@@ -13,8 +13,7 @@ export default function BuildPage() {
     <div className="flex flex-1 flex-col overflow-hidden">
       <header className="flex-shrink-0 border-b border-white/[0.06] bg-transparent px-6 py-3">
         <p className="text-sm text-white/55">
-          Type a brief to generate a compliant page from approved pharma
-          components.
+          Describe the page you need. The AI builds it from Pfizer&apos;s approved component library.
         </p>
       </header>
       <BuildUI />

@@ -5,12 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { label: "Home", href: "/" },
   { label: "Build", href: "/build" },
   { label: "Scan", href: "/scan" },
-  { label: "Evidence", href: "/evidence" },
-  { label: "Transparency", href: "/transparency" },
-  { label: "Preview", href: "/preview" },
+  { label: "Audit Trail", href: "/evidence" },
+  { label: "How It Works", href: "/transparency" },
+  { label: "Components", href: "/preview" },
 ] as const;
 
 export function AppNav() {
@@ -33,10 +32,7 @@ export function AppNav() {
         {/* Desktop nav */}
         <div className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => {
-            const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(link.href);
+            const isActive = pathname.startsWith(link.href);
 
             return (
               <Link
@@ -84,10 +80,7 @@ export function AppNav() {
       {menuOpen && (
         <div className="flex flex-col gap-1 border-t border-white/[0.06] px-6 py-3 md:hidden">
           {navLinks.map((link) => {
-            const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(link.href);
+            const isActive = pathname.startsWith(link.href);
 
             return (
               <Link

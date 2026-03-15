@@ -232,15 +232,37 @@ export default function TransparencyPage() {
       {/* Header */}
       <div className="mb-10 mt-4">
         <h1 className="text-2xl font-bold text-white/[0.93]">
-          AI Transparency Report
+          How the AI Actually Works
         </h1>
         <p className="mt-1 text-sm text-white/[0.55]">
-          How we use AI, how we prevent hallucination, and how we ensure
-          trustworthy output
+          Three agents. Six guardrails. Zero hallucination surface.
         </p>
       </div>
 
-      {/* Section 1: Three AI Agents */}
+      {/* Section 1: The Constraint Philosophy */}
+      <section className="mb-10">
+        <SectionHeading>The Constraint Philosophy</SectionHeading>
+        <div className="space-y-3 text-sm leading-relaxed text-white/[0.7]">
+          <p>
+            Most AI tools generate freely, then check what they made.
+            We took the opposite approach.
+          </p>
+          <p>
+            The design system — tokens, components, patterns — is loaded into the
+            AI&apos;s schema before generation starts. The AI cannot reference a color
+            that isn&apos;t in the approved palette. It cannot use a component that
+            isn&apos;t in the library. It cannot skip a required section like ISI or
+            disclaimers.
+          </p>
+          <p>
+            This isn&apos;t prompt engineering. It&apos;s schema engineering. The Zod types
+            that define the AI&apos;s output literally cannot represent an unapproved
+            component. Compliance is structural, not aspirational.
+          </p>
+        </div>
+      </section>
+
+      {/* Section 2: Three AI Agents */}
       <section className="mb-10">
         <SectionHeading>Three AI Agents</SectionHeading>
         <div className="flex flex-col gap-4">
@@ -250,9 +272,9 @@ export default function TransparencyPage() {
         </div>
       </section>
 
-      {/* Section 2: Anti-Hallucination Strategy */}
+      {/* Section 3: Six Anti-Hallucination Guardrails */}
       <section className="mb-10">
-        <SectionHeading>Anti-Hallucination Strategy</SectionHeading>
+        <SectionHeading>Six Anti-Hallucination Guardrails</SectionHeading>
         <ul className="list-disc space-y-3 pl-5">
           {ANTI_HALLUCINATION.map((item) => (
             <li key={item.label} className="text-sm text-white/[0.7]">
@@ -262,24 +284,24 @@ export default function TransparencyPage() {
         </ul>
       </section>
 
-      {/* Section 3: Cost Efficiency */}
+      {/* Section 4: What the AI Cannot Do */}
       <section className="mb-10">
-        <SectionHeading>Cost Efficiency</SectionHeading>
-        <BulletList items={COST_POINTS} />
-      </section>
-
-      {/* Section 4: What AI Does NOT Do */}
-      <section className="mb-10">
-        <SectionHeading>What AI Does NOT Do</SectionHeading>
+        <SectionHeading>What the AI Cannot Do</SectionHeading>
         <p className="mb-3 text-sm font-medium text-white/[0.55]">
           This is critical for trust:
         </p>
         <BulletList items={AI_DOES_NOT} />
       </section>
 
-      {/* Section 5: Audit Trail */}
+      {/* Section 5: Cost Efficiency */}
       <section className="mb-10">
-        <SectionHeading>Audit Trail</SectionHeading>
+        <SectionHeading>Cost Efficiency</SectionHeading>
+        <BulletList items={COST_POINTS} />
+      </section>
+
+      {/* Section 6: The Proof: Audit Trail */}
+      <section className="mb-10">
+        <SectionHeading>The Proof: Audit Trail</SectionHeading>
         <BulletList items={AUDIT_POINTS} />
         <p className="mt-3 text-sm text-white/[0.55]">
           See the live audit chain at{" "}

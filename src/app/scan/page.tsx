@@ -16,10 +16,17 @@ export default function ScanPage() {
         criterion="Insight & Problem Understanding"
       />
 
-      <p className="mb-6 mt-4 text-sm text-white/55">
-        Monitor brand compliance across your digital portfolio and scan live
-        URLs for design-system drift.
-      </p>
+      <div className="mb-6 mt-4">
+        <h1 className="text-2xl font-bold text-white/[0.93]">
+          Point at any live URL. See exactly where it&apos;s drifted from brand.
+        </h1>
+        <p className="mt-2 text-sm text-white/55">
+          The single pane of glass across 2,000+ properties.
+        </p>
+        <p className="mt-3 text-sm text-white/55">
+          Scan any URL against the approved design system. Flag outdated tokens, missing components, compliance gaps.
+        </p>
+      </div>
 
       <ScanDashboard />
 
