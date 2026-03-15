@@ -8,6 +8,11 @@ Phase 1 complete. The site has a cinematic, scroll-driven landing page with
 Motion animations, rewritten copy across all pages for narrative storytelling,
 and a restructured navigation (Build, Scan, Audit Trail, How It Works, Components).
 
+Warm Obsidian design system applied: dark charcoal base (#0C0A12), UX-split
+violet palette (saturated #A78BFA for interactive, muted for structural), all
+12 pharma components converted to dark-mode glass-morphism. Teal preserved for
+status indicators. Token names: `brand-*` (replaces legacy `pfizer-blue-*`).
+
 ## Commands
 
 | Command | Description |
