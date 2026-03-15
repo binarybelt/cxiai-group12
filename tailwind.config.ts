@@ -9,15 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        pfizer: {
-          blue: {
-            100: "#E6F4FB",
-            500: "#0093D0",
-            700: "#006699",
-            800: "#000067",
-            900: "#00003a",
-            accent: "#2e29ff",
-          },
+        brand: {
+          100: "#EDE9FE",
+          300: "#C4B5FD",
+          500: "#8B5CF6",
+          700: "#6D28D9",
+          800: "#5B21B6",
+          900: "#4C1D95",
+          accent: "#A78BFA",
         },
         coral: {
           400: "#FF7F6E",
@@ -76,9 +75,9 @@ const config: Config = {
         "token-full": "9999px",
       },
       boxShadow: {
-        "token-sm": "0 6px 18px rgba(15, 23, 42, 0.08)",
-        "token-md": "0 12px 30px rgba(15, 23, 42, 0.12)",
-        "token-lg": "0 24px 60px rgba(15, 23, 42, 0.18)",
+        "token-sm": "0 6px 18px rgba(12, 10, 18, 0.12)",
+        "token-md": "0 12px 30px rgba(12, 10, 18, 0.18)",
+        "token-lg": "0 24px 60px rgba(12, 10, 18, 0.25)",
       },
       keyframes: {
         shimmer: {

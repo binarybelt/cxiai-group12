@@ -19,12 +19,12 @@ export function AppNav() {
   return (
     <nav
       aria-label="Main navigation"
-      className="sticky top-0 z-50 flex-shrink-0 border-b border-white/[0.06] bg-[rgba(0,0,20,0.6)] backdrop-blur-xl"
+      className="sticky top-0 z-50 flex-shrink-0 border-b border-white/[0.06] bg-[rgba(12,10,18,0.6)] backdrop-blur-xl"
     >
       <div className="flex h-12 items-center px-6">
         <Link
           href="/"
-          className="mr-8 font-display text-sm font-bold tracking-wide text-pfizer-blue-accent"
+          className="mr-8 font-display text-sm font-bold tracking-wide text-brand-accent"
         >
           Design Delivery Accelerator
         </Link>
@@ -39,9 +39,9 @@ export function AppNav() {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`relative rounded-md px-3 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent ${
+                className={`relative rounded-md px-3 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${
                   isActive
-                    ? "text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-pfizer-blue-accent after:shadow-[0_0_8px_rgba(46,41,255,0.5)]"
+                    ? "text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-accent after:shadow-[0_0_8px_rgba(167,139,250,0.5)]"
                     : "text-white/55 hover:text-white/90"
                 }`}
               >
@@ -57,7 +57,7 @@ export function AppNav() {
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
-          className="ml-auto flex h-8 w-8 items-center justify-center rounded-md text-white/70 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent md:hidden"
+          className="ml-auto flex h-8 w-8 items-center justify-center rounded-md text-white/70 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent md:hidden"
         >
           <svg
             aria-hidden="true"
@@ -88,9 +88,9 @@ export function AppNav() {
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent ${
+                className={`rounded-md px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${
                   isActive
-                    ? "bg-pfizer-blue-accent/15 text-white"
+                    ? "bg-brand-accent/15 text-white"
                     : "text-white/55 hover:bg-white/[0.06] hover:text-white/90"
                 }`}
               >

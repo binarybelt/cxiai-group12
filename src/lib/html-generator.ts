@@ -23,10 +23,10 @@ function mapComponent(ref: ComponentRef): string {
       const subtitle = escapeHtml(String(p.subtitle ?? ""));
       const ctaLabel = escapeHtml(String(p.ctaLabel ?? ""));
       const ctaHref = escapeHtml(String(p.ctaHref ?? "#"));
-      return `<header class="bg-pfizer-blue-700 text-white py-16 px-8 text-center">
+      return `<header class="bg-brand-700 text-white py-16 px-8 text-center">
   <h1 class="text-4xl font-bold mb-4">${heading}</h1>
   ${subtitle ? `<p class="text-xl mb-6 opacity-90">${subtitle}</p>` : ""}
-  ${ctaLabel ? `<a href="${ctaHref}" class="inline-block bg-white text-pfizer-blue-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition">${ctaLabel}</a>` : ""}
+  ${ctaLabel ? `<a href="${ctaHref}" class="inline-block bg-white text-brand-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition">${ctaLabel}</a>` : ""}
 </header>`;
     }
 
@@ -49,8 +49,8 @@ function mapComponent(ref: ComponentRef): string {
       const variant = String(p.variant ?? "primary");
       const btnClass =
         variant === "secondary"
-          ? "border border-pfizer-blue-700 text-pfizer-blue-700 bg-white hover:bg-pfizer-blue-50"
-          : "bg-pfizer-blue-700 text-white hover:bg-pfizer-blue-800";
+          ? "border border-brand-700 text-brand-700 bg-white hover:bg-brand-100"
+          : "bg-brand-700 text-white hover:bg-brand-800";
       return `<div class="text-center py-4">
   <a href="${href}" class="inline-block font-semibold px-6 py-3 rounded-full transition ${btnClass}">${label}</a>
 </div>`;
@@ -85,9 +85,9 @@ function mapComponent(ref: ComponentRef): string {
       const links = Array.isArray(p.links) ? (p.links as { label: string; href: string }[]) : [];
       const brand = escapeHtml(String(p.brand ?? ""));
       return `<nav class="flex items-center justify-between bg-white border-b border-gray-200 px-8 py-4">
-  <span class="font-bold text-pfizer-blue-700 text-lg">${brand}</span>
+  <span class="font-bold text-brand-700 text-lg">${brand}</span>
   <div class="flex gap-6">
-    ${links.map((l) => `<a href="${escapeHtml(l.href ?? "#")}" class="text-sm text-gray-700 hover:text-pfizer-blue-700 transition">${escapeHtml(l.label ?? "")}</a>`).join("\n    ")}
+    ${links.map((l) => `<a href="${escapeHtml(l.href ?? "#")}" class="text-sm text-gray-700 hover:text-brand-700 transition">${escapeHtml(l.label ?? "")}</a>`).join("\n    ")}
   </div>
 </nav>`;
     }
@@ -112,7 +112,7 @@ function mapComponent(ref: ComponentRef): string {
     case "ClaimReference": {
       const claim = escapeHtml(String(p.claim ?? ""));
       const citation = escapeHtml(String(p.citation ?? ""));
-      return `<blockquote class="border-l-4 border-pfizer-blue-500 bg-blue-50 px-4 py-3 my-4">
+      return `<blockquote class="border-l-4 border-brand-500 bg-brand-100 px-4 py-3 my-4">
   <p class="text-sm text-gray-800">${claim}</p>
   <cite class="text-xs text-gray-500 mt-1 block">${citation}</cite>
 </blockquote>`;
@@ -162,11 +162,11 @@ export function generateStandaloneHtml(spec: PageSpec): string {
       theme: {
         extend: {
           colors: {
-            'pfizer-blue': {
-              100: '#E6F4FB',
-              500: '#0093D0',
-              700: '#006699',
-              800: '#005580',
+            'brand': {
+              100: '#EDE9FE',
+              500: '#8B5CF6',
+              700: '#6D28D9',
+              800: '#5B21B6',
             },
           },
         },

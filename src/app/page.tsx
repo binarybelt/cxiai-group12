@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { SCROLL_REVEAL, SPRING } from "@/lib/motion-config";
@@ -134,6 +135,16 @@ const connectorVariants = {
   visible: { scaleX: 1, transition: { duration: 0.4, ease: EASE_OUT } },
 };
 
+const statsContainerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const statItemVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE_OUT } },
+};
+
 const diffContainerVariants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
@@ -170,7 +181,7 @@ export default function HomePage() {
           {/* Left — headline */}
           <div className="flex-1">
             <motion.p
-              className="mb-4 font-mono text-sm font-semibold uppercase tracking-[0.3em] text-pfizer-blue-accent"
+              className="mb-4 font-mono text-sm font-semibold uppercase tracking-[0.3em] text-brand-accent"
               variants={heroChildVariants}
             >
               PFIZER CXI+AI CHALLENGE 2026
@@ -203,13 +214,13 @@ export default function HomePage() {
             <motion.div className="mt-8 flex gap-4" variants={heroChildVariants}>
               <Link
                 href="/build"
-                className="rounded-lg bg-[#0000c9] px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_20px_rgba(0,0,201,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2"
+                className="rounded-lg bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_20px_rgba(109,40,217,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
               >
                 Start Building →
               </Link>
               <Link
                 href="/transparency"
-                className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-6 py-2.5 text-sm font-semibold text-white/55 transition hover:border-white/[0.16] hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2"
+                className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-6 py-2.5 text-sm font-semibold text-white/55 transition hover:border-white/[0.16] hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
               >
                 See How It Works
               </Link>
@@ -227,8 +238,8 @@ export default function HomePage() {
                 y: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 },
               }}
             >
-              <div className="rounded-[2.5rem] bg-gradient-to-br from-pfizer-blue-900/60 via-pfizer-blue-800/40 to-teal/10 p-8 shadow-2xl">
-                <div className="rounded-xl border border-white/[0.08] bg-[#000014] p-6">
+              <div className="rounded-[2.5rem] bg-gradient-to-br from-brand-900/60 via-brand-800/40 to-teal/10 p-8 shadow-2xl">
+                <div className="rounded-xl border border-white/[0.08] bg-[#0C0A12] p-6">
                   <div className="flex items-center gap-2 border-b border-white/[0.06] pb-3">
                     <div className="flex gap-1.5">
                       <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
@@ -245,7 +256,7 @@ export default function HomePage() {
                     <div className="h-3 w-5/6 rounded bg-white/[0.04]" />
                     <div className="mt-4 h-20 w-full rounded-lg bg-white/[0.03]" />
                     <div className="flex gap-2">
-                      <div className="h-8 w-24 rounded bg-pfizer-blue-accent/20" />
+                      <div className="h-8 w-24 rounded bg-brand-accent/20" />
                       <div className="h-8 w-20 rounded bg-white/[0.04]" />
                     </div>
                   </div>
@@ -262,14 +273,14 @@ export default function HomePage() {
           className="mx-auto max-w-3xl rounded-2xl border border-white/[0.06] bg-white/[0.03] p-10 text-center backdrop-blur-sm"
           initial={{
             ...SCROLL_REVEAL.initial,
-            boxShadow: "0 0 0 rgba(46,41,255,0)",
+            boxShadow: "0 0 0 rgba(167,139,250,0)",
           }}
           whileInView={{
             ...SCROLL_REVEAL.whileInView,
             boxShadow: [
-              "0 0 0 rgba(46,41,255,0)",
-              "0 0 20px rgba(46,41,255,0.15)",
-              "0 0 0 rgba(46,41,255,0)",
+              "0 0 0 rgba(167,139,250,0)",
+              "0 0 20px rgba(167,139,250,0.15)",
+              "0 0 0 rgba(167,139,250,0)",
             ],
           }}
           viewport={SCROLL_REVEAL.viewport}
@@ -278,7 +289,7 @@ export default function HomePage() {
             boxShadow: { duration: 2, delay: 0.6, ease: "easeInOut" },
           }}
         >
-          <h2 className="mb-4 font-display text-xl font-bold uppercase tracking-wider text-pfizer-blue-accent">
+          <h2 className="mb-4 font-display text-xl font-bold uppercase tracking-wider text-brand-accent">
             The Problem
           </h2>
           <blockquote className="mb-4 text-lg italic leading-relaxed text-white/70">
@@ -292,6 +303,27 @@ export default function HomePage() {
           </p>
         </motion.div>
       </section>
+
+      {/* Stats row */}
+      <motion.div
+        className="mx-auto grid max-w-4xl gap-8 px-6 py-12 text-center sm:grid-cols-4"
+        variants={statsContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+      >
+        {[
+          { value: "218", label: "tests passing" },
+          { value: "13", label: "compliance rules" },
+          { value: "3", label: "AI agents" },
+          { value: "45s", label: "generation time" },
+        ].map((stat) => (
+          <motion.div key={stat.label} variants={statItemVariants}>
+            <div className="text-3xl font-bold text-teal">{stat.value}</div>
+            <div className="mt-1 text-sm text-white/55">{stat.label}</div>
+          </motion.div>
+        ))}
+      </motion.div>
 
       {/* Feature cards — stagger reveal */}
       <motion.section
@@ -308,7 +340,7 @@ export default function HomePage() {
               className="group flex h-full flex-col rounded-2xl border border-white/[0.06] border-t-white/[0.16] bg-white/[0.03] p-6 backdrop-blur-sm transition hover:-translate-y-1 hover:border-white/[0.12] hover:bg-white/[0.05] hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
             >
               <motion.div
-                className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pfizer-blue-accent/20 to-teal/20 text-pfizer-blue-accent transition group-hover:from-pfizer-blue-accent/30 group-hover:to-teal/30"
+                className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-accent/20 to-teal/20 text-brand-accent transition group-hover:from-brand-accent/30 group-hover:to-teal/30"
                 variants={iconVariants}
               >
                 {f.icon}
@@ -340,7 +372,7 @@ export default function HomePage() {
             {steps.map((s, i) => (
               <motion.div key={s.number} className="relative text-center" variants={stepTextVariants}>
                 <motion.div
-                  className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-pfizer-blue-accent to-[#0000c9] font-mono text-sm font-bold text-white"
+                  className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-accent to-brand-700 font-mono text-sm font-bold text-white"
                   variants={numberVariants}
                 >
                   {s.number}
@@ -404,6 +436,31 @@ export default function HomePage() {
               </motion.li>
             ))}
           </motion.ul>
+        </div>
+      </section>
+
+      {/* Closing CTA */}
+      <section className="border-t border-white/[0.06] px-6 py-16">
+        <div className="mx-auto max-w-3xl text-center">
+          <motion.div {...SCROLL_REVEAL}>
+            <h2 className="mb-6 font-display text-2xl font-bold text-white/[0.93]">
+              See it in action
+            </h2>
+            <div className="flex justify-center gap-4">
+              <Link
+                href="/build"
+                className="rounded-lg bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_20px_rgba(109,40,217,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+              >
+                Try the Demo →
+              </Link>
+              <Link
+                href="/evidence"
+                className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-6 py-2.5 text-sm font-semibold text-white/55 transition hover:border-white/[0.16] hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+              >
+                View Audit Trail
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 

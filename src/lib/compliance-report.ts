@@ -146,8 +146,8 @@ export function generateComplianceReport(spec: PageSpec): string {
 <body>
   <div class="container">
     <!-- Header -->
-    <div style="border-bottom:3px solid #1d4ed8;padding-bottom:20px;margin-bottom:32px;">
-      <h1 style="margin:0;font-size:24px;color:#1d4ed8;">Compliance Report</h1>
+    <div style="border-bottom:3px solid #6D28D9;padding-bottom:20px;margin-bottom:32px;">
+      <h1 style="margin:0;font-size:24px;color:#6D28D9;">Compliance Report</h1>
       <p style="margin:4px 0 0;font-size:14px;color:#6b7280;">Design Delivery Accelerator</p>
     </div>
 

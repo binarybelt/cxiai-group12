@@ -50,7 +50,7 @@ function EntryCard({
       {/* Timeline connector */}
       <div className="absolute left-3 top-0 h-full w-px bg-white/[0.08]" />
       <div
-        className={`absolute left-1.5 top-6 h-3 w-3 rounded-full ${dotColor} ring-2 ring-[#000014]`}
+        className={`absolute left-1.5 top-6 h-3 w-3 rounded-full ${dotColor} ring-2 ring-[#0C0A12]`}
       />
 
       <div
@@ -218,7 +218,7 @@ export default function EvidencePage() {
             type="button"
             onClick={handleVerify}
             disabled={isVerifying}
-            className="rounded-full bg-pfizer-blue-700 px-5 py-2 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:opacity-50"
+            className="rounded-full bg-brand-700 px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-800 disabled:opacity-50"
           >
             {isVerifying ? "Verifying..." : "Verify Chain Integrity"}
           </button>

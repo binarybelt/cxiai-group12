@@ -36,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${plusJakartaSans.variable} ${spaceMono.variable}`}>
-      <body className="antialiased font-body bg-[#000014] text-white">
+      <body className="antialiased font-body bg-[#0C0A12] text-white">
         <div className="noise-overlay" aria-hidden="true" />
         <div className="vignette" aria-hidden="true" />
         <Providers>

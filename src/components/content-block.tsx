@@ -16,8 +16,8 @@ const alignmentClasses: Record<ContentAlignment, string> = {
 
 const variantClasses: Record<ContentVariant, string> = {
   standard: "border border-gray-200 bg-white",
-  highlighted: "border border-pfizer-blue-100 bg-pfizer-blue-100/45",
-  callout: "border border-gray-200 bg-white border-l-4 border-l-pfizer-blue-500",
+  highlighted: "border border-brand-100 bg-brand-100/45",
+  callout: "border border-gray-200 bg-white border-l-4 border-l-brand-500",
 };
 
 export function ContentBlock({

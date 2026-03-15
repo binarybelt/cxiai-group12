@@ -59,7 +59,7 @@ function SeverityDot({ severity }: { severity: "error" | "warning" | "info" }) {
       ? "bg-red-500"
       : severity === "warning"
         ? "bg-amber-400"
-        : "bg-pfizer-blue-accent/60";
+        : "bg-brand-accent/60";
   return (
     <span className={`mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full ${color}`} />
   );
@@ -259,7 +259,7 @@ export function ComplianceSidebar({
                           const fixed = applyAutoFix(spec, originalViolation);
                           onAutoFix(fixed);
                         }}
-                        className="flex-shrink-0 rounded-full bg-pfizer-blue-accent/20 px-2 py-0.5 text-xs font-semibold text-pfizer-blue-accent hover:bg-pfizer-blue-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent/40"
+                        className="flex-shrink-0 rounded-full bg-brand-accent/20 px-2 py-0.5 text-xs font-semibold text-brand-accent hover:bg-brand-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/40"
                       >
                         Fix
                       </button>

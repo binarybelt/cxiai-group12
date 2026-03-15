@@ -10,11 +10,11 @@ export interface CTAProps {
 
 const variantClasses: Record<CTAVariant, string> = {
   primary:
-    "bg-pfizer-blue-500 text-white shadow-token-sm hover:bg-pfizer-blue-700",
+    "bg-brand-500 text-white shadow-token-sm hover:bg-brand-700",
   secondary:
-    "bg-white text-pfizer-blue-700 ring-1 ring-pfizer-blue-500 hover:bg-pfizer-blue-100",
+    "bg-white text-brand-700 ring-1 ring-brand-500 hover:bg-brand-100",
   outline:
-    "bg-transparent text-pfizer-blue-700 ring-1 ring-gray-300 hover:ring-pfizer-blue-500",
+    "bg-transparent text-brand-700 ring-1 ring-gray-300 hover:ring-brand-500",
 };
 
 export function CTA({ text, href = "#", variant = "primary" }: CTAProps) {

@@ -68,12 +68,12 @@ export function FigmaImport() {
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://www.figma.com/file/ABC123/My-Design"
           required
-          className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-pfizer-blue-accent focus:outline-none focus:ring-2 focus:ring-pfizer-blue-accent/30 focus:ring-offset-2 focus:ring-offset-[#000014]"
+          className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-brand-accent focus:outline-none focus:ring-2 focus:ring-brand-accent/30 focus:ring-offset-2 focus:ring-offset-[#0C0A12]"
         />
         <button
           type="submit"
           disabled={loading}
-          className="rounded-full bg-[#0000c9] px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_16px_rgba(0,0,201,0.4)] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#000014]"
+          className="rounded-full bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_16px_rgba(109,40,217,0.4)] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#0C0A12]"
         >
           {loading ? "Importing..." : "Import"}
         </button>

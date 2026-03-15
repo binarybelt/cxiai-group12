@@ -291,7 +291,7 @@ export function BuildUI() {
   // -------------------------------------------------------------------------
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden bg-[#000014] text-white">
+    <div className="flex flex-1 flex-col overflow-hidden bg-[#0C0A12] text-white">
       {/* Role toggle bar */}
       <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.03] backdrop-blur-sm px-6 py-2">
         {ROLE_LABELS.map(({ key, label }) => (
@@ -301,7 +301,7 @@ export function BuildUI() {
             onClick={() => setActiveRole(key)}
             className={`rounded-full px-4 py-1.5 text-sm font-display font-semibold transition ${
               activeRole === key
-                ? "bg-pfizer-blue-accent text-white shadow-[0_0_12px_rgba(46,41,255,0.3)]"
+                ? "bg-brand-accent text-white shadow-[0_0_12px_rgba(167,139,250,0.3)]"
                 : "border border-white/[0.08] bg-white/[0.03] text-white/55 hover:border-white/[0.16] hover:text-white/90"
             }`}
           >
@@ -338,12 +338,12 @@ export function BuildUI() {
                   onChange={(e) => setBrief(e.target.value)}
                   placeholder="Describe the page you need. For example: Create an HCP landing page for Lipitor in the US market with efficacy data and safety information."
                   rows={8}
-                  className="w-full resize-y rounded-2xl border border-white/[0.08] bg-white/[0.05] p-4 text-sm text-white placeholder:text-white/35 focus:border-pfizer-blue-accent focus:outline-none focus:ring-2 focus:ring-pfizer-blue-accent/30"
+                  className="w-full resize-y rounded-2xl border border-white/[0.08] bg-white/[0.05] p-4 text-sm text-white placeholder:text-white/35 focus:border-brand-accent focus:outline-none focus:ring-2 focus:ring-brand-accent/30"
                 />
                 <button
                   type="submit"
                   disabled={!canSubmit}
-                  className="self-start rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#000014] disabled:cursor-not-allowed disabled:opacity-40"
+                  className="self-start rounded-full bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#0C0A12] disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {buttonLabel}
                 </button>
@@ -516,7 +516,7 @@ export function BuildUI() {
                   const url = URL.createObjectURL(blob);
                   window.open(url, "_blank");
                 }}
-                className="w-full rounded-full border border-pfizer-blue-accent/30 bg-pfizer-blue-accent/10 px-4 py-2 text-sm font-semibold text-pfizer-blue-accent transition hover:bg-pfizer-blue-accent/20"
+                className="w-full rounded-full border border-brand-accent/30 bg-brand-accent/10 px-4 py-2 text-sm font-semibold text-brand-accent transition hover:bg-brand-accent/20"
               >
                 Export Compliance Report
               </button>
@@ -584,9 +584,9 @@ export function BuildUI() {
                     setOverrideSpec(null); // clear override when switching variants
                   }}
                   disabled={isGenerating && !variants?.[idx]}
-                  className={`rounded-full px-4 py-1.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#000014] ${
+                  className={`rounded-full px-4 py-1.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0C0A12] ${
                     selectedVariant === idx
-                      ? "bg-pfizer-blue-accent text-white shadow-[0_0_12px_rgba(46,41,255,0.3)]"
+                      ? "bg-brand-accent text-white shadow-[0_0_12px_rgba(167,139,250,0.3)]"
                       : "border border-white/[0.08] bg-white/[0.03] text-white/55 hover:border-white/[0.16] hover:text-white/90"
                   } disabled:opacity-40`}
                 >
@@ -611,7 +611,7 @@ export function BuildUI() {
                 return (
                   <div key={step} className="flex items-center gap-2">
                     <div className={`h-2.5 w-2.5 rounded-full ${
-                      isDone ? "bg-teal" : isActive ? "bg-pfizer-blue-accent animate-pulse shadow-[0_0_8px_rgba(46,41,255,0.5)]" : "bg-white/10"
+                      isDone ? "bg-teal" : isActive ? "bg-brand-accent animate-pulse shadow-[0_0_8px_rgba(167,139,250,0.5)]" : "bg-white/10"
                     }`} />
                     <span className={`text-xs font-mono ${
                       isDone ? "text-teal" : isActive ? "text-white" : "text-white/30"
@@ -645,14 +645,14 @@ export function BuildUI() {
 
           {/* Diff summary banner */}
           {diffResult && (
-            <div className="flex items-center justify-between rounded-xl border border-pfizer-blue-accent/30 bg-pfizer-blue-accent/10 px-4 py-2 text-sm text-pfizer-blue-accent">
+            <div className="flex items-center justify-between rounded-xl border border-brand-accent/30 bg-brand-accent/10 px-4 py-2 text-sm text-brand-accent">
               <span>
                 Last edit: {diffResult.summary}
               </span>
               <button
                 type="button"
                 onClick={() => setDiffResult(null)}
-                className="ml-2 text-xs font-semibold text-pfizer-blue-accent hover:text-white"
+                className="ml-2 text-xs font-semibold text-brand-accent hover:text-white"
               >
                 Dismiss
               </button>
@@ -661,7 +661,7 @@ export function BuildUI() {
 
           {/* Page preview — browser-frame wrapper with previewRef on inner div */}
           {currentSpec && (
-            <div className="flex-1 overflow-hidden rounded-xl border border-white/[0.08] bg-[#1a1a2e]">
+            <div className="flex-1 overflow-hidden rounded-xl border border-white/[0.08] bg-[#161420]">
               {/* Browser frame chrome */}
               <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.03] px-4 py-2">
                 <div className="flex gap-1.5">

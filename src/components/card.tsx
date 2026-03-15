@@ -13,7 +13,7 @@ export interface CardProps {
 
 const variantClasses: Record<CardVariant, string> = {
   standard: "bg-white shadow-token-sm",
-  featured: "bg-white shadow-token-lg ring-1 ring-pfizer-blue-100",
+  featured: "bg-white shadow-token-lg ring-1 ring-brand-100",
   compact: "bg-gray-100 shadow-token-sm",
 };
 
@@ -45,7 +45,7 @@ export function Card({
         {ctaText ? (
           <Link
             href={ctaHref}
-            className="inline-flex items-center text-body-sm font-semibold text-pfizer-blue-700"
+            className="inline-flex items-center text-body-sm font-semibold text-brand-700"
           >
             {ctaText}
           </Link>

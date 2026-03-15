@@ -27,11 +27,11 @@ export function Hero({
 }: HeroProps) {
   const backgroundStyle = backgroundImage
     ? {
-        backgroundImage: `linear-gradient(135deg, rgba(0, 147, 208, 0.85), rgba(15, 23, 42, 0.78)), url(${backgroundImage})`,
+        backgroundImage: `linear-gradient(135deg, rgba(139, 92, 246, 0.85), rgba(12, 10, 18, 0.78)), url(${backgroundImage})`,
       }
     : {
         backgroundImage:
-          "linear-gradient(135deg, rgba(0, 147, 208, 0.95), rgba(15, 23, 42, 0.82))",
+          "linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(12, 10, 18, 0.82))",
       };
 
   return (
@@ -51,7 +51,7 @@ export function Hero({
           {ctaText ? (
             <Link
               href={ctaHref}
-              className="mt-token-xl inline-flex items-center rounded-token-full bg-white px-6 py-3 text-body-sm font-semibold text-pfizer-blue-700 transition hover:-translate-y-0.5 hover:bg-white/90"
+              className="mt-token-xl inline-flex items-center rounded-token-full bg-white px-6 py-3 text-body-sm font-semibold text-brand-700 transition hover:-translate-y-0.5 hover:bg-white/90"
             >
               {ctaText}
             </Link>

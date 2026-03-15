@@ -157,12 +157,12 @@ export function ChatPanel({ currentSpec, onEditComplete }: ChatPanelProps) {
             }`}
           >
             {msg.role === "assistant" && (
-              <span className="mt-1 h-5 w-5 flex-shrink-0 rounded-full bg-gradient-to-br from-pfizer-blue-accent to-teal" />
+              <span className="mt-1 h-5 w-5 flex-shrink-0 rounded-full bg-gradient-to-br from-brand-accent to-teal" />
             )}
             <div
               className={`rounded-xl px-3 py-2 text-xs ${
                 msg.role === "user"
-                  ? "bg-pfizer-blue-accent/20 text-white/90"
+                  ? "bg-brand-accent/20 text-white/90"
                   : "bg-white/[0.05] text-white/80"
               }`}
             >
@@ -205,12 +205,12 @@ export function ChatPanel({ currentSpec, onEditComplete }: ChatPanelProps) {
             currentSpec ? "Describe your edit..." : "Generate a page first"
           }
           disabled={!currentSpec || isEditing}
-          className="flex-1 rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-pfizer-blue-accent focus:outline-none focus:ring-1 focus:ring-pfizer-blue-accent/30 disabled:opacity-40"
+          className="flex-1 rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/30 disabled:opacity-40"
         />
         <button
           type="submit"
           disabled={!currentSpec || isEditing || !input.trim()}
-          className="rounded-lg bg-pfizer-blue-accent px-4 py-2 text-sm font-semibold text-white transition hover:shadow-[0_0_16px_rgba(46,41,255,0.4)] disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-white transition hover:shadow-[0_0_16px_rgba(167,139,250,0.4)] disabled:cursor-not-allowed disabled:opacity-40"
         >
           {isEditing ? "Editing\u2026" : "Send"}
         </button>

@@ -13,7 +13,7 @@
     ],
     "variants": ["fullWidth", "split", "centered"],
     "constraints": ["Must use heading-xl for title"],
-    "requiredTokens": ["primary-blue-500", "heading-xl", "spacing-3xl"]
+    "requiredTokens": ["brand-500", "heading-xl", "spacing-3xl"]
   },
   {
     "id": "Card",
@@ -83,7 +83,7 @@
     ],
     "variants": ["primary", "secondary", "outline"],
     "constraints": ["Max 40 chars"],
-    "requiredTokens": ["primary-blue-500", "radius-full", "spacing-md"]
+    "requiredTokens": ["brand-500", "radius-full", "spacing-md"]
   },
   {
     "id": "NavBar",
@@ -97,7 +97,7 @@
     ],
     "variants": ["standard", "minimal"],
     "constraints": ["Logo must appear in navigation"],
-    "requiredTokens": ["white", "gray-200", "primary-blue-500"]
+    "requiredTokens": ["white", "gray-200", "brand-500"]
   },
   {
     "id": "Footer",
@@ -140,7 +140,7 @@
     ],
     "variants": [],
     "constraints": ["Every claim must have a reference"],
-    "requiredTokens": ["primary-blue-700", "body-sm", "caption"]
+    "requiredTokens": ["brand-700", "body-sm", "caption"]
   },
   {
     "id": "SectionHeader",
@@ -180,7 +180,7 @@
     ],
     "variants": ["standard", "highlighted", "callout"],
     "constraints": ["Long-form content must preserve readable line length"],
-    "requiredTokens": ["body-md", "spacing-lg", "primary-blue-100"]
+    "requiredTokens": ["body-md", "spacing-lg", "brand-100"]
   },
   {
     "id": "ImageBlock",

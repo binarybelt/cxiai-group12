@@ -14,7 +14,7 @@ import {
 } from "@/components";
 
 const previewImage =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 720'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%230093D0'/%3E%3Cstop offset='1' stop-color='%230F172A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='720' fill='url(%23g)'/%3E%3Ccircle cx='930' cy='190' r='120' fill='rgba(255,255,255,0.16)'/%3E%3Ccircle cx='260' cy='530' r='180' fill='rgba(255,255,255,0.12)'/%3E%3Ctext x='96' y='160' fill='white' font-size='68' font-family='Arial' font-weight='700'%3EDesign Delivery Accelerator%3C/text%3E%3Ctext x='96' y='236' fill='rgba(255,255,255,0.85)' font-size='34' font-family='Arial'%3EApproved component imagery placeholder%3C/text%3E%3C/svg%3E";
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 720'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%238B5CF6'/%3E%3Cstop offset='1' stop-color='%230F172A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='720' fill='url(%23g)'/%3E%3Ccircle cx='930' cy='190' r='120' fill='rgba(255,255,255,0.16)'/%3E%3Ccircle cx='260' cy='530' r='180' fill='rgba(255,255,255,0.12)'/%3E%3Ctext x='96' y='160' fill='white' font-size='68' font-family='Arial' font-weight='700'%3EDesign Delivery Accelerator%3C/text%3E%3Ctext x='96' y='236' fill='rgba(255,255,255,0.85)' font-size='34' font-family='Arial'%3EApproved component imagery placeholder%3C/text%3E%3C/svg%3E";
 
 function PreviewLabel({ name }: { name: string }) {
   return (
@@ -44,7 +44,7 @@ export default function PreviewPage() {
         </section>
 
         <section className="rounded-[2rem] border border-white/[0.08] bg-white/[0.03] p-token-xl shadow-token-md backdrop-blur">
-          <p className="text-caption uppercase tracking-[0.32em] text-pfizer-blue-accent">
+          <p className="text-caption uppercase tracking-[0.32em] text-brand-accent">
             COMPONENT LIBRARY
           </p>
           <h1 className="mt-token-md text-heading-xl text-white">

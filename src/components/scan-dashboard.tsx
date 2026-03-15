@@ -145,12 +145,12 @@ export function ScanDashboard() {
             onChange={(e) => setScanUrl(e.target.value)}
             placeholder="https://example.com"
             required
-            className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.05] px-4 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-pfizer-blue-500 focus:outline-none focus:ring-2 focus:ring-pfizer-blue-500/30"
+            className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.05] px-4 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
           <button
             type="submit"
             disabled={scanning}
-            className="rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2"
+            className="rounded-full bg-brand-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
           >
             {scanning ? "Scanning\u2026" : "Scan"}
           </button>

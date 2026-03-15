@@ -59,7 +59,7 @@ export function ExplainabilityPanel({
       <button
         type="button"
         onClick={() => setIsExpanded((v) => !v)}
-        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#000014] rounded-xl"
+        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0C0A12] rounded-xl"
       >
         <span>AI Reasoning</span>
         <span className="text-white/35">
@@ -105,7 +105,7 @@ export function ExplainabilityPanel({
                                 {comp.tokenOverrides.map((tok) => (
                                   <li
                                     key={tok.tokenId}
-                                    className="rounded bg-pfizer-blue-accent/15 px-2 py-0.5 text-xs text-pfizer-blue-100"
+                                    className="rounded bg-brand-accent/15 px-2 py-0.5 text-xs text-brand-100"
                                   >
                                     {tok.tokenId}: {tok.value}
                                   </li>

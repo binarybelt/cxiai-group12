@@ -130,7 +130,7 @@ function SectionHeading({ children }: { readonly children: React.ReactNode }) {
 function AgentCard({ agent }: { readonly agent: AgentInfo }) {
   return (
     <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5">
-      <h3 className="text-base font-bold text-pfizer-blue-500">
+      <h3 className="text-base font-bold text-brand-500">
         {agent.name}
       </h3>
       <p className="mt-1 text-sm text-white/[0.55]">{agent.purpose}</p>
@@ -179,7 +179,7 @@ function renderInlineCode(text: string): React.ReactNode {
     part.startsWith("`") && part.endsWith("`") ? (
       <code
         key={i}
-        className="rounded bg-white/[0.06] px-1 py-0.5 font-mono text-xs text-pfizer-blue-500"
+        className="rounded bg-white/[0.06] px-1 py-0.5 font-mono text-xs text-brand-500"
       >
         {part.slice(1, -1)}
       </code>
@@ -191,7 +191,7 @@ function renderInlineCode(text: string): React.ReactNode {
 
 function CodeSpan({ children }: { readonly children: string }) {
   return (
-    <code className="rounded bg-white/[0.06] px-1 py-0.5 font-mono text-xs text-pfizer-blue-500">
+    <code className="rounded bg-white/[0.06] px-1 py-0.5 font-mono text-xs text-brand-500">
       {children}
     </code>
   );
@@ -307,7 +307,7 @@ export default function TransparencyPage() {
           See the live audit chain at{" "}
           <a
             href="/evidence"
-            className="font-medium text-pfizer-blue-500 underline"
+            className="font-medium text-brand-500 underline"
           >
             /evidence
           </a>
