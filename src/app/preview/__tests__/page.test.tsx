@@ -7,7 +7,7 @@ describe("/preview page", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: "All approved design system components",
+        name: "The approved building blocks",
       }),
     ).toBeInTheDocument();
 

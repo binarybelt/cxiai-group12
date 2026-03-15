@@ -79,8 +79,8 @@ describe("component library", () => {
   });
 
   it.each([
-    ["primary", "bg-pfizer-blue-500"],
-    ["secondary", "ring-pfizer-blue-500"],
+    ["primary", "bg-brand-500"],
+    ["secondary", "ring-brand-500"],
     ["outline", "ring-gray-300"],
   ] as const)("renders CTA variant %s", (variant, className) => {
     render(<CTA text="Take action" href="/action" variant={variant} />);

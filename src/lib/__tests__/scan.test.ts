@@ -3,7 +3,7 @@ import { driftReport } from "@/lib/scan";
 import type { DesignToken } from "@/types/design-system";
 
 const approvedTokens: DesignToken[] = [
-  { id: "primary-blue-500", category: "color", name: "Pfizer Blue", value: "#0093D0" },
+  { id: "brand-500", category: "color", name: "Brand Primary", value: "#8B5CF6" },
   { id: "white", category: "color", name: "White", value: "#FFFFFF" },
   { id: "gray-700", category: "color", name: "Gray 700", value: "#334155" },
   { id: "heading-xl", category: "typography", name: "Heading XL", value: "2.5rem/700" },
@@ -12,7 +12,7 @@ const approvedTokens: DesignToken[] = [
 describe("driftReport", () => {
   it("returns zero drift items when all hex values are approved", () => {
     const html = `
-      <div style="color: #0093D0; background: #FFFFFF;">
+      <div style="color: #8B5CF6; background: #FFFFFF;">
         <p style="color: #334155;">Hello</p>
       </div>
     `;
@@ -27,7 +27,7 @@ describe("driftReport", () => {
 
   it("flags off-brand hex values as drift items", () => {
     const html = `
-      <div style="color: #FF0000; background: #0093D0;">
+      <div style="color: #FF0000; background: #8B5CF6;">
         <p style="color: #00FF00;">Off brand</p>
       </div>
     `;
@@ -51,7 +51,7 @@ describe("driftReport", () => {
   });
 
   it("handles case-insensitive hex matching", () => {
-    const html = `<div style="color: #0093d0;">text</div>`;
+    const html = `<div style="color: #8b5cf6;">text</div>`;
 
     const report = driftReport("https://example.com", html, approvedTokens);
 

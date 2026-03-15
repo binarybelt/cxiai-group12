@@ -42,7 +42,7 @@ const makeOutput = (componentId: string, tokenId: string) => ({
 describe("buildConstrainedPageSpecSchema", () => {
   it("rejects a componentId not in the design system", () => {
     const schema = buildConstrainedPageSpecSchema();
-    const result = schema.safeParse(makeOutput("FakeComponent", "primary-blue-500"));
+    const result = schema.safeParse(makeOutput("FakeComponent", "brand-500"));
     expect(result.success).toBe(false);
   });
 
@@ -63,7 +63,7 @@ describe("buildConstrainedPageSpecSchema", () => {
     ];
     const schema = buildConstrainedPageSpecSchema();
     for (const componentId of validIds) {
-      const result = schema.safeParse(makeOutput(componentId, "primary-blue-500"));
+      const result = schema.safeParse(makeOutput(componentId, "brand-500"));
       expect(result.success, `Expected ${componentId} to be valid`).toBe(true);
     }
   });
@@ -122,7 +122,7 @@ describe("buildConstrainedPageSpecSchema", () => {
     const output = {
       variants: [
         {
-          ...makeVariant("Hero", "primary-blue-500"),
+          ...makeVariant("Hero", "brand-500"),
           sections: [
             {
               id: "section-001",
@@ -133,14 +133,14 @@ describe("buildConstrainedPageSpecSchema", () => {
                   componentId: "Hero",
                   selectionReason: "Test",
                   props: { title: "Hello", subtitle: "World" },
-                  tokenOverrides: [{ tokenId: "primary-blue-500", value: "#FFF" }],
+                  tokenOverrides: [{ tokenId: "brand-500", value: "#FFF" }],
                 },
               ],
             },
           ],
         },
         {
-          ...makeVariant("Hero", "primary-blue-500"),
+          ...makeVariant("Hero", "brand-500"),
           id: "page-002",
           sections: [
             {
@@ -152,7 +152,7 @@ describe("buildConstrainedPageSpecSchema", () => {
                   componentId: "Hero",
                   selectionReason: "Test",
                   props: { title: "Hello", subtitle: "World" },
-                  tokenOverrides: [{ tokenId: "primary-blue-500", value: "#FFF" }],
+                  tokenOverrides: [{ tokenId: "brand-500", value: "#FFF" }],
                 },
               ],
             },
@@ -167,7 +167,7 @@ describe("buildConstrainedPageSpecSchema", () => {
   it("rejects output with only 1 variant (requires exactly 2)", () => {
     const schema = buildConstrainedPageSpecSchema();
     const result = schema.safeParse({
-      variants: [makeVariant("Hero", "primary-blue-500")],
+      variants: [makeVariant("Hero", "brand-500")],
     });
     expect(result.success).toBe(false);
   });
@@ -176,9 +176,9 @@ describe("buildConstrainedPageSpecSchema", () => {
     const schema = buildConstrainedPageSpecSchema();
     const result = schema.safeParse({
       variants: [
-        makeVariant("Hero", "primary-blue-500"),
-        { ...makeVariant("Hero", "primary-blue-500"), id: "page-002" },
-        { ...makeVariant("Hero", "primary-blue-500"), id: "page-003" },
+        makeVariant("Hero", "brand-500"),
+        { ...makeVariant("Hero", "brand-500"), id: "page-002" },
+        { ...makeVariant("Hero", "brand-500"), id: "page-003" },
       ],
     });
     expect(result.success).toBe(false);
@@ -186,7 +186,7 @@ describe("buildConstrainedPageSpecSchema", () => {
 
   it("accepts exactly 2 valid variants", () => {
     const schema = buildConstrainedPageSpecSchema();
-    const result = schema.safeParse(makeOutput("Hero", "primary-blue-500"));
+    const result = schema.safeParse(makeOutput("Hero", "brand-500"));
     expect(result.success).toBe(true);
   });
 

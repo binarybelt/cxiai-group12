@@ -30,28 +30,26 @@ describe("design-system loader", () => {
   it("exposes direct lookup helpers", () => {
     expect(getComponentById("Hero")?.name).toBe("Hero");
     expect(getMarketConfig("US")?.requiredComponents).toContain("Footer");
-    expect(getTokensByCategory("color").some((token) => token.id === "primary-blue-500")).toBe(true);
+    expect(getTokensByCategory("color").some((token) => token.id === "brand-500")).toBe(true);
   });
 
   it("keeps Tailwind token config aligned with the source token data", () => {
     const colorTokens = loadTokens();
-    const primaryBlue = colorTokens.find((token) => token.id === "primary-blue-500");
+    const brandPrimary = colorTokens.find((token) => token.id === "brand-500");
     const config = tailwindConfig as {
       theme?: {
         extend?: {
           colors?: {
-            pfizer?: {
-              blue?: {
-                500?: string;
-              };
+            brand?: {
+              500?: string;
             };
           };
         };
       };
     };
 
-    expect(primaryBlue?.value).toBe(
-      config.theme?.extend?.colors?.pfizer?.blue?.[500],
+    expect(brandPrimary?.value).toBe(
+      config.theme?.extend?.colors?.brand?.[500],
     );
   });
 });
