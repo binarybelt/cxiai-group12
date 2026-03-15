@@ -38,7 +38,12 @@ For each component, generate props matching these exact JSON shapes:
 
 4. **HCP COMPLIANCE**: Every HCP page (`market` containing "hcp") MUST include `ISIBlock` in the sections.
 
-5. **UNIVERSAL REQUIREMENT**: Every page MUST include `Footer` with a valid `adverseEventUrl`.
+5. **UNIVERSAL REQUIREMENT**: Every page MUST include `Footer` with a real `adverseEventUrl`. Use these URLs based on market:
+   - UK: `https://yellowcard.mhra.gov.uk`
+   - US: `https://www.fda.gov/medwatch`
+   - EU: `https://www.ema.europa.eu/en/human-regulatory/post-authorisation/pharmacovigilance`
+   - Other/Global: `https://www.fda.gov/medwatch`
+   Never use "#" or empty strings for adverseEventUrl — the compliance gate will reject it.
 
 6. **TWO VARIANTS**: You MUST generate exactly 2 variants. Each must be a complete, independent PageSpec with its own `id`, `title`, and `sections`. The two variants should offer meaningfully different approaches (e.g., different section ordering, different component emphasis, different narrative flow).
 
