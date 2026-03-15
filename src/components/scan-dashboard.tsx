@@ -12,9 +12,9 @@ import type { ScanReport } from "@/types/scan";
 
 function statusBadge(status: PortfolioEntry["status"]) {
   const styles: Record<PortfolioEntry["status"], string> = {
-    compliant: "bg-green-100 text-green-800",
-    warning: "bg-amber-100 text-amber-800",
-    critical: "bg-red-100 text-red-800",
+    compliant: "bg-green-500/15 text-green-400",
+    warning: "bg-amber-500/15 text-amber-400",
+    critical: "bg-red-500/15 text-red-400",
   };
   return (
     <span
@@ -26,9 +26,9 @@ function statusBadge(status: PortfolioEntry["status"]) {
 }
 
 function scoreColour(score: number): string {
-  if (score >= 80) return "text-green-700";
-  if (score >= 60) return "text-amber-700";
-  return "text-red-700";
+  if (score >= 80) return "text-green-400";
+  if (score >= 60) return "text-amber-400";
+  return "text-red-400";
 }
 
 // ---------------------------------------------------------------------------
@@ -83,7 +83,7 @@ export function ScanDashboard() {
       {/* Portfolio overview                                                */}
       {/* ---------------------------------------------------------------- */}
       <section>
-        <h2 className="mb-4 text-lg font-semibold text-gray-900">
+        <h2 className="mb-4 text-lg font-semibold text-white/93">
           Portfolio Overview
         </h2>
 
@@ -91,20 +91,20 @@ export function ScanDashboard() {
           {(portfolio as PortfolioEntry[]).map((entry) => (
             <div
               key={entry.url}
-              className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+              className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition hover:bg-white/[0.05]"
             >
               <div className="mb-3 flex items-center justify-between">
-                <h3 className="font-semibold text-gray-900">
+                <h3 className="font-semibold text-white/93">
                   {entry.product}
                 </h3>
                 {statusBadge(entry.status)}
               </div>
 
-              <p className="text-sm text-gray-500">{entry.market}</p>
+              <p className="text-sm text-white/55">{entry.market}</p>
 
               <div className="mt-3 flex items-end justify-between">
                 <div>
-                  <p className="text-xs text-gray-400">Compliance</p>
+                  <p className="text-xs text-white/35">Compliance</p>
                   <p
                     className={`text-2xl font-bold ${scoreColour(entry.complianceScore)}`}
                   >
@@ -112,16 +112,16 @@ export function ScanDashboard() {
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-gray-400">Drift items</p>
-                  <p className="text-lg font-semibold text-gray-700">
+                  <p className="text-xs text-white/35">Drift items</p>
+                  <p className="text-lg font-semibold text-white/70">
                     {entry.driftCount}
                   </p>
                 </div>
               </div>
 
-              <p className="mt-3 text-xs text-gray-400">
+              <p className="mt-3 text-xs text-white/35">
                 Last scanned:{" "}
-                {new Date(entry.lastScanned).toLocaleDateString()}
+                {new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(entry.lastScanned))}
               </p>
             </div>
           ))}
@@ -132,25 +132,27 @@ export function ScanDashboard() {
       {/* Live URL scan                                                     */}
       {/* ---------------------------------------------------------------- */}
       <section>
-        <h2 className="mb-4 text-lg font-semibold text-gray-900">
+        <h2 className="mb-4 text-lg font-semibold text-white/93">
           Live URL Scan
         </h2>
 
         <form onSubmit={handleScan} className="flex gap-3">
           <input
+            aria-label="URL to scan"
+            name="scan-url"
             type="url"
             value={scanUrl}
             onChange={(e) => setScanUrl(e.target.value)}
             placeholder="https://example.com"
             required
-            className="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-pfizer-blue-500 focus:outline-none focus:ring-2 focus:ring-pfizer-blue-200"
+            className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.05] px-4 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-pfizer-blue-500 focus:outline-none focus:ring-2 focus:ring-pfizer-blue-500/30"
           />
           <button
             type="submit"
             disabled={scanning}
-            className="rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2"
           >
-            {scanning ? "Scanning..." : "Scan"}
+            {scanning ? "Scanning\u2026" : "Scan"}
           </button>
         </form>
 
@@ -158,7 +160,7 @@ export function ScanDashboard() {
         {error && (
           <div
             role="alert"
-            className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+            className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400"
           >
             {error}
           </div>
@@ -166,29 +168,29 @@ export function ScanDashboard() {
 
         {/* Scan results */}
         {report && (
-          <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-5">
+          <div className="mt-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5">
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="font-semibold text-gray-900">Scan Results</h3>
+              <h3 className="font-semibold text-white/93">Scan Results</h3>
               <span
                 className={`rounded-full px-3 py-1 text-xs font-semibold ${
                   report.driftCount === 0
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
+                    ? "bg-green-500/15 text-green-400"
+                    : "bg-red-500/15 text-red-400"
                 }`}
               >
                 {report.driftCount} drift item{report.driftCount !== 1 ? "s" : ""}
               </span>
             </div>
 
-            <p className="mb-1 text-sm text-gray-500">
+            <p className="mb-1 text-sm text-white/55">
               URL: {report.url}
             </p>
-            <p className="mb-4 text-xs text-gray-400">
+            <p className="mb-4 text-xs text-white/35">
               Scanned: {new Date(report.scannedAt).toLocaleString()}
             </p>
 
             {report.items.length === 0 ? (
-              <p className="text-sm text-green-700">
+              <p className="text-sm text-green-400">
                 No off-brand colours detected. All values match the approved
                 palette.
               </p>
@@ -197,14 +199,15 @@ export function ScanDashboard() {
                 {report.items.map((item) => (
                   <li
                     key={item.hex}
-                    className="flex items-center gap-3 text-sm text-gray-700"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/70 transition hover:bg-white/[0.03]"
                   >
                     <span
-                      className="inline-block h-5 w-5 rounded border border-gray-300"
+                      aria-hidden="true"
+                      className="inline-block h-5 w-5 rounded border border-white/[0.12]"
                       style={{ backgroundColor: item.hex }}
                     />
-                    <code className="font-mono text-xs">{item.hex}</code>
-                    <span className="text-gray-500">{item.message}</span>
+                    <code className="font-mono text-xs text-white/55">{item.hex}</code>
+                    <span className="text-white/55">{item.message}</span>
                   </li>
                 ))}
               </ul>

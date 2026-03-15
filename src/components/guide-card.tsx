@@ -17,21 +17,22 @@ export function GuideCard({ title, brief, explanation, criterion }: GuideCardPro
       className={`rounded-xl border transition-all duration-200 ${
         expanded
           ? "border-blue-200 bg-blue-50/80 px-4 py-3"
-          : "border-blue-100 bg-blue-50/50 px-3 py-1.5"
+          : "border-blue-100 bg-blue-50/50 px-3 py-2 sm:py-1.5"
       }`}
     >
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
-        className="flex w-full items-center justify-between gap-2"
+        className="flex w-full items-center justify-between gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
       >
         <span className="flex items-center gap-1.5 text-xs font-medium text-blue-600">
-          <svg className="h-3.5 w-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+          <svg aria-hidden="true" className="h-3.5 w-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
           </svg>
           {expanded ? title : "Why this?"}
         </span>
         <svg
+          aria-hidden="true"
           className={`h-3 w-3 flex-shrink-0 text-blue-400 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
           fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"
         >

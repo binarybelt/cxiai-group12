@@ -39,13 +39,13 @@ function ScoreBar({
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex items-center justify-between text-xs font-medium text-gray-600">
+      <div className="flex items-center justify-between text-xs font-medium text-white/60">
         <span>{label}</span>
         <span>{value}</span>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-200">
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
         <div
-          className={`h-full rounded-full ${color} transition-all duration-300`}
+          className={`h-full rounded-full ${color} animate-bar-fill origin-left`}
           style={{ width: `${value}%` }}
         />
       </div>
@@ -125,8 +125,8 @@ export function ComplianceSidebar({
   // Null spec state
   if (!spec) {
     return (
-      <aside className="flex flex-col gap-4 border-l border-gray-200 bg-gray-50 p-4">
-        <p className="text-sm text-gray-400">
+      <aside className="flex flex-col gap-4 border-l border-white/[0.06] bg-white/[0.02] p-4">
+        <p className="text-sm text-white/40">
           Generate a page to see compliance results
         </p>
       </aside>
@@ -144,7 +144,7 @@ export function ComplianceSidebar({
 
   const overallColor =
     score.overall >= 80
-      ? "text-green-600"
+      ? "text-teal"
       : score.overall >= 50
         ? "text-yellow-500"
         : "text-red-500";
@@ -181,7 +181,7 @@ export function ComplianceSidebar({
   };
 
   return (
-    <aside className="flex flex-col gap-4 overflow-y-auto border-l border-gray-200 bg-gray-50 p-4">
+    <aside className="flex flex-col gap-4 overflow-y-auto border-l border-white/[0.06] bg-white/[0.02] p-4">
       <GuideCard
         title="Real-Time Compliance Engine"
         brief="Stretch goal: 'Automated Quality & Compliance — audit mode with fix-focused feedback'"
@@ -190,43 +190,60 @@ export function ComplianceSidebar({
       />
 
       {/* Overall score */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
+        <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-white/50">
           Compliance Score
+          <span className={`inline-block h-2 w-2 rounded-full ${
+            score.overall >= 80 ? "bg-teal shadow-[0_0_6px_rgba(0,212,170,0.5)]" : "bg-red-500 shadow-[0_0_6px_rgba(220,38,38,0.5)]"
+          }`} />
         </p>
-        <p className={`mt-1 text-5xl font-bold tabular-nums ${overallColor}`}>
-          {score.overall}
-        </p>
+        <svg className="mx-auto mt-2" width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="45" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
+          <circle
+            cx="60" cy="60" r="45" fill="none"
+            stroke={score.overall >= 80 ? "#00D4AA" : score.overall >= 50 ? "#FFD166" : "#DC2626"}
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray="283"
+            strokeDashoffset={283 - (283 * score.overall) / 100}
+            className="animate-gauge-fill"
+            transform="rotate(-90 60 60)"
+          />
+          <text x="60" y="60" textAnchor="middle" dominantBaseline="central"
+            className="fill-white font-mono text-2xl font-bold">
+            {score.overall}
+          </text>
+        </svg>
       </div>
 
       {/* Sub-scores */}
-      <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-4">
+      <div className="flex flex-col gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
         <ScoreBar label="Brand" value={score.brand} />
         <ScoreBar label="Accessibility" value={score.accessibility} />
         <ScoreBar label="Pharma" value={score.pharma} />
       </div>
 
       {/* Violations */}
-      <div className="flex flex-col gap-2 rounded-2xl border border-gray-200 bg-white p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+      <div className="flex flex-col gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
           Violations ({totalViolations})
         </p>
 
         {totalViolations === 0 ? (
-          <p className="mt-2 text-sm font-medium text-green-600">
+          <p className="mt-2 text-sm font-medium text-teal">
             All checks passed
           </p>
         ) : (
           Object.entries(groupedViolations).map(([group, violations]) => (
             <div key={group} className="mt-2">
-              <p className="mb-1 text-xs font-semibold text-gray-600">
+              <p className="mb-1 text-xs font-semibold text-white/60">
                 {categoryLabels[group] ?? group}
               </p>
               <ul className="flex flex-col gap-2">
                 {violations.map((v, idx) => (
                   <li key={`${v.ruleId}-${idx}`} className="flex items-start gap-2">
                     <SeverityDot severity={v.severity as "error" | "warning" | "info"} />
-                    <span className="flex-1 text-xs text-gray-700">{v.message}</span>
+                    <span className="flex-1 text-xs text-white/70">{v.message}</span>
                     {v.autoFixable && (
                       <button
                         type="button"
@@ -242,7 +259,7 @@ export function ComplianceSidebar({
                           const fixed = applyAutoFix(spec, originalViolation);
                           onAutoFix(fixed);
                         }}
-                        className="flex-shrink-0 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700 hover:bg-blue-200"
+                        className="flex-shrink-0 rounded-full bg-pfizer-blue-accent/20 px-2 py-0.5 text-xs font-semibold text-pfizer-blue-accent hover:bg-pfizer-blue-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent/40"
                       >
                         Fix
                       </button>

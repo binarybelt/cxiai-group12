@@ -30,9 +30,13 @@ export function Card({
       className={`overflow-hidden rounded-[1.5rem] border border-gray-200 ${variantClasses[variant]}`}
     >
       {variant !== "compact" && image ? (
-        <div
-          className="h-44 w-full bg-cover bg-center"
-          style={{ backgroundImage: `url(${image})` }}
+        <img
+          src={image}
+          alt=""
+          width={400}
+          height={176}
+          loading="lazy"
+          className="h-44 w-full object-cover"
         />
       ) : null}
       <div className="space-y-token-md p-token-lg">

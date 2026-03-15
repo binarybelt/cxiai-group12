@@ -28,7 +28,7 @@ export function DataTable({
         <thead>
           <tr className="bg-pfizer-blue-700 text-left text-body-sm text-white">
             {headers.map((header) => (
-              <th key={header} className="px-token-lg py-3 font-semibold">
+              <th key={header} scope="col" className="px-token-lg py-3 font-semibold">
                 {header}
               </th>
             ))}

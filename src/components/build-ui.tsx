@@ -291,18 +291,18 @@ export function BuildUI() {
   // -------------------------------------------------------------------------
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
+    <div className="flex flex-1 flex-col overflow-hidden bg-[#000014] text-white">
       {/* Role toggle bar */}
-      <div className="flex items-center gap-2 border-b border-gray-200 bg-white px-6 py-2">
+      <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.03] backdrop-blur-sm px-6 py-2">
         {ROLE_LABELS.map(({ key, label }) => (
           <button
             key={key}
             type="button"
             onClick={() => setActiveRole(key)}
-            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${
+            className={`rounded-full px-4 py-1.5 text-sm font-display font-semibold transition ${
               activeRole === key
-                ? "bg-pfizer-blue-700 text-white"
-                : "border border-gray-200 bg-white text-gray-700 hover:border-pfizer-blue-300"
+                ? "bg-pfizer-blue-accent text-white shadow-[0_0_12px_rgba(46,41,255,0.3)]"
+                : "border border-white/[0.08] bg-white/[0.03] text-white/55 hover:border-white/[0.16] hover:text-white/90"
             }`}
           >
             {label}
@@ -311,11 +311,11 @@ export function BuildUI() {
       </div>
 
       {/* 3-column grid — structure constant across all roles */}
-      <div className="grid flex-1 gap-8 overflow-hidden lg:grid-cols-[1fr_2fr_320px]">
+      <div className="grid flex-1 gap-4 overflow-hidden md:grid-cols-[1fr_2fr] lg:grid-cols-[1fr_2fr_320px]">
         {/* ------------------------------------------------------------------ */}
         {/* Left column — content changes by role                               */}
         {/* ------------------------------------------------------------------ */}
-        <div className="flex flex-col gap-6 overflow-y-auto p-6">
+        <div className="flex flex-col gap-6 overflow-y-auto bg-white/[0.02] p-6">
           {/* ---- Marketer left: brief form + interpretation + chat ---------- */}
           {activeRole === "marketer" && (
             <>
@@ -328,7 +328,7 @@ export function BuildUI() {
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <label
                   htmlFor="brief-input"
-                  className="text-sm font-semibold text-gray-700"
+                  className="text-sm font-display font-semibold text-white/70"
                 >
                   Brief
                 </label>
@@ -338,7 +338,7 @@ export function BuildUI() {
                   onChange={(e) => setBrief(e.target.value)}
                   placeholder="Describe the page you need. For example: Create an HCP landing page for Lipitor in the US market with efficacy data and safety information."
                   rows={8}
-                  className="w-full resize-y rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-800 placeholder:text-gray-400 focus:border-pfizer-blue-500 focus:outline-none focus:ring-2 focus:ring-pfizer-blue-200"
+                  className="w-full resize-y rounded-2xl border border-white/[0.08] bg-white/[0.05] p-4 text-sm text-white placeholder:text-gray-400 focus:border-pfizer-blue-500 focus:outline-none focus:ring-2 focus:ring-pfizer-blue-200"
                 />
                 <button
                   type="submit"
@@ -350,13 +350,13 @@ export function BuildUI() {
 
                 {/* Example brief buttons */}
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs text-gray-400">Examples:</span>
+                  <span className="text-xs text-white/55">Examples:</span>
                   {EXAMPLE_BRIEFS.map((example) => (
                     <button
                       key={example.label}
                       type="button"
                       onClick={() => setBrief(example.text)}
-                      className="rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-600 transition hover:border-pfizer-blue-300 hover:text-pfizer-blue-700"
+                      className="rounded-full border border-white/[0.08] px-3 py-1 text-xs text-white/55 transition hover:border-white/[0.16] hover:text-white/90"
                     >
                       {example.label}
                     </button>
@@ -391,7 +391,7 @@ export function BuildUI() {
 
               {/* Interpretation panel */}
               {interpretation && (
-                <div className="rounded-2xl border border-gray-200 bg-white">
+                <div className="rounded-2xl border border-white/[0.08] bg-white/95">
                   <button
                     type="button"
                     onClick={() => setShowInterpretation((v) => !v)}
@@ -527,7 +527,7 @@ export function BuildUI() {
           {activeRole === "developer" && (
             <>
               {currentSpec ? (
-                <div className="rounded-2xl border border-gray-200 bg-white p-4">
+                <div className="rounded-2xl border border-white/[0.08] bg-white/95 p-4">
                   <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                     Component Specs
                   </p>
@@ -550,8 +550,8 @@ export function BuildUI() {
                   </ul>
                 </div>
               ) : (
-                <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4">
-                  <p className="text-sm text-gray-400">
+                <div className="rounded-2xl border border-dashed border-white/[0.08] bg-white/[0.02] p-4">
+                  <p className="text-sm text-white/55">
                     Generate a page to see the code output
                   </p>
                 </div>
@@ -584,38 +584,60 @@ export function BuildUI() {
                     setOverrideSpec(null); // clear override when switching variants
                   }}
                   disabled={isGenerating && !variants?.[idx]}
-                  className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${
+                  className={`rounded-full px-4 py-1.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2 ${
                     selectedVariant === idx
-                      ? "bg-pfizer-blue-700 text-white"
-                      : "border border-gray-200 bg-white text-gray-700 hover:border-pfizer-blue-300"
+                      ? "bg-pfizer-blue-accent text-white shadow-[0_0_12px_rgba(46,41,255,0.3)]"
+                      : "border border-white/[0.08] bg-white/[0.03] text-white/55 hover:border-white/[0.16] hover:text-white/90"
                   } disabled:opacity-40`}
                 >
                   Variant {label}
                 </button>
               ))}
               {generationDuration !== null && (
-                <span className="ml-auto rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                <span className="ml-auto rounded-full bg-teal/10 px-3 py-1 text-xs font-semibold text-teal">
                   Brief to compliant page: {generationDuration.toFixed(1)}s
                 </span>
               )}
             </div>
           ) : null}
 
+          {/* Pipeline steps indicator */}
+          {(phase === "interpreting" || phase === "generating") && (
+            <div className="flex items-center gap-3 px-2">
+              {["Interpret", "Generate", "Comply", "Render"].map((step, i) => {
+                const activeIdx = phase === "interpreting" ? 0 : 1;
+                const isActive = i === activeIdx;
+                const isDone = i < activeIdx;
+                return (
+                  <div key={step} className="flex items-center gap-2">
+                    <div className={`h-2.5 w-2.5 rounded-full ${
+                      isDone ? "bg-teal" : isActive ? "bg-pfizer-blue-accent animate-pulse shadow-[0_0_8px_rgba(46,41,255,0.5)]" : "bg-white/10"
+                    }`} />
+                    <span className={`text-xs font-mono ${
+                      isDone ? "text-teal" : isActive ? "text-white" : "text-white/30"
+                    }`}>{step}</span>
+                    {i < 3 && <div className={`h-px w-8 ${isDone ? "bg-teal/50" : "bg-white/10"}`} />}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
           {/* Loading skeleton for generating phase */}
           {isGenerating && (
             <div className="flex flex-col gap-4">
-              <div className="h-48 animate-pulse rounded-2xl bg-gray-200" />
+              <div className="h-48 skeleton-shimmer bg-white/[0.04] rounded-2xl" />
               <div className="grid grid-cols-2 gap-4">
-                <div className="h-24 animate-pulse rounded-xl bg-gray-200" />
-                <div className="h-24 animate-pulse rounded-xl bg-gray-200" />
+                <div className="h-24 skeleton-shimmer bg-white/[0.04] rounded-xl" />
+                <div className="h-24 skeleton-shimmer bg-white/[0.04] rounded-xl" />
               </div>
               <div className="flex flex-col gap-2">
-                <div className="h-4 w-3/4 animate-pulse rounded bg-gray-200" />
-                <div className="h-4 w-1/2 animate-pulse rounded bg-gray-200" />
-                <div className="h-4 w-2/3 animate-pulse rounded bg-gray-200" />
+                <div className="h-4 w-3/4 skeleton-shimmer bg-white/[0.04] rounded" />
+                <div className="h-4 w-1/2 skeleton-shimmer bg-white/[0.04] rounded" />
+                <div className="h-4 w-2/3 skeleton-shimmer bg-white/[0.04] rounded" />
               </div>
-              <div className="h-16 animate-pulse rounded-xl bg-gray-200" />
-              <p className="text-center text-sm text-gray-500">
+              <div className="h-16 skeleton-shimmer bg-white/[0.04] rounded-xl" />
+              <p className="text-center text-sm text-white/55">
                 {phase === "interpreting" ? "Interpreting brief..." : "Generating compliant page..."}
               </p>
             </div>
@@ -637,20 +659,34 @@ export function BuildUI() {
             </div>
           )}
 
-          {/* Page preview — wrapped in previewRef for axe scanner */}
+          {/* Page preview — browser-frame wrapper with previewRef on inner div */}
           {currentSpec && (
-            <div className="preview-sandbox flex-1 overflow-auto rounded-2xl border border-gray-200 bg-gray-50 p-4">
-              <style>{`.preview-sandbox a { pointer-events: none; cursor: default; }`}</style>
-              <div ref={previewRef}>
-                <PageRenderer spec={currentSpec} />
+            <div className="flex-1 overflow-hidden rounded-xl border border-white/[0.08] bg-[#1a1a2e]">
+              {/* Browser frame chrome */}
+              <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.03] px-4 py-2">
+                <div className="flex gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
+                </div>
+                <div className="flex-1 rounded-md bg-white/[0.05] px-3 py-1 text-xs text-white/35 font-mono">
+                  pfizer.com/{currentSpec.product?.toLowerCase() ?? "page"}
+                </div>
+              </div>
+              {/* Actual preview — ref MUST be on this inner div */}
+              <div className="preview-sandbox overflow-auto bg-white p-4">
+                <style>{`.preview-sandbox a { pointer-events: none; cursor: default; }`}</style>
+                <div ref={previewRef}>
+                  <PageRenderer spec={currentSpec} />
+                </div>
               </div>
             </div>
           )}
 
           {/* Idle state placeholder */}
           {phase === "idle" && (
-            <div className="flex flex-1 items-center justify-center rounded-2xl border border-dashed border-gray-300 bg-gray-50">
-              <p className="text-sm text-gray-400">
+            <div className="flex flex-1 items-center justify-center rounded-2xl border border-dashed border-white/[0.08] bg-white/[0.02]">
+              <p className="text-sm text-white/55">
                 Enter a brief on the left and click Generate to see a live page
                 preview here.
               </p>
@@ -673,14 +709,30 @@ export function BuildUI() {
 
         {/* Marketer right: score badge + breakdown + top issues */}
         {activeRole === "marketer" && (
-          <aside className="flex flex-col gap-4 overflow-y-auto border-l border-gray-200 bg-gray-50 p-4">
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+          <aside className="flex flex-col gap-4 overflow-y-auto bg-white/[0.02] border-l border-white/[0.06] p-4">
+            <div className="rounded-2xl border border-white/[0.08] bg-white/95 p-6 text-center">
+              <p className="text-xs font-display font-semibold uppercase tracking-wide text-gray-500">
                 Compliance Score
               </p>
-              <p data-testid="score-badge" className={`mt-2 text-5xl font-bold tabular-nums ${scoreBadgeColor}`}>
-                {overallScore}
-              </p>
+              <div data-testid="score-badge" className="mt-2">
+                <svg className="mx-auto" width="120" height="120" viewBox="0 0 120 120">
+                  <circle cx="60" cy="60" r="45" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
+                  <circle
+                    cx="60" cy="60" r="45" fill="none"
+                    stroke={overallScore > 80 ? "#00D4AA" : overallScore > 60 ? "#FFD166" : "#DC2626"}
+                    strokeWidth="8"
+                    strokeLinecap="round"
+                    strokeDasharray="283"
+                    strokeDashoffset={283 - (283 * overallScore) / 100}
+                    className="animate-gauge-fill"
+                    transform="rotate(-90 60 60)"
+                  />
+                  <text x="60" y="60" textAnchor="middle" dominantBaseline="central"
+                    className="fill-white font-mono text-2xl font-bold">
+                    {overallScore}
+                  </text>
+                </svg>
+              </div>
             </div>
             {currentSpec && (() => {
               const brandV = runBrandChecks(currentSpec);
@@ -691,7 +743,7 @@ export function BuildUI() {
               const errors = allViolations.filter(v => v.severity === "error");
               return (
                 <>
-                  <div className="rounded-2xl border border-gray-200 bg-white p-4">
+                  <div className="rounded-2xl border border-white/[0.08] bg-white/95 p-4">
                     <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500">Breakdown</p>
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center justify-between text-sm">
@@ -717,7 +769,7 @@ export function BuildUI() {
                       </p>
                       <ul className="flex flex-col gap-1">
                         {errors.slice(0, 3).map((v, i) => (
-                          <li key={i} className="text-xs text-red-700">• {v.message}</li>
+                          <li key={i} className="text-xs text-red-700">{"\u2022"} {v.message}</li>
                         ))}
                       </ul>
                       <button
@@ -725,7 +777,7 @@ export function BuildUI() {
                         onClick={() => setActiveRole("qa")}
                         className="mt-2 text-xs font-semibold text-red-600 hover:text-red-800"
                       >
-                        Switch to QA view →
+                        Switch to QA view &rarr;
                       </button>
                     </div>
                   )}
@@ -738,8 +790,8 @@ export function BuildUI() {
               );
             })()}
             {!currentSpec && (
-              <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4">
-                <p className="text-sm text-gray-400 text-center">Generate a page to see compliance details</p>
+              <div className="rounded-2xl border border-dashed border-white/[0.08] bg-white/[0.02] p-4">
+                <p className="text-sm text-white/55 text-center">Generate a page to see compliance details</p>
               </div>
             )}
           </aside>
@@ -756,9 +808,9 @@ export function BuildUI() {
 
         {/* Developer right: JSON code block */}
         {activeRole === "developer" && (
-          <aside className="flex flex-col gap-4 overflow-y-auto border-l border-gray-200 bg-gray-50 p-4">
+          <aside className="flex flex-col gap-4 overflow-y-auto bg-white/[0.02] border-l border-white/[0.06] p-4">
             {currentSpec ? (
-              <div className="flex flex-col gap-2 overflow-y-auto rounded-2xl border border-gray-200 bg-gray-900 p-4">
+              <div className="flex flex-col gap-2 overflow-y-auto rounded-2xl border border-white/[0.08] bg-gray-900 p-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
                   PageSpec JSON
                 </p>
@@ -767,8 +819,8 @@ export function BuildUI() {
                 </pre>
               </div>
             ) : (
-              <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4">
-                <p className="text-sm text-gray-400">
+              <div className="rounded-2xl border border-dashed border-white/[0.08] bg-white/[0.02] p-4">
+                <p className="text-sm text-white/55">
                   Generate a page to see the code output
                 </p>
               </div>

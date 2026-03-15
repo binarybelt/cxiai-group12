@@ -61,6 +61,8 @@ export function FigmaImport() {
     <div className="space-y-4">
       <form onSubmit={handleImport} className="flex gap-3">
         <input
+          aria-label="Figma file URL"
+          name="figma-url"
           type="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
@@ -71,7 +73,7 @@ export function FigmaImport() {
         <button
           type="submit"
           disabled={loading}
-          className="rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2"
         >
           {loading ? "Importing..." : "Import"}
         </button>

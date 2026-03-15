@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import type { AuditEntry } from "@/lib/audit-chain";
 import { verifyChain } from "@/lib/audit-chain";
@@ -168,9 +168,9 @@ export default function EvidencePage() {
   }, []);
 
   // Load on first render
-  useState(() => {
+  useEffect(() => {
     loadEntries();
-  });
+  }, [loadEntries]);
 
   // Animated verification
   async function handleVerify() {

@@ -116,10 +116,10 @@ export function ChatPanel({ currentSpec, onEditComplete }: ChatPanelProps) {
   }
 
   return (
-    <div className="flex flex-col rounded-2xl border border-gray-200 bg-white">
-      <div className="border-b border-gray-100 px-4 py-3">
-        <p className="text-sm font-semibold text-gray-700">Chat Edit</p>
-        <p className="text-xs text-gray-400">
+    <div className="flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm">
+      <div className="border-b border-white/[0.08] px-4 py-3">
+        <p className="text-sm font-semibold text-white/90">Chat Edit</p>
+        <p className="text-xs text-white/40">
           Describe changes to refine the generated page
         </p>
       </div>
@@ -128,19 +128,19 @@ export function ChatPanel({ currentSpec, onEditComplete }: ChatPanelProps) {
       <div className="flex max-h-60 flex-col gap-2 overflow-y-auto px-4 py-3">
         {chatHistory.length === 0 && (
           <>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-white/40">
               Type an instruction like &ldquo;make the hero warmer&rdquo; or
               &ldquo;add a data table section&rdquo;
             </p>
             {currentSpec && (
               <div className="flex flex-wrap gap-1.5 pt-1">
-                <span className="text-xs text-gray-400">Try challenging:</span>
+                <span className="text-xs text-white/40">Try challenging:</span>
                 {CHALLENGE_PROMPTS.map((cp) => (
                   <button
                     key={cp.label}
                     type="button"
                     onClick={() => setInput(cp.text)}
-                    className="rounded-full border border-red-200 bg-red-50 px-2.5 py-1 text-xs text-red-600 transition hover:bg-red-100"
+                    className="rounded-full border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-xs text-red-400 transition hover:bg-red-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                   >
                     {cp.label}
                   </button>
@@ -152,28 +152,52 @@ export function ChatPanel({ currentSpec, onEditComplete }: ChatPanelProps) {
         {chatHistory.map((msg, idx) => (
           <div
             key={idx}
-            className={`rounded-xl px-3 py-2 text-xs ${
-              msg.role === "user"
-                ? "self-end bg-pfizer-blue-50 text-pfizer-blue-800"
-                : "self-start bg-gray-100 text-gray-700"
+            className={`flex items-start gap-2 ${
+              msg.role === "user" ? "self-end" : "self-start"
             }`}
           >
-            {msg.content}
+            {msg.role === "assistant" && (
+              <span className="mt-1 h-5 w-5 flex-shrink-0 rounded-full bg-gradient-to-br from-pfizer-blue-accent to-teal" />
+            )}
+            <div
+              className={`rounded-xl px-3 py-2 text-xs ${
+                msg.role === "user"
+                  ? "bg-pfizer-blue-accent/20 text-white/90"
+                  : "bg-white/[0.05] text-white/80"
+              }`}
+            >
+              {msg.content}
+            </div>
+            {msg.role === "user" && (
+              <span className="mt-1 h-5 w-5 flex-shrink-0 rounded-full bg-white/20" />
+            )}
           </div>
         ))}
+        {isEditing && (
+          <div className="flex gap-1 self-start px-3 py-2">
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                className="h-1.5 w-1.5 rounded-full bg-white/40 animate-pulse"
+                style={{ animationDelay: `${i * 200}ms` }}
+              />
+            ))}
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Error */}
       {error && (
-        <div className="mx-4 mb-2 rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700">
+        <div className="mx-4 mb-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-400">
           {error}
         </div>
       )}
 
       {/* Input bar */}
-      <form onSubmit={handleSubmit} className="flex gap-2 border-t border-gray-100 px-4 py-3">
+      <form onSubmit={handleSubmit} className="flex gap-2 border-t border-white/[0.08] px-4 py-3">
         <input
+          name="chat-instruction"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -181,14 +205,14 @@ export function ChatPanel({ currentSpec, onEditComplete }: ChatPanelProps) {
             currentSpec ? "Describe your edit..." : "Generate a page first"
           }
           disabled={!currentSpec || isEditing}
-          className="flex-1 rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:border-pfizer-blue-500 focus:outline-none focus:ring-1 focus:ring-pfizer-blue-200 disabled:opacity-40"
+          className="flex-1 rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-pfizer-blue-accent focus:outline-none focus:ring-1 focus:ring-pfizer-blue-accent/30 disabled:opacity-40"
         />
         <button
           type="submit"
           disabled={!currentSpec || isEditing || !input.trim()}
-          className="rounded-lg bg-pfizer-blue-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg bg-pfizer-blue-accent px-4 py-2 text-sm font-semibold text-white transition hover:shadow-[0_0_16px_rgba(46,41,255,0.4)] disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {isEditing ? "Editing..." : "Send"}
+          {isEditing ? "Editing\u2026" : "Send"}
         </button>
       </form>
     </div>
