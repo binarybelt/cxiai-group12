@@ -239,28 +239,14 @@ export default function HomePage() {
               }}
             >
               <div className="rounded-[2.5rem] bg-gradient-to-br from-brand-900/60 via-brand-800/40 to-teal/10 p-8 shadow-2xl">
-                <div className="rounded-xl border border-white/[0.08] bg-[#0C0A12] p-6">
-                  <div className="flex items-center gap-2 border-b border-white/[0.06] pb-3">
-                    <div className="flex gap-1.5">
-                      <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-                    </div>
-                    <div className="flex-1 rounded-md bg-white/[0.05] px-3 py-1 font-mono text-xs text-white/35">
-                      pfizer.com/your-page
-                    </div>
-                  </div>
-                  <div className="mt-4 space-y-3">
-                    <div className="h-4 w-3/4 rounded bg-white/[0.06]" />
-                    <div className="h-3 w-full rounded bg-white/[0.04]" />
-                    <div className="h-3 w-5/6 rounded bg-white/[0.04]" />
-                    <div className="mt-4 h-20 w-full rounded-lg bg-white/[0.03]" />
-                    <div className="flex gap-2">
-                      <div className="h-8 w-24 rounded bg-brand-accent/20" />
-                      <div className="h-8 w-20 rounded bg-white/[0.04]" />
-                    </div>
-                  </div>
-                </div>
+                <Image
+                  src="/mockup-preview-scrolled.png"
+                  alt="Design Delivery Accelerator — approved pharma components rendered in the design system"
+                  width={800}
+                  height={500}
+                  className="rounded-xl"
+                  priority
+                />
               </div>
             </motion.div>
           </div>
