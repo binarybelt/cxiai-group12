@@ -16,7 +16,7 @@ export default function ScanPage() {
         criterion="Insight & Problem Understanding"
       />
 
-      <p className="mb-6 mt-4 text-sm text-gray-500">
+      <p className="mb-6 mt-4 text-sm text-white/55">
         Monitor brand compliance across your digital portfolio and scan live
         URLs for design-system drift.
       </p>
@@ -24,12 +24,12 @@ export default function ScanPage() {
       <ScanDashboard />
 
       {/* Figma Import — collapsible section */}
-      <details className="mt-12 rounded-2xl border border-gray-200 bg-white">
-        <summary className="cursor-pointer px-6 py-4 text-base font-semibold text-gray-900">
+      <details className="mt-12 rounded-2xl border border-white/[0.08] bg-white/[0.03]">
+        <summary className="cursor-pointer px-6 py-4 text-base font-semibold text-white/93">
           Figma Token Import
         </summary>
-        <div className="border-t border-gray-100 px-6 py-5">
-          <p className="mb-4 text-sm text-gray-500">
+        <div className="border-t border-white/[0.06] px-6 py-5">
+          <p className="mb-4 text-sm text-white/55">
             Paste a Figma file URL to extract design tokens. If no API key is
             configured, demo tokens will be returned.
           </p>

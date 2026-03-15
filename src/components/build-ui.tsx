@@ -281,10 +281,10 @@ export function BuildUI() {
 
   const scoreBadgeColor =
     overallScore > 80
-      ? "text-green-600"
+      ? "text-teal"
       : overallScore > 60
-        ? "text-yellow-500"
-        : "text-red-500";
+        ? "text-yellow-400"
+        : "text-red-400";
 
   // -------------------------------------------------------------------------
   // Render — role toggle + 3-column layout: left | preview | right
@@ -338,12 +338,12 @@ export function BuildUI() {
                   onChange={(e) => setBrief(e.target.value)}
                   placeholder="Describe the page you need. For example: Create an HCP landing page for Lipitor in the US market with efficacy data and safety information."
                   rows={8}
-                  className="w-full resize-y rounded-2xl border border-white/[0.08] bg-white/[0.05] p-4 text-sm text-white placeholder:text-gray-400 focus:border-pfizer-blue-500 focus:outline-none focus:ring-2 focus:ring-pfizer-blue-200"
+                  className="w-full resize-y rounded-2xl border border-white/[0.08] bg-white/[0.05] p-4 text-sm text-white placeholder:text-white/35 focus:border-pfizer-blue-accent focus:outline-none focus:ring-2 focus:ring-pfizer-blue-accent/30"
                 />
                 <button
                   type="submit"
                   disabled={!canSubmit}
-                  className="self-start rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="self-start rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#000014] disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {buttonLabel}
                 </button>
@@ -368,7 +368,7 @@ export function BuildUI() {
               {phase === "error" && errorMsg && (
                 <div
                   role="alert"
-                  className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+                  className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400"
                 >
                   <p className="font-semibold">Error</p>
                   <p className="mt-1">{errorMsg}</p>
@@ -379,7 +379,7 @@ export function BuildUI() {
               {phase === "error" && gateViolations && (
                 <div
                   role="alert"
-                  className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800"
+                  className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-400"
                 >
                   <p className="font-semibold">Compliance Gate Failed</p>
                   <p className="mt-1">
@@ -391,45 +391,45 @@ export function BuildUI() {
 
               {/* Interpretation panel */}
               {interpretation && (
-                <div className="rounded-2xl border border-white/[0.08] bg-white/95">
+                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04]">
                   <button
                     type="button"
                     onClick={() => setShowInterpretation((v) => !v)}
-                    className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-gray-700"
+                    className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-white/70"
                   >
                     <span>Brief Interpretation</span>
-                    <span className="text-gray-400">
+                    <span className="text-white/55">
                       {showInterpretation ? "-- Collapse" : "-- Expand"}
                     </span>
                   </button>
 
                   {showInterpretation && (
-                    <div className="border-t border-gray-100 px-4 pb-4 pt-3">
+                    <div className="border-t border-white/[0.08] px-4 pb-4 pt-3">
                       <dl className="space-y-2 text-sm">
                         <div>
-                          <dt className="font-medium text-gray-500">Page type</dt>
-                          <dd className="text-gray-900">{interpretation.pageType}</dd>
+                          <dt className="font-medium text-white/55">Page type</dt>
+                          <dd className="text-white">{interpretation.pageType}</dd>
                         </div>
                         <div>
-                          <dt className="font-medium text-gray-500">Market</dt>
-                          <dd className="text-gray-900">{interpretation.market}</dd>
+                          <dt className="font-medium text-white/55">Market</dt>
+                          <dd className="text-white">{interpretation.market}</dd>
                         </div>
                         <div>
-                          <dt className="font-medium text-gray-500">Product</dt>
-                          <dd className="text-gray-900">{interpretation.product}</dd>
+                          <dt className="font-medium text-white/55">Product</dt>
+                          <dd className="text-white">{interpretation.product}</dd>
                         </div>
                         <div>
-                          <dt className="font-medium text-gray-500">Audience</dt>
-                          <dd className="capitalize text-gray-900">
+                          <dt className="font-medium text-white/55">Audience</dt>
+                          <dd className="capitalize text-white">
                             {interpretation.audience}
                           </dd>
                         </div>
                         <div>
-                          <dt className="font-medium text-gray-500">
+                          <dt className="font-medium text-white/55">
                             Content requirements
                           </dt>
                           <dd>
-                            <ul className="list-inside list-disc text-gray-900">
+                            <ul className="list-inside list-disc text-white">
                               {interpretation.contentRequirements.map((req) => (
                                 <li key={req}>{req}</li>
                               ))}
@@ -437,14 +437,14 @@ export function BuildUI() {
                           </dd>
                         </div>
                         <div>
-                          <dt className="font-medium text-gray-500">Reasoning</dt>
-                          <dd className="italic text-gray-700">
+                          <dt className="font-medium text-white/55">Reasoning</dt>
+                          <dd className="italic text-white/70">
                             {interpretation.reasoning}
                           </dd>
                         </div>
                         {interpretation.riskFlags && interpretation.riskFlags.length > 0 && (
                           <div>
-                            <dt className="font-medium text-gray-500">Risk Flags</dt>
+                            <dt className="font-medium text-white/55">Risk Flags</dt>
                             <dd>
                               <ul className="mt-1 flex flex-col gap-1">
                                 {interpretation.riskFlags.map((rf, idx) => (
@@ -452,10 +452,10 @@ export function BuildUI() {
                                     key={idx}
                                     className={`rounded-lg px-2 py-1 text-xs ${
                                       rf.severity === "high"
-                                        ? "bg-red-50 text-red-700"
+                                        ? "bg-red-500/10 text-red-400"
                                         : rf.severity === "medium"
-                                          ? "bg-amber-50 text-amber-700"
-                                          : "bg-yellow-50 text-yellow-700"
+                                          ? "bg-amber-500/10 text-amber-400"
+                                          : "bg-yellow-500/10 text-yellow-400"
                                     }`}
                                   >
                                     <span className="font-semibold">{rf.severity.toUpperCase()}</span>: {rf.detail}
@@ -493,13 +493,13 @@ export function BuildUI() {
           {activeRole === "qa" && (
             <>
               {gateViolations && gateViolations.length > 0 && (
-                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+                <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-400">
                     Gate Violations ({gateViolations.length})
                   </p>
                   <ul className="mt-2 flex flex-col gap-1">
                     {gateViolations.map((v, idx) => (
-                      <li key={`${v.ruleId}-${idx}`} className="text-xs text-amber-800">
+                      <li key={`${v.ruleId}-${idx}`} className="text-xs text-amber-400">
                         {v.message}
                       </li>
                     ))}
@@ -516,7 +516,7 @@ export function BuildUI() {
                   const url = URL.createObjectURL(blob);
                   window.open(url, "_blank");
                 }}
-                className="w-full rounded-full border border-pfizer-blue-200 bg-pfizer-blue-50 px-4 py-2 text-sm font-semibold text-pfizer-blue-700 transition hover:bg-pfizer-blue-100"
+                className="w-full rounded-full border border-pfizer-blue-accent/30 bg-pfizer-blue-accent/10 px-4 py-2 text-sm font-semibold text-pfizer-blue-accent transition hover:bg-pfizer-blue-accent/20"
               >
                 Export Compliance Report
               </button>
@@ -527,8 +527,8 @@ export function BuildUI() {
           {activeRole === "developer" && (
             <>
               {currentSpec ? (
-                <div className="rounded-2xl border border-white/[0.08] bg-white/95 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
                     Component Specs
                   </p>
                   <ul className="mt-2 flex flex-col gap-2">
@@ -536,12 +536,12 @@ export function BuildUI() {
                       section.components.map((comp, idx) => (
                         <li
                           key={`${section.id}-${comp.componentId}-${idx}`}
-                          className="rounded-lg bg-gray-50 px-3 py-2"
+                          className="rounded-lg bg-white/[0.03] px-3 py-2"
                         >
-                          <p className="text-xs font-semibold text-gray-800">
+                          <p className="text-xs font-semibold text-white">
                             {comp.componentId}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-white/55">
                             Props: {Object.keys(comp.props).join(", ") || "none"}
                           </p>
                         </li>
@@ -584,7 +584,7 @@ export function BuildUI() {
                     setOverrideSpec(null); // clear override when switching variants
                   }}
                   disabled={isGenerating && !variants?.[idx]}
-                  className={`rounded-full px-4 py-1.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2 ${
+                  className={`rounded-full px-4 py-1.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#000014] ${
                     selectedVariant === idx
                       ? "bg-pfizer-blue-accent text-white shadow-[0_0_12px_rgba(46,41,255,0.3)]"
                       : "border border-white/[0.08] bg-white/[0.03] text-white/55 hover:border-white/[0.16] hover:text-white/90"
@@ -645,14 +645,14 @@ export function BuildUI() {
 
           {/* Diff summary banner */}
           {diffResult && (
-            <div className="flex items-center justify-between rounded-xl border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-800">
+            <div className="flex items-center justify-between rounded-xl border border-pfizer-blue-accent/30 bg-pfizer-blue-accent/10 px-4 py-2 text-sm text-pfizer-blue-accent">
               <span>
                 Last edit: {diffResult.summary}
               </span>
               <button
                 type="button"
                 onClick={() => setDiffResult(null)}
-                className="ml-2 text-xs font-semibold text-blue-600 hover:text-blue-800"
+                className="ml-2 text-xs font-semibold text-pfizer-blue-accent hover:text-white"
               >
                 Dismiss
               </button>
@@ -710,8 +710,8 @@ export function BuildUI() {
         {/* Marketer right: score badge + breakdown + top issues */}
         {activeRole === "marketer" && (
           <aside className="flex flex-col gap-4 overflow-y-auto bg-white/[0.02] border-l border-white/[0.06] p-4">
-            <div className="rounded-2xl border border-white/[0.08] bg-white/95 p-6 text-center">
-              <p className="text-xs font-display font-semibold uppercase tracking-wide text-gray-500">
+            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 text-center">
+              <p className="text-xs font-display font-semibold uppercase tracking-wide text-white/55">
                 Compliance Score
               </p>
               <div data-testid="score-badge" className="mt-2">
@@ -743,47 +743,47 @@ export function BuildUI() {
               const errors = allViolations.filter(v => v.severity === "error");
               return (
                 <>
-                  <div className="rounded-2xl border border-white/[0.08] bg-white/95 p-4">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500">Breakdown</p>
+                  <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-white/55">Breakdown</p>
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Brand</span>
-                        <span className={`font-semibold ${brandScore === 100 ? "text-green-600" : "text-amber-600"}`}>{brandScore}</span>
+                        <span className="text-white/55">Brand</span>
+                        <span className={`font-semibold ${brandScore === 100 ? "text-teal" : "text-amber-400"}`}>{brandScore}</span>
                       </div>
-                      <div className="h-1.5 rounded-full bg-gray-100">
-                        <div className="h-1.5 rounded-full bg-green-500" style={{ width: `${brandScore}%` }} />
+                      <div className="h-1.5 rounded-full bg-white/[0.06]">
+                        <div className="h-1.5 rounded-full bg-teal" style={{ width: `${brandScore}%` }} />
                       </div>
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Pharma</span>
-                        <span className={`font-semibold ${pharmaScore === 100 ? "text-green-600" : "text-amber-600"}`}>{pharmaScore}</span>
+                        <span className="text-white/55">Pharma</span>
+                        <span className={`font-semibold ${pharmaScore === 100 ? "text-teal" : "text-amber-400"}`}>{pharmaScore}</span>
                       </div>
-                      <div className="h-1.5 rounded-full bg-gray-100">
-                        <div className="h-1.5 rounded-full bg-green-500" style={{ width: `${pharmaScore}%` }} />
+                      <div className="h-1.5 rounded-full bg-white/[0.06]">
+                        <div className="h-1.5 rounded-full bg-teal" style={{ width: `${pharmaScore}%` }} />
                       </div>
                     </div>
                   </div>
                   {errors.length > 0 && (
-                    <div className="rounded-2xl border border-red-200 bg-red-50 p-4">
-                      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-red-600">
+                    <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4">
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-red-400">
                         Top Issues ({errors.length})
                       </p>
                       <ul className="flex flex-col gap-1">
                         {errors.slice(0, 3).map((v, i) => (
-                          <li key={i} className="text-xs text-red-700">{"\u2022"} {v.message}</li>
+                          <li key={i} className="text-xs text-red-400">{"\u2022"} {v.message}</li>
                         ))}
                       </ul>
                       <button
                         type="button"
                         onClick={() => setActiveRole("qa")}
-                        className="mt-2 text-xs font-semibold text-red-600 hover:text-red-800"
+                        className="mt-2 text-xs font-semibold text-red-400 hover:text-red-300"
                       >
                         Switch to QA view &rarr;
                       </button>
                     </div>
                   )}
                   {errors.length === 0 && allViolations.length === 0 && (
-                    <div className="rounded-2xl border border-green-200 bg-green-50 p-4 text-center">
-                      <p className="text-sm font-semibold text-green-700">All checks passed</p>
+                    <div className="rounded-2xl border border-teal/30 bg-teal/10 p-4 text-center">
+                      <p className="text-sm font-semibold text-teal">All checks passed</p>
                     </div>
                   )}
                 </>
@@ -810,11 +810,11 @@ export function BuildUI() {
         {activeRole === "developer" && (
           <aside className="flex flex-col gap-4 overflow-y-auto bg-white/[0.02] border-l border-white/[0.06] p-4">
             {currentSpec ? (
-              <div className="flex flex-col gap-2 overflow-y-auto rounded-2xl border border-white/[0.08] bg-gray-900 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+              <div className="flex flex-col gap-2 overflow-y-auto rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
                   PageSpec JSON
                 </p>
-                <pre className="overflow-x-auto text-xs text-green-400">
+                <pre className="overflow-x-auto text-xs text-teal">
                   <code>{JSON.stringify(currentSpec, null, 2)}</code>
                 </pre>
               </div>

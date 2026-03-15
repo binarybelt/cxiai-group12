@@ -59,7 +59,7 @@ export function ExplainabilityPanel({
       <button
         type="button"
         onClick={() => setIsExpanded((v) => !v)}
-        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-400 rounded-xl"
+        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#000014] rounded-xl"
       >
         <span>AI Reasoning</span>
         <span className="text-white/35">

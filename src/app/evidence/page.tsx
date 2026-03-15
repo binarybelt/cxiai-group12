@@ -42,67 +42,67 @@ function EntryCard({
   readonly entry: AuditEntry;
   readonly verified: boolean | null;
 }) {
-  const borderColor = ACTION_COLORS[entry.action] ?? "border-l-gray-400";
-  const dotColor = ACTION_DOT_COLORS[entry.action] ?? "bg-gray-400";
+  const borderColor = ACTION_COLORS[entry.action] ?? "border-l-white/[0.2]";
+  const dotColor = ACTION_DOT_COLORS[entry.action] ?? "bg-white/[0.35]";
 
   return (
     <div className="relative pl-8">
       {/* Timeline connector */}
-      <div className="absolute left-3 top-0 h-full w-px bg-gray-300" />
+      <div className="absolute left-3 top-0 h-full w-px bg-white/[0.08]" />
       <div
-        className={`absolute left-1.5 top-6 h-3 w-3 rounded-full ${dotColor} ring-2 ring-white`}
+        className={`absolute left-1.5 top-6 h-3 w-3 rounded-full ${dotColor} ring-2 ring-[#000014]`}
       />
 
       <div
-        className={`rounded-xl border border-gray-200 border-l-4 ${borderColor} bg-white p-4 shadow-sm`}
+        className={`rounded-xl border border-white/[0.08] border-l-4 ${borderColor} bg-white/[0.03] p-4`}
       >
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 text-xs font-bold text-gray-600">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/[0.06] text-xs font-bold text-white/[0.7]">
               {entry.sequenceNum}
             </span>
-            <span className="text-sm font-semibold text-gray-900">
+            <span className="text-sm font-semibold text-white/[0.93]">
               {entry.action}
             </span>
             {verified === true && (
-              <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">
+              <span className="inline-flex items-center rounded-full bg-green-500/[0.15] px-2 py-0.5 text-xs font-semibold text-green-400">
                 Verified
               </span>
             )}
             {verified === false && (
-              <span className="inline-flex items-center rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700">
+              <span className="inline-flex items-center rounded-full bg-red-500/[0.15] px-2 py-0.5 text-xs font-semibold text-red-400">
                 TAMPERED
               </span>
             )}
           </div>
-          <span className="text-xs text-gray-400">{entry.timestamp}</span>
+          <span className="text-xs text-white/[0.35]">{entry.timestamp}</span>
         </div>
 
         {/* Actor */}
-        <p className="mt-1 text-xs text-gray-500">Actor: {entry.actor}</p>
+        <p className="mt-1 text-xs text-white/[0.55]">Actor: {entry.actor}</p>
 
         {/* Input / Output summaries */}
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           <div>
-            <p className="text-xs font-medium text-gray-500">Input</p>
-            <p className="mt-0.5 line-clamp-2 text-xs text-gray-700">
+            <p className="text-xs font-medium text-white/[0.55]">Input</p>
+            <p className="mt-0.5 line-clamp-2 text-xs text-white/[0.7]">
               {entry.input}
             </p>
             <p
-              className="mt-1 font-mono text-[10px] text-gray-400"
+              className="mt-1 font-mono text-[10px] text-white/[0.35]"
               title={entry.inputHash}
             >
               {truncateHash(entry.inputHash)}
             </p>
           </div>
           <div>
-            <p className="text-xs font-medium text-gray-500">Output</p>
-            <p className="mt-0.5 line-clamp-2 text-xs text-gray-700">
+            <p className="text-xs font-medium text-white/[0.55]">Output</p>
+            <p className="mt-0.5 line-clamp-2 text-xs text-white/[0.7]">
               {entry.output}
             </p>
             <p
-              className="mt-1 font-mono text-[10px] text-gray-400"
+              className="mt-1 font-mono text-[10px] text-white/[0.35]"
               title={entry.outputHash}
             >
               {truncateHash(entry.outputHash)}
@@ -111,18 +111,18 @@ function EntryCard({
         </div>
 
         {/* Hashes */}
-        <div className="mt-3 flex flex-col gap-1 rounded-lg bg-gray-50 p-2">
+        <div className="mt-3 flex flex-col gap-1 rounded-lg bg-white/[0.03] p-2">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-medium text-gray-500">
+            <span className="text-[10px] font-medium text-white/[0.55]">
               Entry Hash
             </span>
             <span
               className={`font-mono text-[10px] ${
                 verified === true
-                  ? "text-green-600"
+                  ? "text-green-400"
                   : verified === false
-                    ? "text-red-600"
-                    : "text-gray-600"
+                    ? "text-red-400"
+                    : "text-white/[0.55]"
               }`}
               title={entry.entryHash}
             >
@@ -130,11 +130,11 @@ function EntryCard({
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-medium text-gray-500">
+            <span className="text-[10px] font-medium text-white/[0.55]">
               Prev Hash
             </span>
             <span
-              className="font-mono text-[10px] text-gray-400"
+              className="font-mono text-[10px] text-white/[0.35]"
               title={entry.previousHash}
             >
               {truncateHash(entry.previousHash)}
@@ -203,10 +203,10 @@ export default function EvidencePage() {
 
       {/* Header */}
       <div className="mb-8 mt-4">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-white/[0.93]">
           Compliance Evidence Chain
         </h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-white/[0.55]">
           FDA 21 CFR Part 11 compliant audit trail with SHA-256 hash chain
           verification
         </p>
@@ -226,7 +226,7 @@ export default function EvidencePage() {
           <button
             type="button"
             onClick={loadEntries}
-            className="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+            className="rounded-full border border-white/[0.08] px-4 py-2 text-sm font-medium text-white/[0.7] transition hover:bg-white/[0.06]"
           >
             Refresh
           </button>
@@ -236,8 +236,8 @@ export default function EvidencePage() {
             <span
               className={`ml-auto rounded-full px-4 py-1.5 text-xs font-semibold ${
                 verificationResult.valid
-                  ? "bg-green-50 text-green-700"
-                  : "bg-red-50 text-red-700"
+                  ? "bg-green-500/[0.15] text-green-400"
+                  : "bg-red-500/[0.15] text-red-400"
               }`}
             >
               {verificationResult.valid
@@ -275,8 +275,8 @@ export default function EvidencePage() {
           })}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-16">
-          <p className="text-sm text-gray-400">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/[0.08] bg-white/[0.03] px-6 py-16">
+          <p className="text-sm text-white/[0.35]">
             Generate a page in the Build view to see the compliance evidence
             chain.
           </p>

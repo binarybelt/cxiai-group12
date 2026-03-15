@@ -123,17 +123,17 @@ const AUDIT_POINTS: readonly string[] = [
 
 function SectionHeading({ children }: { readonly children: React.ReactNode }) {
   return (
-    <h2 className="mb-4 text-xl font-bold text-gray-900">{children}</h2>
+    <h2 className="mb-4 text-xl font-bold text-white/[0.93]">{children}</h2>
   );
 }
 
 function AgentCard({ agent }: { readonly agent: AgentInfo }) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-      <h3 className="text-base font-bold text-pfizer-blue-700">
+    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5">
+      <h3 className="text-base font-bold text-pfizer-blue-500">
         {agent.name}
       </h3>
-      <p className="mt-1 text-sm text-gray-600">{agent.purpose}</p>
+      <p className="mt-1 text-sm text-white/[0.55]">{agent.purpose}</p>
 
       <div className="mt-3 space-y-1">
         <Detail label="Model" value={agent.model} />
@@ -142,12 +142,12 @@ function AgentCard({ agent }: { readonly agent: AgentInfo }) {
       </div>
 
       <div className="mt-3">
-        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+        <p className="text-xs font-semibold uppercase tracking-wide text-white/[0.55]">
           Guardrails
         </p>
         <ul className="mt-1 list-disc space-y-1 pl-4">
           {agent.guardrails.map((g) => (
-            <li key={g} className="text-sm text-gray-700">
+            <li key={g} className="text-sm text-white/[0.7]">
               {renderInlineCode(g)}
             </li>
           ))}
@@ -165,8 +165,8 @@ function Detail({
   readonly value: string;
 }) {
   return (
-    <p className="text-sm text-gray-700">
-      <span className="font-medium text-gray-500">{label}:</span>{" "}
+    <p className="text-sm text-white/[0.7]">
+      <span className="font-medium text-white/[0.55]">{label}:</span>{" "}
       {renderInlineCode(value)}
     </p>
   );
@@ -179,7 +179,7 @@ function renderInlineCode(text: string): React.ReactNode {
     part.startsWith("`") && part.endsWith("`") ? (
       <code
         key={i}
-        className="rounded bg-gray-100 px-1 py-0.5 font-mono text-xs text-pfizer-blue-700"
+        className="rounded bg-white/[0.06] px-1 py-0.5 font-mono text-xs text-pfizer-blue-500"
       >
         {part.slice(1, -1)}
       </code>
@@ -191,7 +191,7 @@ function renderInlineCode(text: string): React.ReactNode {
 
 function CodeSpan({ children }: { readonly children: string }) {
   return (
-    <code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-xs text-pfizer-blue-700">
+    <code className="rounded bg-white/[0.06] px-1 py-0.5 font-mono text-xs text-pfizer-blue-500">
       {children}
     </code>
   );
@@ -207,7 +207,7 @@ function BulletList({
   return (
     <ul className="list-disc space-y-2 pl-5">
       {items.map((item) => (
-        <li key={item} className="text-sm text-gray-700">
+        <li key={item} className="text-sm text-white/[0.7]">
           {renderItem ? renderItem(item) : item}
         </li>
       ))}
@@ -231,10 +231,10 @@ export default function TransparencyPage() {
 
       {/* Header */}
       <div className="mb-10 mt-4">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-white/[0.93]">
           AI Transparency Report
         </h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-white/[0.55]">
           How we use AI, how we prevent hallucination, and how we ensure
           trustworthy output
         </p>
@@ -255,7 +255,7 @@ export default function TransparencyPage() {
         <SectionHeading>Anti-Hallucination Strategy</SectionHeading>
         <ul className="list-disc space-y-3 pl-5">
           {ANTI_HALLUCINATION.map((item) => (
-            <li key={item.label} className="text-sm text-gray-700">
+            <li key={item.label} className="text-sm text-white/[0.7]">
               <span className="font-semibold">{item.label}:</span> {item.text}
             </li>
           ))}
@@ -271,7 +271,7 @@ export default function TransparencyPage() {
       {/* Section 4: What AI Does NOT Do */}
       <section className="mb-10">
         <SectionHeading>What AI Does NOT Do</SectionHeading>
-        <p className="mb-3 text-sm font-medium text-gray-500">
+        <p className="mb-3 text-sm font-medium text-white/[0.55]">
           This is critical for trust:
         </p>
         <BulletList items={AI_DOES_NOT} />
@@ -281,11 +281,11 @@ export default function TransparencyPage() {
       <section className="mb-10">
         <SectionHeading>Audit Trail</SectionHeading>
         <BulletList items={AUDIT_POINTS} />
-        <p className="mt-3 text-sm text-gray-500">
+        <p className="mt-3 text-sm text-white/[0.55]">
           See the live audit chain at{" "}
           <a
             href="/evidence"
-            className="font-medium text-pfizer-blue-700 underline"
+            className="font-medium text-pfizer-blue-500 underline"
           >
             /evidence
           </a>

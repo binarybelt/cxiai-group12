@@ -57,6 +57,11 @@ const DEMO_AUDIT_ENTRIES: AuditLogEntry[] = [
 
 const CONVEX_TIMEOUT_MS = 5_000;
 
+/** Determine if actor is an AI agent (for teal coloring) */
+function isAgentActor(actor: string): boolean {
+  return actor !== "system" && actor !== "user";
+}
+
 function AuditTrailInner() {
   const [timedOut, setTimedOut] = useState(false);
 
@@ -90,11 +95,11 @@ function AuditTrailInner() {
   // Still loading (not yet timed out)
   if (displayLogs === undefined) {
     return (
-      <div className="rounded-2xl border border-gray-200 bg-white p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
           Audit Trail
         </p>
-        <p className="mt-2 text-sm text-gray-400">Loading audit trail...</p>
+        <p className="mt-2 text-sm text-white/35">Loading audit trail...</p>
       </div>
     );
   }
@@ -102,11 +107,11 @@ function AuditTrailInner() {
   // Empty state
   if (displayLogs.length === 0) {
     return (
-      <div className="rounded-2xl border border-gray-200 bg-white p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
           Audit Trail
         </p>
-        <p className="mt-2 text-sm text-gray-400">
+        <p className="mt-2 text-sm text-white/35">
           No audit events yet. Generate a page to see AI decisions logged here.
         </p>
       </div>
@@ -114,32 +119,51 @@ function AuditTrailInner() {
   }
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-4">
+    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4">
       <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+        <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
           Audit Trail
         </p>
         {useDemoData && (
-          <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-600">
+          <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-medium text-amber-400">
             Demo data
           </span>
         )}
       </div>
-      <ul className="mt-2 flex max-h-64 flex-col gap-2 overflow-y-auto">
+      <ul className="relative mt-3 flex max-h-64 flex-col gap-2 overflow-y-auto pl-4">
+        {/* Timeline connecting line */}
+        <div
+          aria-hidden="true"
+          className="absolute left-[5px] top-2 bottom-2 w-px bg-white/[0.08]"
+        />
         {displayLogs.map((entry) => (
           <li
             key={entry._id}
-            className="flex flex-col gap-0.5 rounded-lg bg-gray-50 px-3 py-2"
+            className="relative flex flex-col gap-0.5 rounded-lg bg-white/[0.04] px-3 py-2"
           >
+            {/* Timeline dot */}
+            <span
+              aria-hidden="true"
+              className={`absolute -left-4 top-3 h-2 w-2 rounded-full ${
+                isAgentActor(entry.actor) ? "bg-teal shadow-[0_0_4px_rgba(0,212,170,0.4)]" : "bg-white/30"
+              }`}
+            />
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-400">
+              <span className="font-mono text-xs text-white/35">
                 {new Date(entry.timestamp).toLocaleTimeString()}
               </span>
-              <span className="text-xs font-semibold text-gray-800">
+              <span className="text-xs font-semibold text-white/80">
                 {entry.action}
               </span>
+              <span
+                className={`ml-auto text-[10px] font-medium ${
+                  isAgentActor(entry.actor) ? "text-teal" : "text-white/50"
+                }`}
+              >
+                {entry.actor}
+              </span>
             </div>
-            <p className="truncate text-xs text-gray-500">{entry.details}</p>
+            <p className="truncate text-xs text-white/55">{entry.details}</p>
           </li>
         ))}
       </ul>

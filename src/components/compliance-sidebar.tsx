@@ -35,7 +35,7 @@ function ScoreBar({
   value: number;
 }) {
   const color =
-    value >= 80 ? "bg-green-500" : value >= 50 ? "bg-yellow-400" : "bg-red-500";
+    value >= 80 ? "bg-teal" : value >= 50 ? "bg-amber-400" : "bg-red-500";
 
   return (
     <div className="flex flex-col gap-1">
@@ -58,8 +58,8 @@ function SeverityDot({ severity }: { severity: "error" | "warning" | "info" }) {
     severity === "error"
       ? "bg-red-500"
       : severity === "warning"
-        ? "bg-yellow-400"
-        : "bg-blue-400";
+        ? "bg-amber-400"
+        : "bg-pfizer-blue-accent/60";
   return (
     <span className={`mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full ${color}`} />
   );
@@ -146,7 +146,7 @@ export function ComplianceSidebar({
     score.overall >= 80
       ? "text-teal"
       : score.overall >= 50
-        ? "text-yellow-500"
+        ? "text-amber-400"
         : "text-red-500";
 
   const allViolations = [

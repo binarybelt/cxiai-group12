@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 export interface ISIBlockProps {
   content: React.ReactNode;
@@ -12,10 +13,10 @@ export function ISIBlock({ content, expandable = false }: ISIBlockProps) {
   const headingId = useId();
   const [expanded, setExpanded] = useState(!expandable);
 
-  const body =
-    expandable && !expanded && typeof content === "string"
+  const truncatedBody =
+    expandable && typeof content === "string"
       ? `${content.slice(0, 260)}...`
-      : content;
+      : null;
 
   return (
     <section className="rounded-[1.5rem] border border-amber-300/70 bg-amber-300/15 p-token-lg shadow-token-sm">
@@ -30,11 +31,27 @@ export function ISIBlock({ content, expandable = false }: ISIBlockProps) {
         >
           Important Safety Information
         </p>
-        <div
-          id={contentId}
-          className="mt-token-md text-body-sm text-gray-900"
-        >
-          {body}
+        <div id={contentId} className="mt-token-md text-body-sm text-gray-900">
+          {expandable ? (
+            <>
+              {!expanded && truncatedBody}
+              <AnimatePresence initial={false}>
+                {expanded && (
+                  <motion.div
+                    className="overflow-hidden"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                  >
+                    {content}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </>
+          ) : (
+            content
+          )}
         </div>
         {expandable ? (
           <button

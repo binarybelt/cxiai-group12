@@ -18,7 +18,7 @@ const previewImage =
 
 function PreviewLabel({ name }: { name: string }) {
   return (
-    <p className="mb-token-sm text-caption uppercase tracking-[0.28em] text-gray-500">
+    <p className="mb-token-sm text-caption uppercase tracking-[0.28em] text-white/55">
       {name}
     </p>
   );
@@ -26,29 +26,31 @@ function PreviewLabel({ name }: { name: string }) {
 
 export default function PreviewPage() {
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(0,147,208,0.10),transparent_30%),linear-gradient(180deg,#f7fbfe_0%,#eef4fb_100%)] px-6 py-10 text-gray-900">
+    <main className="min-h-screen px-6 py-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-token-xl">
         <section>
           <PreviewLabel name="NavBar" />
-          <NavBar
-            logo="Design Delivery Accelerator"
-            market="US"
-            links={[
-              { label: "Capabilities", href: "#capabilities" },
-              { label: "Evidence", href: "#evidence" },
-              { label: "Safety", href: "#safety" },
-            ]}
-          />
+          <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white">
+            <NavBar
+              logo="Design Delivery Accelerator"
+              market="US"
+              links={[
+                { label: "Capabilities", href: "#capabilities" },
+                { label: "Evidence", href: "#evidence" },
+                { label: "Safety", href: "#safety" },
+              ]}
+            />
+          </div>
         </section>
 
-        <section className="rounded-[2rem] border border-white/70 bg-white/80 p-token-xl shadow-token-md backdrop-blur">
-          <p className="text-caption uppercase tracking-[0.32em] text-pfizer-blue-700">
+        <section className="rounded-[2rem] border border-white/[0.08] bg-white/[0.03] p-token-xl shadow-token-md backdrop-blur">
+          <p className="text-caption uppercase tracking-[0.32em] text-pfizer-blue-accent">
             Component Library Preview
           </p>
-          <h1 className="mt-token-md text-heading-xl text-gray-900">
+          <h1 className="mt-token-md text-heading-xl text-white">
             All approved design system components
           </h1>
-          <p className="mt-token-md max-w-3xl text-body-lg text-gray-700">
+          <p className="mt-token-md max-w-3xl text-body-lg text-white/70">
             This page is the visual checkpoint for constrained generation:
             every section below is built from the fixed component library that
             later phases will compose into compliant pages.
@@ -57,141 +59,165 @@ export default function PreviewPage() {
 
         <section>
           <PreviewLabel name="Hero" />
-          <Hero
-            title="Advancing breakthroughs that change patients' lives"
-            subtitle="A governed component system for regulated web experiences, with built-in evidence structure and compliance-ready content patterns."
-            backgroundImage={previewImage}
-            ctaText="Review the evidence"
-            ctaHref="#evidence"
-            variant="split"
-          />
+          <div className="overflow-hidden rounded-2xl border border-white/[0.08]">
+            <Hero
+              title="Advancing breakthroughs that change patients' lives"
+              subtitle="A governed component system for regulated web experiences, with built-in evidence structure and compliance-ready content patterns."
+              backgroundImage={previewImage}
+              ctaText="Review the evidence"
+              ctaHref="#evidence"
+              variant="split"
+            />
+          </div>
         </section>
 
         <section className="grid gap-token-xl lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-token-md">
             <PreviewLabel name="SectionHeader" />
-            <SectionHeader
-              title="Our Medicines"
-              subtitle="A fictional data set rendered through the approved pharma component vocabulary."
-            />
+            <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white p-token-lg">
+              <SectionHeader
+                title="Our Medicines"
+                subtitle="A fictional data set rendered through the approved pharma component vocabulary."
+              />
+            </div>
           </div>
           <div className="space-y-token-md">
             <PreviewLabel name="ContentBlock" />
-            <ContentBlock
-              variant="highlighted"
-              body={
-                <p>
-                  Apexa is a fictional treatment used here to demonstrate how
-                  structured content, evidence references, and market-specific
-                  disclosures can all sit inside a constrained component model.
-                </p>
-              }
-            />
+            <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white p-token-lg">
+              <ContentBlock
+                variant="highlighted"
+                body={
+                  <p>
+                    Apexa is a fictional treatment used here to demonstrate how
+                    structured content, evidence references, and market-specific
+                    disclosures can all sit inside a constrained component model.
+                  </p>
+                }
+              />
+            </div>
           </div>
         </section>
 
         <section className="grid gap-token-xl lg:grid-cols-2">
           <div>
             <PreviewLabel name="Card" />
-            <Card
-              title="Fast specialist onboarding"
-              body="Guide HCP audiences from core mechanism-of-action content to evidence modules without leaving the approved component set."
-              ctaText="View pathway"
-              ctaHref="#"
-              image={previewImage}
-              variant="featured"
-            />
+            <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white">
+              <Card
+                title="Fast specialist onboarding"
+                body="Guide HCP audiences from core mechanism-of-action content to evidence modules without leaving the approved component set."
+                ctaText="View pathway"
+                ctaHref="#"
+                image={previewImage}
+                variant="featured"
+              />
+            </div>
           </div>
           <div>
             <PreviewLabel name="Card" />
-            <Card
-              title="Modular fair-balance sections"
-              body="Generate multiple compliant variants while keeping safety, references, and disclosure surfaces structurally mandatory."
-              ctaText="Compare variants"
-              ctaHref="#"
-            />
+            <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white">
+              <Card
+                title="Modular fair-balance sections"
+                body="Generate multiple compliant variants while keeping safety, references, and disclosure surfaces structurally mandatory."
+                ctaText="Compare variants"
+                ctaHref="#"
+              />
+            </div>
           </div>
         </section>
 
         <section id="evidence" className="space-y-token-xl">
           <div>
             <PreviewLabel name="DataTable" />
-            <DataTable
-              caption="Illustrative efficacy results from a fictional phase III cohort."
-              headers={[
-                "Endpoint",
-                "Treatment Arm",
-                "Comparator",
-                "Absolute Difference",
-              ]}
-              rows={[
-                ["Primary response at week 24", "68%", "49%", "+19 pts"],
-                ["Sustained response at week 52", "61%", "44%", "+17 pts"],
-                ["Patient-reported symptom score", "-38%", "-22%", "-16 pts"],
-                ["Discontinuation due to AEs", "4%", "5%", "-1 pt"],
-              ]}
-              variant="striped"
-            />
+            <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white p-token-lg">
+              <DataTable
+                caption="Illustrative efficacy results from a fictional phase III cohort."
+                headers={[
+                  "Endpoint",
+                  "Treatment Arm",
+                  "Comparator",
+                  "Absolute Difference",
+                ]}
+                rows={[
+                  ["Primary response at week 24", "68%", "49%", "+19 pts"],
+                  ["Sustained response at week 52", "61%", "44%", "+17 pts"],
+                  ["Patient-reported symptom score", "-38%", "-22%", "-16 pts"],
+                  ["Discontinuation due to AEs", "4%", "5%", "-1 pt"],
+                ]}
+                variant="striped"
+              />
+            </div>
           </div>
           <div>
             <PreviewLabel name="ClaimReference" />
-            <ClaimReference
-              claim="In this illustrative cohort, Apexa improved the primary response rate versus comparator at week 24."
-              reference="Fictional Study AX-301; data on file for hackathon demonstration only."
-              footnoteId="1"
-            />
+            <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white p-token-lg">
+              <ClaimReference
+                claim="In this illustrative cohort, Apexa improved the primary response rate versus comparator at week 24."
+                reference="Fictional Study AX-301; data on file for hackathon demonstration only."
+                footnoteId="1"
+              />
+            </div>
           </div>
         </section>
 
         <section className="grid gap-token-xl lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <PreviewLabel name="ImageBlock" />
-            <ImageBlock
-              src={previewImage}
-              alt="Illustrative molecular-style blue abstract background"
-              caption="Placeholder creative treatment showing how approved media surfaces are framed."
-              width="100%"
-            />
+            <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white">
+              <ImageBlock
+                src={previewImage}
+                alt="Illustrative molecular-style blue abstract background"
+                caption="Placeholder creative treatment showing how approved media surfaces are framed."
+                width="100%"
+              />
+            </div>
           </div>
           <div className="space-y-token-lg">
             <PreviewLabel name="CTA" />
-            <div className="flex flex-wrap gap-4">
-              <CTA text="Primary action" href="#" variant="primary" />
-              <CTA text="Secondary action" href="#" variant="secondary" />
-              <CTA text="Outline action" href="#" variant="outline" />
+            <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white p-token-lg">
+              <div className="flex flex-wrap gap-4">
+                <CTA text="Primary action" href="#" variant="primary" />
+                <CTA text="Secondary action" href="#" variant="secondary" />
+                <CTA text="Outline action" href="#" variant="outline" />
+              </div>
             </div>
 
             <PreviewLabel name="Disclaimer" />
-            <Disclaimer
-              type="pharma"
-              text="For demonstration purposes only. This preview uses fictional product information to validate constrained design-system composition."
-            />
+            <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white p-token-lg">
+              <Disclaimer
+                type="pharma"
+                text="For demonstration purposes only. This preview uses fictional product information to validate constrained design-system composition."
+              />
+            </div>
           </div>
         </section>
 
         <section id="safety">
           <PreviewLabel name="ISIBlock" />
-          <ISIBlock
-            expandable
-            content="WARNING: This is demo-only safety content. In production, important safety information must be sourced from approved labeling, remain visible to the target audience, and preserve fair balance against efficacy messaging. Clinicians should review complete prescribing information and local reporting requirements before acting on any promotional material."
-          />
+          <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white">
+            <ISIBlock
+              expandable
+              content="WARNING: This is demo-only safety content. In production, important safety information must be sourced from approved labeling, remain visible to the target audience, and preserve fair balance against efficacy messaging. Clinicians should review complete prescribing information and local reporting requirements before acting on any promotional material."
+            />
+          </div>
         </section>
 
         <section>
           <PreviewLabel name="Footer" />
-          <Footer
-            links={[
-              { label: "Privacy notice", href: "#" },
-              { label: "Terms of use", href: "#" },
-              { label: "Medical information", href: "#" },
-            ]}
-            disclaimers={[
-              "Apexa is a fictional therapy used solely for the Design Delivery Accelerator demo.",
-              "All content shown here is illustrative and not for clinical use.",
-            ]}
-            copyright="2026 Pfizer Inc. Demo environment."
-            adverseEventUrl="#report-adverse-events"
-          />
+          <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white">
+            <Footer
+              links={[
+                { label: "Privacy notice", href: "#" },
+                { label: "Terms of use", href: "#" },
+                { label: "Medical information", href: "#" },
+              ]}
+              disclaimers={[
+                "Apexa is a fictional therapy used solely for the Design Delivery Accelerator demo.",
+                "All content shown here is illustrative and not for clinical use.",
+              ]}
+              copyright="2026 Pfizer Inc. Demo environment."
+              adverseEventUrl="#report-adverse-events"
+            />
+          </div>
         </section>
       </div>
     </main>

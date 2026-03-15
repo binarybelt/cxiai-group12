@@ -68,12 +68,12 @@ export function FigmaImport() {
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://www.figma.com/file/ABC123/My-Design"
           required
-          className="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-pfizer-blue-500 focus:outline-none focus:ring-2 focus:ring-pfizer-blue-200"
+          className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-pfizer-blue-accent focus:outline-none focus:ring-2 focus:ring-pfizer-blue-accent/30 focus:ring-offset-2 focus:ring-offset-[#000014]"
         />
         <button
           type="submit"
           disabled={loading}
-          className="rounded-full bg-pfizer-blue-700 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-pfizer-blue-800 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-500 focus-visible:ring-offset-2"
+          className="rounded-full bg-[#0000c9] px-6 py-2.5 text-sm font-semibold text-white transition hover:shadow-[0_0_16px_rgba(0,0,201,0.4)] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pfizer-blue-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#000014]"
         >
           {loading ? "Importing..." : "Import"}
         </button>
@@ -83,7 +83,7 @@ export function FigmaImport() {
       {error && (
         <div
           role="alert"
-          className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+          className="rounded-xl border border-red-500/30 bg-red-500/15 p-4 text-sm text-red-400"
         >
           {error}
         </div>
@@ -94,20 +94,20 @@ export function FigmaImport() {
         <div className="grid gap-6 md:grid-cols-2">
           {/* Extracted tokens */}
           <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-700">
+            <h3 className="mb-3 text-sm font-semibold text-white/70">
               Extracted Tokens ({extracted.length})
             </h3>
             <div className="grid grid-cols-4 gap-2">
               {extracted.map((token) => (
                 <div key={token.value} className="text-center">
                   <div
-                    className="mx-auto h-10 w-10 rounded-lg border border-gray-200 shadow-sm"
+                    className="mx-auto h-10 w-10 rounded-lg border border-white/[0.08]"
                     style={{ backgroundColor: token.value }}
                   />
-                  <p className="mt-1 text-xs font-medium text-gray-700">
+                  <p className="mt-1 text-xs font-medium text-white/70">
                     {token.name}
                   </p>
-                  <p className="font-mono text-[10px] text-gray-400">
+                  <p className="font-mono text-[10px] text-white/35">
                     {token.value}
                   </p>
                 </div>
@@ -117,20 +117,20 @@ export function FigmaImport() {
 
           {/* Approved palette for comparison */}
           <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-700">
+            <h3 className="mb-3 text-sm font-semibold text-white/70">
               Approved Palette ({approvedColours.length})
             </h3>
             <div className="grid grid-cols-4 gap-2">
               {approvedColours.map((token) => (
                 <div key={token.id} className="text-center">
                   <div
-                    className="mx-auto h-10 w-10 rounded-lg border border-gray-200 shadow-sm"
+                    className="mx-auto h-10 w-10 rounded-lg border border-white/[0.08]"
                     style={{ backgroundColor: token.value }}
                   />
-                  <p className="mt-1 text-xs font-medium text-gray-700">
+                  <p className="mt-1 text-xs font-medium text-white/70">
                     {token.name}
                   </p>
-                  <p className="font-mono text-[10px] text-gray-400">
+                  <p className="font-mono text-[10px] text-white/35">
                     {token.value}
                   </p>
                 </div>
