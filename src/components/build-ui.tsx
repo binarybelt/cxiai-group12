@@ -16,6 +16,7 @@ import type { BriefInterpretation } from "@/agents/brief-interpreter/schema";
 import type { PageSpec } from "@/types/page-spec";
 import type { ComplianceViolation } from "@/types/compliance";
 import type { DiffResult } from "@/types/diff";
+import { GuideCard } from "@/components/guide-card";
 
 // ---------------------------------------------------------------------------
 // BuildUI — client component wiring the full brief-to-page pipeline.
@@ -318,6 +319,12 @@ export function BuildUI() {
           {/* ---- Marketer left: brief form + interpretation + chat ---------- */}
           {activeRole === "marketer" && (
             <>
+              <GuideCard
+                title="Brief Interpretation with Risk Pre-screening"
+                brief="Brief: 'Interpreting a brief and selecting design-system components'"
+                explanation="The AI interprets your natural language brief into structured requirements, flags compliance risks before generation starts, and maps to approved components only. Every component selection includes a reason."
+                criterion="Creative Use of AI"
+              />
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <label
                   htmlFor="brief-input"
@@ -466,6 +473,14 @@ export function BuildUI() {
 
               {/* Chat edit panel — shown when a spec exists */}
               {currentSpec && (
+                <GuideCard
+                  title="Chat-to-Edit with Safety Protocol"
+                  brief="Brief: 'Enabling natural language content updates'"
+                  explanation="Edit the page via natural language. The AI has a Safety Protocol: it will never remove ISI blocks, disclaimers, or adverse event links, even if instructed to. Try the challenge prompts below to test it."
+                  criterion="Trust, Compliance & Explainability"
+                />
+              )}
+              {currentSpec && (
                 <ChatPanel
                   currentSpec={currentSpec}
                   onEditComplete={handleChatEdit}
@@ -550,6 +565,13 @@ export function BuildUI() {
         {/* Always the same regardless of role                                  */}
         {/* ------------------------------------------------------------------ */}
         <div className="flex flex-col gap-4 overflow-y-auto p-6">
+          <GuideCard
+            title="Constrained Generation + Compliance Gate"
+            brief="Brief: 'Running automated quality checks'"
+            explanation="Two layers of protection: (1) Zod enum schemas physically restrict the AI to approved component IDs and token IDs at generation time. (2) A deterministic compliance gate runs 13 rules (brand, pharma, accessibility) before rendering. No LLM judgment in pass/fail — pure functions only."
+            criterion="Trust, Compliance & Explainability"
+          />
+
           {/* Variant tabs + generation timer */}
           {(variants && variants.length > 0) || isGenerating ? (
             <div className="flex items-center gap-2">

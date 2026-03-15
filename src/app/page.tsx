@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { GuideCard } from "@/components/guide-card";
+
 const features = [
   {
     title: "BUILD",
@@ -97,6 +99,16 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* Guide card — why compliant-by-construction */}
+      <div className="mx-auto max-w-2xl px-6">
+        <GuideCard
+          title="Why Compliant-by-Construction?"
+          brief="Brief requirement: 'AI-assisted interpreting a brief and selecting design-system components'"
+          explanation="Unlike tools that generate freely then check, our AI can ONLY compose from approved components. The design system is the grammar — not a post-hoc checklist. This is architecturally different from Lovable."
+          criterion="Insight & Problem Understanding"
+        />
+      </div>
 
       {/* Problem Statement */}
       <section className="bg-gray-900 px-6 py-14 text-white">

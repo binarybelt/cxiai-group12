@@ -1,5 +1,6 @@
 import { ScanDashboard } from "@/components/scan-dashboard";
 import { FigmaImport } from "@/components/figma-import";
+import { GuideCard } from "@/components/guide-card";
 
 export const metadata = {
   title: "SCAN — Portfolio Compliance Monitor",
@@ -8,7 +9,14 @@ export const metadata = {
 export default function ScanPage() {
   return (
     <main className="mx-auto max-w-7xl px-6 py-8">
-      <p className="mb-6 text-sm text-gray-500">
+      <GuideCard
+        title="Portfolio Drift Detection"
+        brief="Stretch goal: 'Scale & Maintainability — detect design-system drift'"
+        explanation="Scan live URLs against the approved design system. The scanner extracts color tokens from HTML and flags any that aren't in the approved palette. The portfolio view shows compliance status across all properties — the 'single pane of glass' Pfizer asked for."
+        criterion="Insight & Problem Understanding"
+      />
+
+      <p className="mb-6 mt-4 text-sm text-gray-500">
         Monitor brand compliance across your digital portfolio and scan live
         URLs for design-system drift.
       </p>

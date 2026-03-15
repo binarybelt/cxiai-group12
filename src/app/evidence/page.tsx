@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import type { AuditEntry } from "@/lib/audit-chain";
 import { verifyChain } from "@/lib/audit-chain";
 import { getAuditEntries } from "@/lib/audit-chain-store";
+import { GuideCard } from "@/components/guide-card";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -193,8 +194,15 @@ export default function EvidencePage() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-8">
+      <GuideCard
+        title="FDA 21 CFR Part 11 Audit Trail"
+        brief="Stretch goal: 'Trust + Explainability — show your working'"
+        explanation="Every pipeline step (interpret, generate, comply, edit, deploy) is logged with SHA-256 hash chains. Each entry's hash includes the previous entry's hash — if any record is tampered with, the chain breaks. Click 'Verify Chain Integrity' to prove the trail is clean."
+        criterion="Trust, Compliance & Explainability"
+      />
+
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-8 mt-4">
         <h1 className="text-2xl font-bold text-gray-900">
           Compliance Evidence Chain
         </h1>

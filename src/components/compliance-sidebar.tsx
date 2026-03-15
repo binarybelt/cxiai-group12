@@ -11,6 +11,7 @@ import {
 import type { A11yViolation } from "@/lib/axe-scanner";
 import type { ComplianceViolation, ComplianceScore } from "@/types/compliance";
 import type { PageSpec } from "@/types/page-spec";
+import { GuideCard } from "@/components/guide-card";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -181,6 +182,13 @@ export function ComplianceSidebar({
 
   return (
     <aside className="flex flex-col gap-4 overflow-y-auto border-l border-gray-200 bg-gray-50 p-4">
+      <GuideCard
+        title="Real-Time Compliance Engine"
+        brief="Stretch goal: 'Automated Quality & Compliance — audit mode with fix-focused feedback'"
+        explanation="13 rules enforced across brand (approved tokens, typography), pharma (ISI, disclaimers, fair balance, market disclosures), and accessibility (alt text, table captions, body size). Auto-fix available for token violations. Export a full compliance report for audit."
+        criterion="Trust, Compliance & Explainability"
+      />
+
       {/* Overall score */}
       <div className="rounded-2xl border border-gray-200 bg-white p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
