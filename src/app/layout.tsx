@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
+import { AppNav } from "@/components/app-nav";
 
 export const metadata: Metadata = {
   title: "Design Delivery Accelerator",
@@ -15,7 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="flex min-h-screen flex-col">
+            <AppNav />
+            <div className="flex flex-1 flex-col">{children}</div>
+          </div>
+        </Providers>
       </body>
     </html>
   );

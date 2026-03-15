@@ -7,11 +7,8 @@ export const metadata = {
 
 export default function ScanPage() {
   return (
-    <main className="mx-auto max-w-7xl px-6 py-10">
-      <h1 className="mb-2 text-2xl font-bold text-gray-900">
-        SCAN — Portfolio Compliance Monitor
-      </h1>
-      <p className="mb-8 text-sm text-gray-500">
+    <main className="mx-auto max-w-7xl px-6 py-8">
+      <p className="mb-6 text-sm text-gray-500">
         Monitor brand compliance across your digital portfolio and scan live
         URLs for design-system drift.
       </p>

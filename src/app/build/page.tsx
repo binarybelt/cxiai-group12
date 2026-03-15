@@ -10,11 +10,8 @@ export const metadata = {
  */
 export default function BuildPage() {
   return (
-    <div className="flex h-screen flex-col overflow-hidden">
-      <header className="flex-shrink-0 border-b border-gray-200 bg-white px-6 py-4">
-        <h1 className="text-lg font-semibold text-pfizer-blue-700">
-          BUILD -- Design Delivery Accelerator
-        </h1>
+    <div className="flex flex-1 flex-col overflow-hidden">
+      <header className="flex-shrink-0 border-b border-gray-200 bg-white px-6 py-3">
         <p className="text-sm text-gray-500">
           Type a brief to generate a compliant page from approved pharma
           components.
