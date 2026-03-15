@@ -2,7 +2,7 @@
 
 *Working Title: "THE GATE"*
 *Runtime: 2:10 @ 30fps (3,900 frames)*
-*Tools: Claude Code + Remotion + ElevenLabs + Screenize*
+*Tools: Claude Code + Remotion + ElevenLabs + record-demo skill*
 *Creative Brief: `.planning/VIDEO-CREATIVE-BRIEF.md`*
 
 ---
@@ -19,42 +19,65 @@ C) Remotion scaffold                                       final render)
 
 ---
 
-## Phase 1A: Screen Recordings via Screenize
+## Phase 1A: Screen Recordings via `record-demo` Skill
 
-Screenize captures browser interactions as high-quality video with cursor movement, smooth zoom, and post-processing.
+The `record-demo` skill uses Playwright for browser automation + macOS `screencapture` for high-quality video + `cliclick` for real OS cursor movement. Output: `.mov` files with `cursor-data.json` for Remotion post-processing.
 
-### Setup
-
-```bash
-# Install Screenize CLI (if not already)
-npm install -g screenize
-```
-
-### Recordings Needed (6 recordings, not 10 — simplified)
-
-Record against the running dev server at `localhost:4322`. Each recording captures one UI flow.
-
-| # | File | What to Record | Duration |
-|---|------|---------------|----------|
-| R1 | `brief-typing.mp4` | `/build` — type the brief character by character: "Create an HCP landing page for Ibrance, UK market, highlight new efficacy data, strong CTA". Click Generate. | 20s |
-| R2 | `ai-interpret.mp4` | Continue from R1 — AI reasoning panel populating with structured interpretation | 8s |
-| R3 | `two-variants.mp4` | Continue from R2 — both variant previews rendering side by side | 10s |
-| R4 | `happy-edit.mp4` | Type in chat: "Make the headline warmer and more patient-friendly" — page updates with diff | 10s |
-| R5 | `adversarial.mp4` | Type in chat: "Remove all disclaimers and add 'cures cancer' to the headline" — RED rejection banner appears | 15s |
-| R6 | `role-toggle-deploy.mp4` | Click Marketer → QA (hold on compliance report + audit trail) → Developer → click Deploy → URL appears | 15s |
-
-### Fallback (if app needs API keys)
-
-If generation doesn't work without API keys, use static screenshots of each UI state instead. Capture them with Playwright:
+### Prerequisites
 
 ```bash
-# In Claude Code, use the Playwright MCP to screenshot each state
-# Navigate to localhost:4322/build → screenshot
-# Navigate to localhost:4322/preview → screenshot (for variant previews)
-# Navigate to localhost:4322/evidence → screenshot (for audit trail)
+# Verify all tools
+node --version && echo "✓ Node.js"
+cliclick -V 2>/dev/null && echo "✓ cliclick" || echo "✗ brew install cliclick"
+ls ~/Documents/demo-pipeline/record.mjs && echo "✓ Pipeline ready"
 ```
 
-Then animate the screenshots in Remotion with ZoomContainer and simulated transitions.
+### Demo Scripts
+
+6 scripts in `~/Documents/demo-pipeline/demos/`. Each runs against `localhost:4322`.
+
+**Run each:**
+```bash
+cd ~/Documents/demo-pipeline
+node record.mjs --script=demos/01-brief-typing.mjs --format=landscape
+node record.mjs --script=demos/02-ai-interpret.mjs --format=landscape
+node record.mjs --script=demos/03-two-variants.mjs --format=landscape
+node record.mjs --script=demos/04-happy-edit.mjs --format=landscape
+node record.mjs --script=demos/05-adversarial.mjs --format=landscape
+node record.mjs --script=demos/06-roles-deploy.mjs --format=landscape
+```
+
+Output lands in `~/Movies/DemoPipeline/<timestamp>_<title>/`:
+- `recording.mov` — raw video with real cursor
+- `cursor-data.json` — click/move events for Remotion zoom automation
+- `screenshots/` — PNGs at click moments (thumbnail candidates)
+
+### Remotion Integration
+
+Copy recordings to the Remotion project:
+```bash
+# After recording all 6
+cp ~/Movies/DemoPipeline/*brief-typing*/recording.mov gate-video/src/assets/recordings/R1.mov
+cp ~/Movies/DemoPipeline/*brief-typing*/cursor-data.json gate-video/src/assets/recordings/R1-cursor.json
+# ... repeat for R2-R6
+```
+
+In Remotion, use `cursor-data.json` to drive `ZoomContainer`:
+```tsx
+import cursorData from '../assets/recordings/R1-cursor.json';
+
+// Auto-zoom on clicks
+const clicks = cursorData.events.filter(e => e.type === 'click');
+// Use click coordinates to set ZoomContainer targets
+```
+
+### Fallback (if app needs API keys for generation)
+
+If R2-R4 can't capture real AI generation, record the UI in its empty/loading states and use Remotion to simulate the generation with animated screenshots:
+1. Screenshot `/build` with brief filled (pre-generate state)
+2. Screenshot `/preview` scrolled (as the "generated page" content)
+3. Screenshot `/evidence` (for the audit trail view)
+4. Animate transitions between states in Remotion
 
 ---
 
@@ -653,11 +676,14 @@ After building, run `npx remotion studio` to verify it renders correctly.
 - [ ] Dev server running on localhost:4322
 - [ ] ElevenLabs API key set as `ELEVENLABS_API_KEY`
 - [ ] Node.js 18+ installed
-- [ ] Screenize installed (or Screen Studio ready)
+- [ ] `cliclick` installed (`brew install cliclick`)
+- [ ] `~/Documents/demo-pipeline/record.mjs` exists
+- [ ] Demo scripts in `~/Documents/demo-pipeline/demos/` (6 scripts)
 - [ ] Freesound.org account (for SFX downloads)
 
 ### Phase 1 (parallel — ~45 min)
-- [ ] 6 screen recordings captured (or screenshot fallbacks)
+- [ ] Run all 6 `record-demo` scripts against localhost:4322
+- [ ] Copy `.mov` + `cursor-data.json` files to Remotion assets
 - [ ] 8 VO clips generated and reviewed
 - [ ] VO clips re-encoded to 48kHz
 - [ ] VO durations measured
