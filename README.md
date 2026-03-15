@@ -135,4 +135,8 @@ npm run dev
 
 **Group 12** — Pfizer CXI+AI Challenge 2026
 
-Team member names to be added.
+- Vedant Gaikwad
+- Harshit Baldota
+- Len Little
+- Harriet Fletcher
+- Joe Ganly
