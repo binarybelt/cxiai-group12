@@ -164,16 +164,19 @@ export const DURATIONS = {
 ### SHOT 01 — Opening (0:00 - 0:15, 450 frames)
 
 **On screen:**
-- Frame 0-15: Black screen, then subtle dark-blue-to-teal gradient fades in
-- Frame 15-60: "PFIZER CXI+AI CHALLENGE 2026" fades up (small, light gray, top center) using `<Fade>`
+- Frame 0-15: Black screen, then warm obsidian gradient fades in (brand-900 → dark bg)
+- Frame 15-60: "PFIZER CXI+AI CHALLENGE 2026" fades up (small, brand-accent, mono tracking, top center) using `<Fade>`
 - Frame 60-120: App logo + "Design Delivery Accelerator" slides up from below using `spring()` with damping: 12
-- Frame 120-200: Tagline types out letter by letter: "Compliant by Construction"
-- Frame 200-350: Three engine pills animate in sequentially: `BUILD` `COMPLY` `SCAN` — each slides in from left with 10-frame stagger
-- Frame 350-450: Everything holds, slight pulse on the tagline
+- Frame 120-250: Three-line headline staggers in, one line at a time (15-frame gap):
+  - "2,000 websites." (white)
+  - "One design system." (white)
+  - "Zero compliance gaps." (teal #00D4AA, with text-shadow glow)
+- Frame 250-350: Three engine pills animate in sequentially: `BUILD` `COMPLY` `SCAN` — each slides in from left with 10-frame stagger
+- Frame 350-450: Everything holds, subtle teal glow pulse on "Zero compliance gaps"
 
 **Remotion components:**
 ```tsx
-<AbsoluteFill style={{ background: 'linear-gradient(135deg, #0a1628, #0d3b66)' }}>
+<AbsoluteFill style={{ background: 'linear-gradient(135deg, #4C1D95, #0C0A12)' }}>
   <Sequence from={15}>
     <Animated animations={[Fade({ to: 1, start: 0, duration: 30 })]}>
       <ChallengeLabel />
@@ -186,9 +189,22 @@ export const DURATIONS = {
     </Animated>
   </Sequence>
   <Sequence from={120}>
-    <TextReveal text="Compliant by Construction" speed={2} />
+    <Animated animations={[Move({ y: 30, duration: 25 }), Fade({ duration: 25 })]}>
+      <HeadlineLine text="2,000 websites." color="#fff" />
+    </Animated>
   </Sequence>
-  <Sequence from={200}>
+  <Sequence from={150}>
+    <Animated animations={[Move({ y: 30, duration: 25 }), Fade({ duration: 25 })]}>
+      <HeadlineLine text="One design system." color="#fff" />
+    </Animated>
+  </Sequence>
+  <Sequence from={180}>
+    <Animated animations={[Move({ y: 30, duration: 25 }), Fade({ duration: 25 })]}>
+      <HeadlineLine text="Zero compliance gaps." color="#00D4AA"
+        style={{ textShadow: '0 0 30px rgba(0,212,170,0.3)' }} />
+    </Animated>
+  </Sequence>
+  <Sequence from={250}>
     <TagPill label="BUILD" delay={0} />
     <TagPill label="COMPLY" delay={10} />
     <TagPill label="SCAN" delay={20} />
@@ -208,9 +224,9 @@ export const DURATIONS = {
 - Frame 0-60: White background fades in. Large stat counter animates: "2,000+" with label "websites managed by Pfizer CXI"
 - Frame 60-150: Three pain points fade in sequentially (15-frame stagger):
   1. Icon + "Dozens of agencies, no central oversight"
-  2. Icon + "Simple page update takes weeks of back-and-forth"
-  3. Icon + "Existing AI tools generate freely — then check. We constrain at generation."
-- Frame 150-300: Quote box slides in from right: *"I can't keep track of websites changing without me knowing"* — attributed to "Pfizer CXI presenter"
+  2. Icon + "A simple page update takes weeks"
+  3. Icon + "Existing AI tools generate freely then check — the brand drifts a little more with every cycle"
+- Frame 150-300: Quote box slides in from right: *"I'm the go-between — designers and marketers, back and forth, back and forth. It takes ages."* — attributed to "Pfizer CXI presenter"
 - Frame 300-450: Quick montage — 3 screenshots of generic AI builders (Lovable, bolt.new) with red "X" stamps appearing, then our app with a green checkmark
 
 **Remotion components:**
@@ -245,7 +261,7 @@ export const DURATIONS = {
 
 **On screen:**
 - Frame 0-30: Dark gradient background returns
-- Frame 30-120: Large text reveal: **"We don't generate anything. We generate only what's approved."** — words appear one at a time (kinetic typography), with "only what's approved" in brand teal and slightly larger
+- Frame 30-120: Large text reveal: **"The design system isn't a checklist. It's the only vocabulary the AI knows."** — words appear one at a time (kinetic typography), with "the only vocabulary the AI knows" in teal (#00D4AA) and slightly larger
 - Frame 120-200: The three engines appear as cards in a row, each flying in from bottom with spring animation:
   - BUILD card (blue): "Natural Language → Brand-Safe Page"
   - COMPLY card (green): "Real-Time Compliance Gate"
@@ -258,9 +274,9 @@ export const DURATIONS = {
 <TransitionSeries>
   <TransitionSeries.Sequence durationInFrames={120}>
     <KineticTypography
-      words="We don't generate anything. We generate only what's approved."
-      highlight={["only what's approved"]}
-      highlightColor="#0ea5e9"
+      words="The design system isn't a checklist. It's the only vocabulary the AI knows."
+      highlight={["the only vocabulary the AI knows"]}
+      highlightColor="#00D4AA"
     />
   </TransitionSeries.Sequence>
   <TransitionSeries.Transition
@@ -641,13 +657,12 @@ return <div style={{ transform: `translate(${offsetX}px, ${offsetY}px)` }}>{chil
 ### SHOT 13 — Closing (2:27 - 2:45, 540 frames)
 
 **On screen:**
-- Frame 0-60: Fade to dark gradient background (same as opening for bookend effect)
-- Frame 60-180: Five differentiators appear one by one (fade + slide from left, 20-frame stagger):
-  1. "Constrained generation — AI can only use approved components"
-  2. "Compliance as a gate, not a report"
-  3. "Full audit trail — every decision logged"
-  4. "Show your working — AI explains every choice"
-  5. "Brief to live page in under 60 seconds"
+- Frame 0-60: Fade to warm obsidian gradient (same as opening for bookend effect)
+- Frame 60-180: Four differentiators appear one by one (fade + slide from left, 25-frame stagger):
+  1. "Other tools generate, then check. We constrain at generation."
+  2. "Compliance isn't a report. It's a gate — pages cannot render until they pass."
+  3. "Every decision logged — who, what, when, why. SHA-256 hash chain. Tamper-proof."
+  4. "Marketer, QA, Developer — each sees exactly what they need. Same system, different lens."
 - Frame 180-300: Differentiators compress/shrink up. Large text animates in center: "Design Delivery Accelerator"
 - Frame 300-400: Below the title, the live URL fades in as a clickable-looking pill: "design-delivery-accelerator.vercel.app"
 - Frame 400-480: Team credits fade in below: "Built for the Pfizer CXI+AI Challenge 2026 — Group 12" / "University of Liverpool"
@@ -655,7 +670,7 @@ return <div style={{ transform: `translate(${offsetX}px, ${offsetY}px)` }}>{chil
 
 **Remotion components:**
 ```tsx
-<AbsoluteFill style={{ background: 'linear-gradient(135deg, #0a1628, #0d3b66)' }}>
+<AbsoluteFill style={{ background: 'linear-gradient(135deg, #4C1D95, #0C0A12)' }}>
   <Sequence from={60}>
     {differentiators.map((text, i) => (
       <Sequence from={i * 20} key={i}>
@@ -981,32 +996,37 @@ import { staticFile } from 'remotion';
 ```typescript
 // lib/theme.ts
 export const COLORS = {
-  // Backgrounds
-  darkBg: '#0a1628',
-  darkGradient: 'linear-gradient(135deg, #0a1628, #0d3b66)',
-  lightBg: '#ffffff',
+  // Backgrounds (warm obsidian palette)
+  darkBg: '#0C0A12',          // app body background
+  darkGradient: 'linear-gradient(135deg, #4C1D95, #0C0A12)', // brand-900 → dark bg
+  cardBg: 'rgba(255,255,255,0.03)',
 
-  // Brand
-  primaryBlue: '#0284c7',     // matches the app nav
-  teal: '#0ea5e9',
+  // Brand (violet palette)
+  brandAccent: '#A78BFA',     // brand-accent — nav logo, overline
+  brand500: '#8B5CF6',        // brand-500 — links, highlights
+  brand700: '#6D28D9',        // brand-700 — buttons
+  brand900: '#4C1D95',        // brand-900 — gradients
+
+  // Accent
+  teal: '#00D4AA',            // teal — "Zero compliance gaps", stats, checkmarks
 
   // Engine cards
-  buildBlue: '#3b82f6',
-  complyGreen: '#22c55e',
-  scanOrange: '#f59e0b',
+  buildBlue: '#8B5CF6',       // brand-500
+  complyGreen: '#00D4AA',     // teal
+  scanOrange: '#FFD166',      // amber-300
 
   // Status
-  errorRed: '#ef4444',
-  successGreen: '#22c55e',
+  errorRed: '#DC2626',
+  successGreen: '#1F9D68',
 
   // Text
-  textWhite: '#f8fafc',
-  textGray: '#94a3b8',
-  textDark: '#0f172a',
+  textWhite: 'rgba(255,255,255,0.93)',
+  textGray: 'rgba(255,255,255,0.55)',
+  textMuted: 'rgba(255,255,255,0.35)',
 
   // Callouts
-  calloutBg: '#0ea5e9',
-  calloutRedBg: '#ef4444',
+  calloutBg: '#8B5CF6',
+  calloutRedBg: '#DC2626',
 } as const;
 ```
 
